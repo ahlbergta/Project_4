@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Android_Project_4</string>
+    <string name="fetch_button">Fetch</string>
+    <string name="name_view">Hello</string>
 </resources>
