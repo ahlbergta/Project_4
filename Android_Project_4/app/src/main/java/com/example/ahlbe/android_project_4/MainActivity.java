@@ -3,6 +3,8 @@ package com.example.ahlbe.android_project_4;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -13,14 +15,16 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity implements BeaconConsumer {
-    private BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
+    private BeaconManager beaconManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
         beaconManager.bind(this);
     }
@@ -38,9 +42,14 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         beaconManager.addRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
-                while(collection.iterator().hasNext()) {
-                    Beacon beacon = collection.iterator().next();
+                TextView textView = findViewById(R.id.textView);
+                String beaconInfo = "";
+                Iterator<Beacon> iterator = collection.iterator();
+                while(iterator.hasNext()) {
+                    Beacon beacon = iterator.next();
+                    beaconInfo += "Namespace: " + beacon.getId1().toString() + ", Identifier: " + beacon.getId2().toString() + "\n";
                 }
+                textView.setText(beaconInfo);
             }
         });
         try {
