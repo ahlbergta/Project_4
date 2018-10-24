@@ -14,12 +14,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button notification_button = findViewById(R.id.notification_button);
         Button ble_beacon_button = findViewById(R.id.ble_beacon_button);
-//        notification_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, Notification_Activity.class));
-//            }
-//        });
+        notification_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Notification_Activity.class));
+            }
+        });
         ble_beacon_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
