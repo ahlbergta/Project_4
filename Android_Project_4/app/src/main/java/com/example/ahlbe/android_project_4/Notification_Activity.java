@@ -19,11 +19,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import javax.annotation.Nullable;
 
-public class MainActivity extends AppCompatActivity
+public class Notification_Activity extends AppCompatActivity
 {
     public static final String FIRST_NAME = "first";
     public static final String LAST_NAME = "last";
-    public static final String TAG = "MainActivity";
+    public static final String TAG = "Notification_Activity";
 
     private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("Users/johnconnor");
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_notification);
         mNameTextview = findViewById(R.id.name_first);
         mNameRealTime = findViewById(R.id.name_first_real_time);
         mDocumentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>()
@@ -95,9 +95,9 @@ public class MainActivity extends AppCompatActivity
         @SuppressWarnings("deprecation")
         Notification notification = new Notification(R.drawable.ic_launcher_foreground, "New Message", System.currentTimeMillis());
 
-        Intent notificationIntent = new Intent(MainActivity.this, MainActivity.class);
+        Intent notificationIntent = new Intent(Notification_Activity.this, Notification_Activity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        Notification.Builder builder = new Notification.Builder(MainActivity.this);
+        Notification.Builder builder = new Notification.Builder(Notification_Activity.this);
         builder.setContentIntent(pendingIntent);
         builder.setContentTitle("New Notification");
         builder.setContentText(first + " " + last);
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         builder.build();
         notification = builder.getNotification();
 
-        //notification.setLatestEventInfo(MainActivity.this, notificationTitle, notificationMessage, pendingIntent);
+        //notification.setLatestEventInfo(Notification_Activity.this, notificationTitle, notificationMessage, pendingIntent);
         notificationManager.notify(9999, notification);
     }
     public void onClickNotify(View view)
