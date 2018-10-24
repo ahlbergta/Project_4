@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Android_Project_4</string>
+    <string name="fetch_button">Fetch</string>
+    <string name="name_view">Hello</string>
+    <string name="hint_first">Please Enter Your First Name</string>
+    <string name="save_data">Save Data</string>
+    <string name="hint_last">Please Enter Your Last Name</string>
+    <string name="go_to_fetch_data">Go to fetch data</string>
+    <string name="go_to_save_data">Go to save data</string>
+    <string name="notify_user">Notify User</string>
 </resources>

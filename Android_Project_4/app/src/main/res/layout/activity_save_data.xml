@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SaveDataActivity"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_first"
+        android:id="@+id/first_edit_view"
+        android:layout_gravity="center_horizontal"
+        android:inputType="text"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_last"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/last_edit_view"
+        android:inputType="text"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_data"
+        android:onClick="saveData"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_fetch_data"
+        android:onClick="goToFetchData"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>
