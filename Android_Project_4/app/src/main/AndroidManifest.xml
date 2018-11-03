@@ -33,6 +33,8 @@
         <!-- </activity> -->
         <activity android:name=".RegisterActivity">
         </activity>
+        <activity android:name=".CreateProfileActivity">
+        </activity>
     </application>
 
 </manifest>
