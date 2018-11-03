@@ -8,4 +8,13 @@
     <string name="go_to_fetch_data">Go to fetch data</string>
     <string name="go_to_save_data">Go to save data</string>
     <string name="notify_user">Notify User</string>
+    <string name="email_hint">Email Address</string>
+    <string name="password_hint">Password</string>
+
+    <!--   Login Activity String      -->
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+
+    <!--Register Activity XML Strings   -->
+    <string name="hint_confirm_pass">Confirm Password</string>
 </resources>

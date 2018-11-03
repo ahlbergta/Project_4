@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+
 public class SaveDataActivity extends AppCompatActivity
 {
     private static final String TAG = "SaveDataActivity";
@@ -21,7 +23,6 @@ public class SaveDataActivity extends AppCompatActivity
     private static final String LASTNAME = "last";
     EditText mFirstEditView;
     EditText mLastEditView;
-
 
 
     DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("Users/johnconnor");
