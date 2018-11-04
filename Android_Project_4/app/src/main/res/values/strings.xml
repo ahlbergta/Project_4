@@ -16,7 +16,7 @@
     <string name="register_button">Register</string>
 
     <!--Register Activity XML Strings   -->
-    <string name="hint_confirm_pass">Confirm Password</string>
+    <string name="hint_confirm_pass">Confirm Password</string>x`
     
     <!--Edit Activity XML String -->
     <string name="first_name">First Name</string>
