@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends Activity
 {
-    private  static final String TAG = "RegisterActivity";
+    private static final String TAG = "RegisterActivity";
 
     //Declaring the Widgets
     private Button mRegister;
@@ -55,7 +55,7 @@ public class RegisterActivity extends Activity
                         else
                         {
                             Toast.makeText(RegisterActivity.this, "Password not strong enough. Make sure the password is 8" +
-                                    "characters long and contains 1 number, 1 lower case letter, 1 upper case letter", Toast.LENGTH_SHORT).show();
+                                    "characters long and contains 1 number, 1 lower case letter, 1 upper case letter, and 1 special character", Toast.LENGTH_LONG).show();
                         }
                     }
                     else
