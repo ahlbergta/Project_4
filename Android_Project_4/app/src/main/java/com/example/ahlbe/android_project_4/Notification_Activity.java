@@ -25,12 +25,30 @@ public class Notification_Activity extends AppCompatActivity
     public static final String LAST_NAME = "last";
     public static final String TAG = "Notification_Activity";
 
-    private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("Users/johnconnor");
-
     TextView mNameTextview;
     TextView mNameRealTime;
     String first;
     String last;
+
+    private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("Users/johnconnor");
+
+    public void fetchData(View view)
+    {
+        mDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
+                if(documentSnapshot.exists())
+                {
+                    first = documentSnapshot.getString(FIRST_NAME);
+                    last = documentSnapshot.getString(LAST_NAME);
+                    //mNameTextview.setText(first + " " + last);
+                }
+            }
+        });
+
+    }
 
 
 
@@ -64,24 +82,31 @@ public class Notification_Activity extends AppCompatActivity
 
 
     }
-    public void fetchData(View view)
+
+    @Override
+    protected void onStart()
     {
-        mDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        super.onStart();
+        mDocumentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>()
         {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot)
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e)
             {
                 if(documentSnapshot.exists())
                 {
-                    first = documentSnapshot.getString(FIRST_NAME);
-                    last = documentSnapshot.getString(LAST_NAME);
-                    mNameTextview.setText(first + " " + last);
+                    String first = documentSnapshot.getString(FIRST_NAME);
+                    String last = documentSnapshot.getString(LAST_NAME);
+                    mNameRealTime.setText(first + " " + last);
 
+                }
+                else if(e != null)
+                {
+                    Log.e(TAG, "Uh oh. You got an exception!", e);
                 }
             }
         });
-
     }
+
     public void goToSaveData(View view)
     {
         Intent intent = new Intent(this, SaveDataActivity.class);
