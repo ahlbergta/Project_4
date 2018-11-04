@@ -15,6 +15,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import static com.example.ahlbe.android_project_4.InputValidator.doPasswordMatch;
+import static com.example.ahlbe.android_project_4.InputValidator.isEmpty;
+import static com.example.ahlbe.android_project_4.InputValidator.isPasswordStrong;
+
+
 public class RegisterActivity extends Activity
 {
     private static final String TAG = "RegisterActivity";
@@ -41,14 +46,14 @@ public class RegisterActivity extends Activity
                 Log.d(TAG, "click the button: Attempting to register user");
 
                 //Checking if EditText fields have been filled
-                if(!InputValidator.isEmpty(mEmail.getText().toString())
-                        && !InputValidator.isEmpty(mPassword.getText().toString())
-                        && !InputValidator.isEmpty(mPasswordConfirm.getText().toString()))
+                if(isEmpty(mEmail.getText().toString())
+                        && !isEmpty(mPassword.getText().toString())
+                        && !isEmpty(mPasswordConfirm.getText().toString()))
                 {
-                    if(InputValidator.doPasswordMatch(mPassword.getText().toString(),
+                    if(doPasswordMatch(mPassword.getText().toString(),
                             mPasswordConfirm.getText().toString()))
                     {
-                        if(InputValidator.isPasswordStrong(mPassword.getText().toString()))
+                        if(isPasswordStrong(mPassword.getText().toString()))
                         {
                             createAccount(mEmail.getText().toString(), mPassword.getText().toString());
                         }
