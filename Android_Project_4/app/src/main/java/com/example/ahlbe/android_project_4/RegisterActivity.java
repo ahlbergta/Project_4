@@ -1,6 +1,7 @@
 package com.example.ahlbe.android_project_4;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,7 +47,7 @@ public class RegisterActivity extends Activity
                 Log.d(TAG, "click the button: Attempting to register user");
 
                 //Checking if EditText fields have been filled
-                if(isEmpty(mEmail.getText().toString())
+                if(!isEmpty(mEmail.getText().toString())
                         && !isEmpty(mPassword.getText().toString())
                         && !isEmpty(mPasswordConfirm.getText().toString()))
                 {
@@ -89,6 +90,8 @@ public class RegisterActivity extends Activity
                 if(task.isSuccessful())
                 {
                     Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    Intent registerActivityIntent = new Intent(RegisterActivity.this, EditProfileActivity.class);
+                    startActivity(registerActivityIntent);
                 }
                 else
                 {

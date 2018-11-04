@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".EditProfileActivity">
         </activity>
+        <activity android:name=".HomeActivity">
+        </activity>
     </application>
 
 </manifest>

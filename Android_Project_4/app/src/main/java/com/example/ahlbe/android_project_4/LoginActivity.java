@@ -56,6 +56,9 @@ public class LoginActivity extends Activity
                         && !InputValidator.isEmpty(mEmail.getText().toString()))
                 {
                     signIn(mEmail.getText().toString(),mPassword.getText().toString());
+                    Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(homeIntent);
+
                 }
             }
         });
@@ -71,7 +74,7 @@ public class LoginActivity extends Activity
                 if(task.isSuccessful())
                 {
                     Log.d(TAG, "sign in was successful");
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 }
                 else
                 {
