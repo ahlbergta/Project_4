@@ -10,17 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-
-        <!--<activity android:name=".BLE_Activity">-->
-        <!--</activity>-->
-
-        <activity android:name=".MainActivity">
-=======
-        <activity android:name=".BLE_Activity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".LoginActivity">
->>>>>>> 3c845f06b4c1311500c5ad6cfc334f096cdcdba1
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -38,16 +29,10 @@
         </activity>
         <activity android:name=".SaveDataActivity">
         </activity>
-        <!-- <activity android:name=".LoginActivity"> -->
-        <!-- </activity> -->
         <activity android:name=".RegisterActivity">
         </activity>
     </application>
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-=======
-
->>>>>>> 3c845f06b4c1311500c5ad6cfc334f096cdcdba1
 </manifest>
