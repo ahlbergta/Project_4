@@ -26,4 +26,5 @@
     <string name="hint_p_address">Primary Address</string>
     <string name="hint_s_address">Secondary Address</string>
     <string name="hint_notes">Notes</string>
+    <string name="button_submit">Submit</string>
 </resources>
