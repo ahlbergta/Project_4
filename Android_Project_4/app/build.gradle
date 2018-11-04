@@ -33,5 +33,7 @@ dependencies {
     implementation "android.arch.core:runtime:1.1.1"
     implementation "android.arch.core:common:1.1.1"
     implementation 'com.google.firebase:firebase-auth:16.0.5'
+    compile 'com.google.android.gms:play-services-maps:16.0.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

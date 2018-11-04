@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The codes below have been taken from: https://github.com/mitchtabian/Google-Maps-Google-Places/blob/6a64cdcaa35f737bf3de899e539e1cf66bdf0cde/app/src/main/res/layout/activity_main.xml
+     For the complete tutorial: https://www.youtube.com/watch?v=M0bYvXlhgSI
+-->
+
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.ahlbe.android_project_4.GoogleMapsMain">
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Map"
+    android:id="@+id/btnMap"/>
+
+</android.support.constraint.ConstraintLayout>

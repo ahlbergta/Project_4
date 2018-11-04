@@ -17,7 +17,7 @@
 
     <!--Register Activity XML Strings   -->
     <string name="hint_confirm_pass">Confirm Password</string>x`
-    
+
     <!--Edit Activity XML String -->
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
@@ -26,4 +26,6 @@
     <string name="hint_p_address">Primary Address</string>
     <string name="hint_s_address">Secondary Address</string>
     <string name="hint_notes">Notes</string>
+
+    <string name="google_maps_API_key">AIzaSyD7cGeKVWGJ_CtIAs77E9FlHAX0JLDdtkk</string>
 </resources>

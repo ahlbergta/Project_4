@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class EditProfileActivity extends AppCompatActivity
 {
     private FirebaseAuth mAuth;
-    private EditText
+    //private EditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
