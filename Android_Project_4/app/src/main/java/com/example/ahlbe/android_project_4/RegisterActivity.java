@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends Activity
 {
-    private  static final String TAG = "RegisterActivity";
+    private static final String TAG = "RegisterActivity";
 
     //Declaring the Widgets
     private Button mRegister;
@@ -41,16 +41,21 @@ public class RegisterActivity extends Activity
                 Log.d(TAG, "click the button: Attempting to register user");
 
                 //Checking if EditText fields have been filled
-                if(!isEmpty(mEmail.getText().toString())
-                        && !isEmpty(mPassword.getText().toString())
-                        && !isEmpty(mPasswordConfirm.getText().toString()))
+                if(!InputValidator.isEmpty(mEmail.getText().toString())
+                        && !InputValidator.isEmpty(mPassword.getText().toString())
+                        && !InputValidator.isEmpty(mPasswordConfirm.getText().toString()))
                 {
-                    if(doPasswordMatch(mPassword.getText().toString(),
+                    if(InputValidator.doPasswordMatch(mPassword.getText().toString(),
                             mPasswordConfirm.getText().toString()))
                     {
-                        if(isPasswordStrong(mPassword.getText().toString()))
+                        if(InputValidator.isPasswordStrong(mPassword.getText().toString()))
                         {
-                            createAccount();
+                            createAccount(mEmail.getText().toString(), mPassword.getText().toString());
+                        }
+                        else
+                        {
+                            Toast.makeText(RegisterActivity.this, "Password not strong enough. Make sure the password is 8" +
+                                    "characters long and contains 1 number, 1 lower case letter, 1 upper case letter, and 1 special character", Toast.LENGTH_LONG).show();
                         }
                     }
                     else
@@ -60,7 +65,7 @@ public class RegisterActivity extends Activity
                 }
                 else
                 {
-                    Toast.makeText(RegisterActivity.this, "YOu must fill out all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "You must fill out all fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -74,11 +79,11 @@ public class RegisterActivity extends Activity
             @Override
             public void onComplete(@NonNull Task<AuthResult> task)
             {
-                Log.d(TAG, "inside onComplete:" + task.isSuccessful());
+                Log.d(TAG, "inside onComplete: " + task.isSuccessful());
 
                 if(task.isSuccessful())
                 {
-                    Log.d(TAG, "inside isSuccessful" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
                 }
                 else
                 {
@@ -88,31 +93,5 @@ public class RegisterActivity extends Activity
         });
     }
 
-    //Helper Methods
 
-    /**
-     * Return true if the @param is empty
-     * @param text string
-     * @return boolean
-     */
-    protected boolean isEmpty(String text)
-    {
-        return text.equals("");
-    }
-
-    /**
-     * return true if @param 'pass1' and @param 'pass2' are the same
-     * @param pass1 string
-     * @param pass2 string
-     * @return boolean
-     */
-    protected boolean doPasswordMatch(String pass1, String pass2)
-    {
-        return pass1.equals(pass2);
-    }
-    protected boolean isPasswordStrong(String password)
-    {
-        return password.length() >= 6;
-        password.
-    }
 }
