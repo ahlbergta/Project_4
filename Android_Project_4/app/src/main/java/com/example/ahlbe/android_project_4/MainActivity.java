@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, Notification_Activity.class));
             }
         });
-        ble_beacon_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, BLE_Activity.class));
-            }
-        });
+//        ble_beacon_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, BLE_Activity.class));
+//            }
+//        });
     }
 }
