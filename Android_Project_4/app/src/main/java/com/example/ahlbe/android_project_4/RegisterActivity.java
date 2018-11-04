@@ -22,6 +22,7 @@ import static com.example.ahlbe.android_project_4.InputValidator.isPasswordStron
 
 public class RegisterActivity extends Activity
 {
+    private static final String TAG = "RegisterActivity";
 
     //Declaring the Widgets
     private Button mRegister;
