@@ -17,4 +17,14 @@
 
     <!--Register Activity XML Strings   -->
     <string name="hint_confirm_pass">Confirm Password</string>
+    
+    <!--Edit Activity XML String -->
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_p_phone">Primary Phone #</string>
+    <string name="hint_s_phone">Secondary Phone #</string>
+    <string name="hint_p_address">Primary Address</string>
+    <string name="hint_s_address">Secondary Address</string>
+    <string name="hint_notes">Notes</string>
+    <string name="button_submit">Submit</string>
 </resources>

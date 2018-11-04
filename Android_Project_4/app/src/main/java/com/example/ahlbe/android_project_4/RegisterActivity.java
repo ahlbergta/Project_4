@@ -15,9 +15,13 @@ import android.widget.Toast;
 //import com.google.firebase.auth.AuthResult;
 //import com.google.firebase.auth.FirebaseAuth;
 
+import static com.example.ahlbe.android_project_4.InputValidator.doPasswordMatch;
+import static com.example.ahlbe.android_project_4.InputValidator.isEmpty;
+import static com.example.ahlbe.android_project_4.InputValidator.isPasswordStrong;
+
+
 public class RegisterActivity extends Activity
 {
-    private  static final String TAG = "RegisterActivity";
 
     //Declaring the Widgets
     private Button mRegister;
@@ -41,7 +45,7 @@ public class RegisterActivity extends Activity
                 Log.d(TAG, "click the button: Attempting to register user");
 
                 //Checking if EditText fields have been filled
-                if(!isEmpty(mEmail.getText().toString())
+                if(isEmpty(mEmail.getText().toString())
                         && !isEmpty(mPassword.getText().toString())
                         && !isEmpty(mPasswordConfirm.getText().toString()))
                 {
@@ -50,7 +54,16 @@ public class RegisterActivity extends Activity
                     {
                         if(isPasswordStrong(mPassword.getText().toString()))
                         {
+<<<<<<< HEAD
                             //createAccount();
+=======
+                            createAccount(mEmail.getText().toString(), mPassword.getText().toString());
+                        }
+                        else
+                        {
+                            Toast.makeText(RegisterActivity.this, "Password not strong enough. Make sure the password is 8" +
+                                    "characters long and contains 1 number, 1 lower case letter, 1 upper case letter, and 1 special character", Toast.LENGTH_LONG).show();
+>>>>>>> Tho
                         }
                     }
                     else
@@ -60,7 +73,7 @@ public class RegisterActivity extends Activity
                 }
                 else
                 {
-                    Toast.makeText(RegisterActivity.this, "YOu must fill out all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "You must fill out all fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -69,6 +82,7 @@ public class RegisterActivity extends Activity
 
     private void createAccount(String email, String password)
     {
+<<<<<<< HEAD
 //        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>()
 //        {
 //            @Override
@@ -86,10 +100,29 @@ public class RegisterActivity extends Activity
 //                }
 //            }
 //        });
+=======
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task)
+            {
+                Log.d(TAG, "inside onComplete: " + task.isSuccessful());
+
+                if(task.isSuccessful())
+                {
+                    Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                }
+                else
+                {
+                    Toast.makeText(RegisterActivity.this, "Unable to create account", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+>>>>>>> Tho
     }
 
-    //Helper Methods
 
+<<<<<<< HEAD
     /**
      * Return true if the @param is empty
      * @param text string
@@ -115,4 +148,6 @@ public class RegisterActivity extends Activity
         return password.length() >= 6;
         //password.
     }
+=======
+>>>>>>> Tho
 }
