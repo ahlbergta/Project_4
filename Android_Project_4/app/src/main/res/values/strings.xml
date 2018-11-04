@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Android_Project_4</string>
+    <string name="fetch_button">Fetch</string>
+    <string name="name_view">Hello</string>
+    <string name="hint_first">Please Enter Your First Name</string>
+    <string name="save_data">Save Data</string>
+    <string name="hint_last">Please Enter Your Last Name</string>
+    <string name="go_to_fetch_data">Go to fetch data</string>
+    <string name="go_to_save_data">Go to save data</string>
+    <string name="notify_user">Notify User</string>
+    <string name="email_hint">Email Address</string>
+    <string name="password_hint">Password</string>
+
+    <!--   Login Activity String      -->
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+
+    <!--Register Activity XML Strings   -->
+    <string name="hint_confirm_pass">Confirm Password</string>
+    
+    <!--Edit Activity XML String -->
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_p_phone">Primary Phone #</string>
+    <string name="hint_s_phone">Secondary Phone #</string>
+    <string name="hint_p_address">Primary Address</string>
+    <string name="hint_s_address">Secondary Address</string>
+    <string name="hint_notes">Notes</string>
+    <string name="button_submit">Submit</string>
 </resources>
