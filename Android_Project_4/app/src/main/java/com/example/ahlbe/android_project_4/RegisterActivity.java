@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +29,7 @@ public class RegisterActivity extends Activity
     //Declaring the Widgets
     private Button mRegister;
     private EditText mEmail, mPassword, mPasswordConfirm;
+    //private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +41,7 @@ public class RegisterActivity extends Activity
         mEmail = findViewById(R.id.edit_email_register);
         mPassword = findViewById(R.id.edit_pass_register);
         mPasswordConfirm = findViewById(R.id.edit_confirm_pass);
+        //mProgressBar = findViewById(R.id.progress_register);
         mRegister.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -56,6 +59,7 @@ public class RegisterActivity extends Activity
                     {
                         if(isPasswordStrong(mPassword.getText().toString()))
                         {
+                            //mProgressBar.setIndeterminate(true);
                             createAccount(mEmail.getText().toString(), mPassword.getText().toString());
                         }
                         else
@@ -89,12 +93,14 @@ public class RegisterActivity extends Activity
 
                 if(task.isSuccessful())
                 {
+                    //mProgressBar.setIndeterminate(false);
                     Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
                     Intent registerActivityIntent = new Intent(RegisterActivity.this, EditProfileActivity.class);
                     startActivity(registerActivityIntent);
                 }
                 else
                 {
+                   // mProgressBar.setIndeterminate(false);
                     Toast.makeText(RegisterActivity.this, "Unable to create account", Toast.LENGTH_SHORT).show();
                 }
             }

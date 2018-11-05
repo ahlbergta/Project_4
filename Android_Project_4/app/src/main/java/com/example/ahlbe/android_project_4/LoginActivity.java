@@ -24,6 +24,8 @@ public class LoginActivity extends Activity
     private FirebaseAuth mAuth;
     private Button mRegister, mLogin;
     private EditText mEmail, mPassword;
+    private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
 
     @Override
@@ -37,6 +39,15 @@ public class LoginActivity extends Activity
         mLogin = findViewById(R.id.button_login_login);
         mEmail = findViewById(R.id.edit_email_login);
         mPassword = findViewById(R.id.edit_pass_login);
+        if(mFirebaseUser == null)
+        {
+            Log.d(TAG, "User is null");
+        }
+        else
+        {
+            Log.d(TAG, "user is not null");
+        }
+
         mRegister.setOnClickListener(new View.OnClickListener()
         {
             @Override

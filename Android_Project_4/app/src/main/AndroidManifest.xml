@@ -37,6 +37,8 @@
         </activity>
         <activity android:name=".HomeActivity">
         </activity>
+        <activity android:name=".PetsActivity">
+        </activity>
     </application>
 
 </manifest>

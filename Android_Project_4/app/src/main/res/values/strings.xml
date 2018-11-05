@@ -27,4 +27,14 @@
     <string name="hint_s_address">Secondary Address</string>
     <string name="hint_notes">Notes</string>
     <string name="button_submit">Submit</string>
+
+    <!--HomeActivity XML Strings -->
+
+    <string name="text_home">Home</string>
+    <string name="button_pets">Pets</string>
+    <string name="button_maps">Maps</string>
+    <string name="button_help">Help</string>
+
+    <!--PetsActivity XML String -->
+    <string name="button_add_pet">Add Pet</string>
 </resources>

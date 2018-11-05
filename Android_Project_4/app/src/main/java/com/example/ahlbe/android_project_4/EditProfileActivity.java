@@ -22,6 +22,8 @@ import java.util.Map;
 public class EditProfileActivity extends AppCompatActivity
 {
     private static final String TAG = "EditProfileActivity";
+
+    //Set up the data entries
     public static final String EMAIL = "email";
     public static final String FIRSTNAME = "first_name";
     public static final String LASTNAME = "last_name";
@@ -35,8 +37,9 @@ public class EditProfileActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private EditText mEmail, mPAddress, mSAddress, mFirstName, mLastName, mPPhone, mSPhone, mNotes;
     private Button mSubmit;
+
     //Firestore Reference
-    private CollectionReference mCollectionReference = FirebaseFirestore.getInstance().collection("users");
+    private CollectionReference mCollectionReference = FirebaseFirestore.getInstance().collection("users/");
 
     //Setup data entries
     //String email, first_name, last_name, notes, p_address, s_address, p_phone, s_phone;
@@ -57,30 +60,27 @@ public class EditProfileActivity extends AppCompatActivity
         mNotes = findViewById(R.id.edit_notes);
 
 
-        //Get User
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if(user != null)
-        {
-            mEmail.setText(user.getEmail());
-        }
-
         mSubmit.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                //Get the user object
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                 Map<String, String> updateUser = new HashMap<>();
                 addData(updateUser);
 
                 Log.d(TAG, "Inside the onCLick");
+                //Add the user with the userID as the unique identifier
                 mCollectionReference.document(user.getUid()).set(updateUser);
 
             }
         });
 
     }
-    protected Map<String, String> addData(Map<String, String> updateUser)
+    //Method to get data entered in text field and put it into HashMap
+    protected void addData(Map<String, String> updateUser)
     {
 
         updateUser.put(EMAIL, mEmail.getText().toString());
@@ -91,7 +91,6 @@ public class EditProfileActivity extends AppCompatActivity
         updateUser.put(PRIMARYADDRESS, mPAddress.getText().toString());
         updateUser.put(SECONDARYADDRESS,mSAddress.getText().toString());
         updateUser.put(NOTES, mNotes.getText().toString());
-        return updateUser;
     }
 
 
