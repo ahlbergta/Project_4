@@ -17,16 +17,13 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
 
 public class DemoApplication extends Application implements BootstrapNotifier, BeaconConsumer, RangeNotifier {
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
-    private LocationManager locationManager;
+    private AlertManager alertManager;
 
     @Override
     public void onCreate() {
@@ -43,9 +40,6 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
 
         // Create the region bootstrap using the region
         regionBootstrap = new RegionBootstrap(this, region);
-
-        // Initialize the location manager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         backgroundPowerSaver = new BackgroundPowerSaver(this);
         beaconManager.bind(this);
@@ -93,11 +87,6 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
     public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
         // Code for when Conan device is ranged
         Log.d("BLE_Background_Scanner", "Start beacon range callback");
-        Date time = Calendar.getInstance().getTime();
-        Iterator<Beacon> iterator = collection.iterator();
-        while(iterator.hasNext()){
-            Beacon beacon = iterator.next();
-            Log.d("BLE_Background_Scanner", "Conan device: " + beacon.getId2().toString());
-        }
+        alertManager = new AlertManager(this.getApplicationContext(), collection);
     }
 }
