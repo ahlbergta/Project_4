@@ -39,6 +39,10 @@
         </activity>
         <activity android:name=".PetsActivity">
         </activity>
+        <activity android:name=".CreatePetProfileActivity">
+        </activity>
+        <activity android:name=".CreateProfileActivity">
+        </activity>
     </application>
 
 </manifest>

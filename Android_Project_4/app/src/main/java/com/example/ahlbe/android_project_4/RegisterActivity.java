@@ -95,7 +95,7 @@ public class RegisterActivity extends Activity
                 {
                     //mProgressBar.setIndeterminate(false);
                     Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    Intent registerActivityIntent = new Intent(RegisterActivity.this, EditProfileActivity.class);
+                    Intent registerActivityIntent = new Intent(RegisterActivity.this, CreateProfileActivity.class);
                     startActivity(registerActivityIntent);
                 }
                 else

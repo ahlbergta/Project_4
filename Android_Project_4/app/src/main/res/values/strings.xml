@@ -34,6 +34,7 @@
     <string name="button_pets">Pets</string>
     <string name="button_maps">Maps</string>
     <string name="button_help">Help</string>
+    <string name="button_edit">Edit Profile</string>
 
     <!--PetsActivity XML String -->
     <string name="button_add_pet">Add Pet</string>

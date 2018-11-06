@@ -3,35 +3,42 @@ package com.example.ahlbe.android_project_4;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import static com.example.ahlbe.android_project_4.DatabaseManager.addUser;
+
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import static com.example.ahlbe.android_project_4.DatabaseManager.addUser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditProfileActivity extends AppCompatActivity
+public class CreateProfileActivity extends AppCompatActivity
 {
-    private static final String TAG = "EditProfileActivity";
+    private static final String TAG = "CreateProfileActivity";
 
+    //Set up the data entries
+
+    //Set up Widgets
+    private FirebaseAuth mAuth;
     private EditText mEmail, mPAddress, mSAddress, mFirstName, mLastName, mPPhone, mSPhone, mNotes;
     private Button mSubmit;
-    private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private Context mContext = this;
 
-    private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("users/" + mFirebaseUser.getUid());
+    //Firestore Reference
+    private CollectionReference mCollectionReference = FirebaseFirestore.getInstance().collection("users/");
 
-
+    //Setup data entries
+    //String email, first_name, last_name, notes, p_address, s_address, p_phone, s_phone;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
         //Set up all the widgets
@@ -51,11 +58,20 @@ public class EditProfileActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Map<String, String> user = new HashMap<>();
+                Log.d(TAG, "Inside the onCLick");
 
-                addUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
+                Map<String, String> updateUser = new HashMap<>();
+                addUser(updateUser, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
                         mNotes, mContext);
+
+                //Log.d(TAG, "Inside the onCLick");
+
+
             }
         });
+
     }
+    //Method to get data entered in text field and put it into HashMap
+
+
 }
