@@ -1,31 +1,41 @@
 package com.example.ahlbe.android_project_4;
 
 import android.Manifest;
+import android.app.Service;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 
 import org.altbeacon.beacon.Beacon;
 
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class AlertManager implements LocationListener {
-    private static final String[] PERMS={
-            Manifest.permission.ACCESS_FINE_LOCATION
-    };
     protected LocationManager locationManager;
+    private Context context;
     private Date time;
-    private Location location;
     private Collection<Beacon> collection;
 
-    public AlertManager(Context context, Collection collection) {
+    public AlertManager(Context context, Collection<Beacon> collection) {
         Log.d("AlertManager", "Alert manager constructor");
+        this.context = context;
         this.collection = collection;
         time = Calendar.getInstance().getTime();
 
@@ -48,7 +58,44 @@ public class AlertManager implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.d("AlertManager", "Location: " + location.toString());
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         Iterator<Beacon> iterator = collection.iterator();
+        while(iterator.hasNext()){
+            Beacon beacon = iterator.next();
+            final String conanID = beacon.getId2().toHexString();
+
+            // Create and add alert to database
+            Map<String, Object> alert = new HashMap<>();
+            GeoPoint pointLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+            alert.put("location", pointLocation);
+            alert.put("time", time);
+            alert.put("conanID", conanID);
+
+            Log.d("AlertManager", "Adding alert: " + alert.toString());
+            db.collection("Alerts").add(alert);
+
+            // Generate notification if pet is lost
+            db.collection("Pets").whereEqualTo("conanID", conanID).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    Log.d("ProximalNotification", "Query complete");
+                    QuerySnapshot query = task.getResult();
+                    if(query.size() == 1){
+                        DocumentSnapshot pet = query.getDocuments().get(0);
+                        Log.d("ProximalNotification", "Pet Name: " + pet.get("pName"));
+                        Log.d("ProximalNotification", "Pet Name: " + pet.get("pNotes"));
+                        ProximalNotification notification = new ProximalNotification(context, pet);
+                    }
+                    else if(query.size() == 0){
+                        Log.d("ProximalNotification", "Error: pet profile with conan ID: " + conanID + " not found");
+                    }
+                    else{
+                        Log.d("ProximalNotification", "Error: more than 1 pet profile with conan ID: " + conanID);
+                    }
+                }
+            });
+        }
     }
 
     @Override
