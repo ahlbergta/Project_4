@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity
     private Button mRegister, mLogin;
     private EditText mEmail, mPassword;
     private TextView mTextView;
-    private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
@@ -50,6 +49,7 @@ public class LoginActivity extends AppCompatActivity
         //Function to set up Authentication Listener
         settingFirebaseAuthListener();
 
+        //Goes to Register Activity
         mRegister.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity
                 }
             }
         });
+        //Set the Dialog View
         mTextView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -99,6 +100,7 @@ public class LoginActivity extends AppCompatActivity
     @Override
     protected void onStop()
     {
+        //Remove the Authentication State Listener
         super.onStop();
         if(mAuthStateListener != null)
         {
@@ -106,8 +108,15 @@ public class LoginActivity extends AppCompatActivity
         }
     }
 
+    /** This method takes the text input by the user in the EditText fields and call the Firebase signIn method in order
+     * to authenticate the user.
+     *
+     * @param email The text from the EditText in LoginActivity inputed by user.
+     * @param password Text from the EditText in LoginActivity inputed by user.
+     */
     private void signIn(String email, String password)
     {
+        //Firebase method to authenticate user.
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>()
         {
             @Override
@@ -127,6 +136,11 @@ public class LoginActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * This method sets up the Firebase Authentication State Listener. There are basically two states. The user is authenticated
+     * or the user is not. When the user change from one state to another on the LoginActivity it will run the onAuthStateChanged
+     * method.
+     */
     private void settingFirebaseAuthListener()
     {
         mAuthStateListener = new FirebaseAuth.AuthStateListener()
@@ -136,9 +150,11 @@ public class LoginActivity extends AppCompatActivity
             {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+                //Check if the user is authenticated.
                 if(firebaseUser != null)
                 {
 
+                    //Check to see if user has verified email.
                     if(firebaseUser.isEmailVerified())
                     {
                         Log.d(TAG, "The authentication state has changed: user is signed in: " + firebaseUser.getUid());
@@ -150,6 +166,7 @@ public class LoginActivity extends AppCompatActivity
                     }
                     else
                     {
+                        //If user email is not verified, sign them out to remove their authentication.
                         Toast.makeText(LoginActivity.this, "Check your email for a verification link", Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
                     }

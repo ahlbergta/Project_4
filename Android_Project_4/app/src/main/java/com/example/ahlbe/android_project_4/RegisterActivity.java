@@ -84,6 +84,14 @@ public class RegisterActivity extends AppCompatActivity
 
     }
 
+    /** This method takes the text input by the user in the EditText fields and call the Firebase createUser method in order
+     * to create the user. This method automatically authenticates a user, so the the Firebase
+     * method signOut must be called the end. If the method was successfully, clear the activity stack and redirect user to
+     * Login
+     *
+     * @param email The text from the EditText in LoginActivity inputed by user.
+     * @param password Text from the EditText in LoginActivity inputed by user.
+     */
     private void createAccount(String email, String password)
     {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>()
@@ -101,6 +109,7 @@ public class RegisterActivity extends AppCompatActivity
                     FirebaseAuth.getInstance().signOut();
                     Intent registerActivityIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(registerActivityIntent);
+                    finish();
                 }
                 else
                 {
@@ -110,6 +119,7 @@ public class RegisterActivity extends AppCompatActivity
             }
         });
     }
+    //Firebase Method to send an verification to the user with the email they have registered.
     private void sendVerificationEmail()
     {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

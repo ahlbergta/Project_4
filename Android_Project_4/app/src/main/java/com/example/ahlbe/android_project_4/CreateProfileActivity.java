@@ -81,6 +81,10 @@ public class CreateProfileActivity extends AppCompatActivity
         super.onResume();
         authenticationStateCheck();
     }
+    //This Method is called onResume of the all the activities except Login and Register. This method checks whether or not the user is authenticated.
+    //This is basically a security check if a user somehow assesses the app without properly authenticating. If the user is not
+    //authenticated, it will clear the activity stack to prevent the user from pressing the "back" button to an activity in the
+    //app and then redirects them to the Login Activity.
     private void authenticationStateCheck()
     {
         Log.d(TAG, "Inside checkauthenticationState method");
