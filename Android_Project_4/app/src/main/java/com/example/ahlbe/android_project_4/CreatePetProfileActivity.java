@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ public class CreatePetProfileActivity extends AppCompatActivity
         mLayoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View mView = mLayoutInflater.inflate(R.layout.activity_pets, null);
         mLinearLayout = mView.findViewById(R.id.layout_activity_pets);
+        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
         final Button mButton = new Button(this);
         mSubmit = findViewById(R.id.button_submit_pet_profile);
         mPetName = findViewById(R.id.edit_pet_name);
@@ -40,11 +42,11 @@ public class CreatePetProfileActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                mButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                mButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
                 mButton.setText(mPetName.getText().toString());
                 mLinearLayout.addView(mButton);
                 Log.d(TAG, "This is the Linear Layout thingy " + mLinearLayout);
-                Intent petIntent = new Intent(CreatePetProfileActivity.this, PetsActivity.class);
+                Intent petIntent = new Intent(CreatePetProfileActivity.this, HomeActivity.class);
                 startActivity(petIntent);
 
             }

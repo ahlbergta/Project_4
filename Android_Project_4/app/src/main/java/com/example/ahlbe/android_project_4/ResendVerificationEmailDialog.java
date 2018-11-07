@@ -37,6 +37,7 @@ public class ResendVerificationEmailDialog extends DialogFragment
 
     @Nullable
     @Override
+    //Creates the Dialog Box when the user clicks on the Resend Verification Button
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.dialog_resend, container, false);
@@ -80,7 +81,8 @@ public class ResendVerificationEmailDialog extends DialogFragment
         return view;
     }
 
-    //Firebase Method to authenticate credentials
+    //Firebase Method to authenticate credentials the user has inputted. This will give the user
+    //Authenticated State in order to send verification email again. Sign them out afterwords.
     private void authenticateAndResendVerification(String email, String password)
     {
         Log.d(TAG, "inside authenticateandresendverification");
@@ -109,6 +111,7 @@ public class ResendVerificationEmailDialog extends DialogFragment
             }
         });
     }
+    //Method to send verification email to the user.
     public void sendVerificationEmail()
     {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

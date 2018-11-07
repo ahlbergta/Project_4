@@ -9,6 +9,10 @@
     android:orientation="vertical"
     android:id="@+id/layout_activity_pets"
     tools:context=".PetsActivity">
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar_pet"/>
+
 
 
     <Button
@@ -22,4 +26,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
 </LinearLayout>

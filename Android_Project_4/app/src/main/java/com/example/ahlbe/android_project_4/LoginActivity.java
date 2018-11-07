@@ -73,6 +73,10 @@ public class LoginActivity extends AppCompatActivity
 
 
                 }
+                else
+                {
+                    Toast.makeText(LoginActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //Set the Dialog View
@@ -159,7 +163,7 @@ public class LoginActivity extends AppCompatActivity
                     {
                         Log.d(TAG, "The authentication state has changed: user is signed in: " + firebaseUser.getUid());
                         Toast.makeText(LoginActivity.this, "You are Authenticated with: " + firebaseUser.getEmail(),Toast.LENGTH_SHORT).show();
-                        Intent homeIntent = new Intent(LoginActivity.this, CreateProfileActivity.class);
+                        Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(homeIntent);
                         finish();
 

@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    //Creates the Option Menu at the top of the Home Activity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
@@ -64,11 +65,18 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    /** This method is called when the user selects the Sign Out option from the options menu. This will sign the user out and
+     * destroy the activity stack to prevent assess to previous activities.
+     *
+     * @param item that the user has clicked on
+     * @return the user back to the login screen
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         FirebaseAuth.getInstance().signOut();
         Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+        loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
         finish();
         Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();

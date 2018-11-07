@@ -46,4 +46,8 @@
 
     <!--Menu Options String -->
     <string name="menu_sign_out">Sign Out</string>
+
+    <!--Create Pets Strings-->
+    <string name="dialog_pet_name">Pets Name</string>
+    <string name="dialog_pet_notes">Pet Notes</string>
 </resources>
