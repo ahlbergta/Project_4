@@ -1,6 +1,7 @@
 package com.example.ahlbe.android_project_4;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,14 +65,41 @@ public class CreateProfileActivity extends AppCompatActivity
                 addUser(updateUser, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
                         mNotes, mContext);
 
-                //Log.d(TAG, "Inside the onCLick");
+                Log.d(TAG, "Inside the onCLick");
+                Intent homeIntent = new Intent(CreateProfileActivity.this, HomeActivity.class);
+                startActivity(homeIntent);
+                finish();
 
 
             }
         });
 
     }
-    //Method to get data entered in text field and put it into HashMap
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        authenticationStateCheck();
+    }
+    private void authenticationStateCheck()
+    {
+        Log.d(TAG, "Inside checkauthenticationState method");
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser == null)
+        {
+            Log.d(TAG, "user is null. Navigating back to login screen");
+            Intent loginIntent = new Intent(CreateProfileActivity.this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(loginIntent);
+            finish();
+        }
+        else
+        {
+            Log.d(TAG, "checked Authentication state: user is authenticated");
+        }
+
+
+    }
 
 
 }

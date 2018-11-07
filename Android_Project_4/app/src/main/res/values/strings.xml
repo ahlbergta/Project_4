@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android_Project_4</string>
+    <string name="app_name">PawPrints Tracker</string>
     <string name="fetch_button">Fetch</string>
     <string name="name_view">Hello</string>
     <string name="hint_first">Please Enter Your First Name</string>
@@ -14,6 +14,7 @@
     <!--   Login Activity String      -->
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
+    <string name="text_resend">Resend Verification Email</string>
 
     <!--Register Activity XML Strings   -->
     <string name="hint_confirm_pass">Confirm Password</string>
@@ -38,4 +39,11 @@
 
     <!--PetsActivity XML String -->
     <string name="button_add_pet">Add Pet</string>
+
+    <!--ResendVerification XML String -->
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_cancel">Cancel</string>
+
+    <!--Menu Options String -->
+    <string name="menu_sign_out">Sign Out</string>
 </resources>

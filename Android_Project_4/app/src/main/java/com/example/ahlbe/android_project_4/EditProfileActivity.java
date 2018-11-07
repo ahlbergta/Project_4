@@ -1,8 +1,10 @@
 package com.example.ahlbe.android_project_4;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,5 +59,30 @@ public class EditProfileActivity extends AppCompatActivity
                         mNotes, mContext);
             }
         });
+    }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        authenticationStateCheck();
+    }
+    private void authenticationStateCheck()
+    {
+        Log.d(TAG, "Inside checkauthenticationState method");
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser == null)
+        {
+            Log.d(TAG, "user is null. Navigating back to login screen");
+            Intent loginIntent = new Intent(EditProfileActivity.this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(loginIntent);
+            finish();
+        }
+        else
+        {
+            Log.d(TAG, "checked Authentication state: user is authenticated");
+        }
+
+
     }
 }

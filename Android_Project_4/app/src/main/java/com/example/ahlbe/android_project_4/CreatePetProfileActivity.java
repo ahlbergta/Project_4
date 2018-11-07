@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class CreatePetProfileActivity extends Activity
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+public class CreatePetProfileActivity extends AppCompatActivity
 {
     private static final String TAG = "CreatePetActivity";
     private Button mSubmit;
@@ -48,4 +52,31 @@ public class CreatePetProfileActivity extends Activity
 
 
     }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        authenticationStateCheck();
+    }
+    private void authenticationStateCheck()
+    {
+        Log.d(TAG, "Inside checkauthenticationState method");
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser == null)
+        {
+            Log.d(TAG, "user is null. Navigating back to login screen");
+            Intent loginIntent = new Intent(CreatePetProfileActivity.this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(loginIntent);
+            finish();
+        }
+        else
+        {
+            Log.d(TAG, "checked Authentication state: user is authenticated");
+        }
+
+
+    }
 }
+
+

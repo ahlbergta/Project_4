@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +17,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static com.example.ahlbe.android_project_4.InputValidator.doPasswordMatch;
 import static com.example.ahlbe.android_project_4.InputValidator.isEmpty;
 import static com.example.ahlbe.android_project_4.InputValidator.isPasswordStrong;
 
 
-public class RegisterActivity extends Activity
+public class RegisterActivity extends AppCompatActivity
 {
     private static final String TAG = "RegisterActivity";
 
@@ -95,7 +97,9 @@ public class RegisterActivity extends Activity
                 {
                     //mProgressBar.setIndeterminate(false);
                     Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    Intent registerActivityIntent = new Intent(RegisterActivity.this, CreateProfileActivity.class);
+                    sendVerificationEmail();
+                    FirebaseAuth.getInstance().signOut();
+                    Intent registerActivityIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(registerActivityIntent);
                 }
                 else
@@ -106,6 +110,29 @@ public class RegisterActivity extends Activity
             }
         });
     }
+    private void sendVerificationEmail()
+    {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null)
+        {
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
+            {
+                @Override
+                public void onComplete(@NonNull Task<Void> task)
+                {
+                    if (task.isSuccessful())
+                    {
+                        Toast.makeText(RegisterActivity.this, "Sent Verification Email", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(RegisterActivity.this, "Couldn't send Verification Email", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
 
 
 }

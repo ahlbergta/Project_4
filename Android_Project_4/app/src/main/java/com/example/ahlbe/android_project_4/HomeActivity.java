@@ -3,13 +3,26 @@ package com.example.ahlbe.android_project_4;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
-public class HomeActivity extends Activity
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+public class HomeActivity extends AppCompatActivity
 {
+    private static final String TAG = "HomeActivity";
     private Button mButtonPets;
     private Button mButtonEditProfile;
+    private android.support.v7.widget.Toolbar mToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -18,6 +31,8 @@ public class HomeActivity extends Activity
         setContentView(R.layout.activity_home);
         mButtonPets = findViewById(R.id.button_pets);
         mButtonEditProfile = findViewById(R.id.button_edit_profile);
+        mToolbar = findViewById(R.id.toolbar_home);
+        setSupportActionBar(mToolbar);
         mButtonPets.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -38,6 +53,51 @@ public class HomeActivity extends Activity
 
             }
         });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        FirebaseAuth.getInstance().signOut();
+        Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
+        finish();
+        Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        authenticationStateCheck();
+    }
+    private void authenticationStateCheck()
+    {
+        Log.d(TAG, "Inside checkauthenticationState method");
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser == null)
+        {
+            Log.d(TAG, "user is null. Navigating back to login screen");
+            Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(loginIntent);
+            finish();
+        }
+        else
+        {
+            Log.d(TAG, "checked Authentication state: user is authenticated");
+        }
+
 
     }
 }
