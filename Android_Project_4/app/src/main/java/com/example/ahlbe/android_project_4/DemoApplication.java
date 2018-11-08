@@ -1,8 +1,6 @@
 package com.example.ahlbe.android_project_4;
 
 import android.app.Application;
-import android.content.Context;
-import android.location.LocationManager;
 import android.os.RemoteException;
 import android.util.Log;
 
