@@ -106,9 +106,10 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                                 point = points.get(i);
                                 options.add(point);
                             }
-                            //addMarker(); //add Marker in current position
+                            //add Marker in current position
+                            moveCamera(new LatLng(33.5145654, -101.81),DEFAULT_ZOOM);
                             line = mMap.addPolyline(options); //add Polyline
-
+// test
                         }else{
                             Log.d(TAG, "onComplete: current location is null");
                             Toast.makeText(GoogleMaps.this, "unable to get current location", Toast.LENGTH_SHORT).show();
