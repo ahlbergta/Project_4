@@ -115,7 +115,8 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                             for(LatLng cor : points){
                                 mMap.addMarker(new MarkerOptions()
                                         .position(cor)
-                                        .title(""+i));
+                                        .title(Integer.toString(i))
+                                        .snippet("This is " + Integer.toString(i) + "st"));
                                 i++;
                             }
 // test
