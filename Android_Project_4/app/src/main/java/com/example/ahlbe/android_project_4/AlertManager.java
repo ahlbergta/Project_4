@@ -49,7 +49,7 @@ public class AlertManager implements LocationListener {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         try {
             Log.d("AlertManager", "Requesting location update");
-            locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 20, this);
         } catch(SecurityException e) {
             e.printStackTrace();
         }
@@ -58,6 +58,8 @@ public class AlertManager implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.d("AlertManager", "Location: " + location.toString());
+        locationManager.removeUpdates(this);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Iterator<Beacon> iterator = collection.iterator();

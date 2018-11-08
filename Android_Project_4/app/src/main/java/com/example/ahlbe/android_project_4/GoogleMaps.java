@@ -29,11 +29,20 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback {
+    private ArrayList<LatLng> points;
+    private FirebaseFirestore db;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -69,9 +78,33 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_maps);
 
+        Log.d("GoogleMaps", "In on create");
+
+        points = new ArrayList<LatLng>();
+
+        // Test Conan ID
+        String conanID = "0x4a72b2b79943";
+
+        super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
+        Log.d("GoogleMaps", "Retrieved Firestore reference");
+        db.collection("Alerts").whereEqualTo("conanID", conanID).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                Log.d("GoogleMaps", "In query callback");
+                points = new ArrayList<LatLng>();
+                for (QueryDocumentSnapshot i:queryDocumentSnapshots) {
+                    GeoPoint location = (GeoPoint) i.get("location");
+                    Log.d("GoogleMaps", "Location: " + location);
+                    points.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                }
+                // Update map after all points have been added
+                getDeviceLocation(mMap);
+            }
+        });
+
+        setContentView(R.layout.activity_google_maps);
         getLocationPermission();
     }
 
@@ -89,16 +122,10 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
-                            //Location currentLocation = (Location) task.getResult();
+                            Location currentLocation = (Location) task.getResult();
 
                             //moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                             //        DEFAULT_ZOOM);
-
-                            ArrayList<LatLng> points = new ArrayList<LatLng>();
-                            points.add(new LatLng(33.58745654, -101.87612528));
-                            points.add(new LatLng(33.56745654, -101.85));
-                            points.add(new LatLng(33.54745654, -101.83));
-                            points.add(new LatLng(33.5145654, -101.81));
                             LatLng point;
                             Polyline line;
 
@@ -108,7 +135,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                                 options.add(point);
                             }
                             //add Marker in current position
-                            moveCamera(new LatLng(33.5145654, -101.81),DEFAULT_ZOOM);
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),DEFAULT_ZOOM);
                             line = mMap.addPolyline(options); //add Polyline
 
                             int i = 1;
