@@ -25,7 +25,7 @@ import static com.example.ahlbe.android_project_4.InputValidator.isEmpty;
 import static com.example.ahlbe.android_project_4.InputValidator.isPasswordStrong;
 
 
-public class RegisterActivity extends Activity
+public class RegisterActivity extends AppCompatActivity
 {
     private static final String TAG = "RegisterActivity";
 
@@ -60,6 +60,7 @@ public class RegisterActivity extends Activity
                 if (!isEmpty(mEmail.getText().toString())
 =======
                 if(!isEmpty(mEmail.getText().toString())
+>>>>>>> Tho
                         && !isEmpty(mPassword.getText().toString())
                         && !isEmpty(mPasswordConfirm.getText().toString()))
                 {
@@ -72,6 +73,7 @@ public class RegisterActivity extends Activity
 
 =======
                             //mProgressBar.setIndeterminate(true);
+>>>>>>> Tho
                             createAccount(mEmail.getText().toString(), mPassword.getText().toString());
                         } else
                         {
@@ -141,6 +143,7 @@ public class RegisterActivity extends Activity
                     finish();
                 }
                 else
+>>>>>>> Tho
                 {
                    // mProgressBar.setIndeterminate(false);
                     Toast.makeText(RegisterActivity.this, "Unable to create account", Toast.LENGTH_SHORT).show();
@@ -174,6 +177,7 @@ public class RegisterActivity extends Activity
             });
         }
     }
+>>>>>>> Tho
 
 
 
