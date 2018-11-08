@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class HomeActivity extends AppCompatActivity
 {
     private static final String TAG = "HomeActivity";
-    private Button mButtonPets, mButtonEditProfile, mButtonDeleteProfile;
+    private Button mButtonPets, mButtonEditProfile, mButtonDeleteProfile, mButtonViewMap;
     private android.support.v7.widget.Toolbar mToolbar;
 
 
@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity
         mButtonEditProfile = findViewById(R.id.button_edit_profile);
         mButtonDeleteProfile = findViewById(R.id.button_delete_profile);
         mToolbar = findViewById(R.id.toolbar_home);
+        mButtonViewMap = findViewById(R.id.button_map);
         setSupportActionBar(mToolbar);
         mButtonPets.setOnClickListener(new View.OnClickListener()
         {
@@ -62,7 +63,13 @@ public class HomeActivity extends AppCompatActivity
                 deleteProfileConfirmationDialog.show(getFragmentManager(), "delete_profile_dialog");
             }
         });
-
+        mButtonViewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewMapActivity = new Intent(HomeActivity.this, GoogleMapsMain.class);
+                startActivity(viewMapActivity);
+            }
+        });
 
     }
 
