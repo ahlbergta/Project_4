@@ -32,6 +32,14 @@
         </activity>
         <activity android:name=".EditProfileActivity">
         </activity>
+        <activity android:name=".HomeActivity">
+        </activity>
+        <activity android:name=".PetsActivity">
+        </activity>
+        <activity android:name=".CreatePetProfileActivity">
+        </activity>
+        <activity android:name=".CreateProfileActivity">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>

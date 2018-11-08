@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android_Project_4</string>
+    <string name="app_name">PawPrints Pet Tracker</string>
     <string name="fetch_button">Fetch</string>
     <string name="name_view">Hello</string>
     <string name="hint_first">Please Enter Your First Name</string>
@@ -14,10 +14,11 @@
     <!--   Login Activity String      -->
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
+    <string name="text_resend">Resend Verification Email</string>
 
     <!--Register Activity XML Strings   -->
     <string name="hint_confirm_pass">Confirm Password</string>
-    
+
     <!--Edit Activity XML String -->
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
@@ -27,4 +28,31 @@
     <string name="hint_s_address">Secondary Address</string>
     <string name="hint_notes">Notes</string>
     <string name="button_submit">Submit</string>
+
+    <!--HomeActivity XML Strings -->
+
+    <string name="text_home">Home</string>
+    <string name="button_pets">Pets</string>
+    <string name="button_maps">Maps</string>
+    <string name="button_help">Help</string>
+    <string name="button_edit">Edit Profile</string>
+    <string name="button_delete_profile">Delete Profile</string>
+
+    <!--PetsActivity XML String -->
+    <string name="button_add_pet">Add Pet</string>
+
+    <!--ResendVerification XML String -->
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_cancel">Cancel</string>
+
+    <!--Menu Options String -->
+    <string name="menu_sign_out">Sign Out</string>
+
+    <!--Create Pets Strings-->
+    <string name="dialog_pet_name">Pets Name</string>
+    <string name="dialog_pet_notes">Pet Notes</string>
+
+    <!--Confirm Profile Deletion-->
+    <string name="dialog_delete_confirmation">Profile Deletion</string>
+    <string name="dialog_deletion_text">You are about to delete your profile! Are you sure?</string>
 </resources>

@@ -1,19 +1,24 @@
 package com.example.ahlbe.android_project_4;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static com.example.ahlbe.android_project_4.InputValidator.doPasswordMatch;
 import static com.example.ahlbe.android_project_4.InputValidator.isEmpty;
@@ -27,6 +32,8 @@ public class RegisterActivity extends Activity
     //Declaring the Widgets
     private Button mRegister;
     private EditText mEmail, mPassword, mPasswordConfirm;
+    private Toolbar mToolbar;
+    //private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +45,9 @@ public class RegisterActivity extends Activity
         mEmail = findViewById(R.id.edit_email_register);
         mPassword = findViewById(R.id.edit_pass_register);
         mPasswordConfirm = findViewById(R.id.edit_confirm_pass);
+        mToolbar = findViewById(R.id.toolbar_register_edit);
+        setSupportActionBar(mToolbar);
+        //mProgressBar = findViewById(R.id.progress_register);
         mRegister.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -46,7 +56,10 @@ public class RegisterActivity extends Activity
                 Log.d(TAG, "click the button: Attempting to register user");
 
                 //Checking if EditText fields have been filled
+<<<<<<< HEAD
                 if (!isEmpty(mEmail.getText().toString())
+=======
+                if(!isEmpty(mEmail.getText().toString())
                         && !isEmpty(mPassword.getText().toString())
                         && !isEmpty(mPasswordConfirm.getText().toString()))
                 {
@@ -55,7 +68,10 @@ public class RegisterActivity extends Activity
                     {
                         if (isPasswordStrong(mPassword.getText().toString()))
                         {
+<<<<<<< HEAD
 
+=======
+                            //mProgressBar.setIndeterminate(true);
                             createAccount(mEmail.getText().toString(), mPassword.getText().toString());
                         } else
                         {
@@ -76,6 +92,14 @@ public class RegisterActivity extends Activity
 
     }
 
+    /** This method takes the text input by the user in the EditText fields and call the Firebase createUser method in order
+     * to create the user. This method automatically authenticates a user, so the the Firebase
+     * method signOut must be called the end. If the method was successfully, clear the activity stack and redirect user to
+     * Login
+     *
+     * @param email The text from the EditText in LoginActivity inputed by user.
+     * @param password Text from the EditText in LoginActivity inputed by user.
+     */
     private void createAccount(String email, String password)
     {
 
@@ -105,15 +129,51 @@ public class RegisterActivity extends Activity
 
                 if (task.isSuccessful())
                 {
+                    //mProgressBar.setIndeterminate(false);
                     Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+<<<<<<< HEAD
                 } else
+=======
+                    sendVerificationEmail();
+                    FirebaseAuth.getInstance().signOut();
+                    Intent registerActivityIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(registerActivityIntent);
+                    finish();
+                }
+                else
                 {
+                   // mProgressBar.setIndeterminate(false);
                     Toast.makeText(RegisterActivity.this, "Unable to create account", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+<<<<<<< HEAD
 }
+=======
+    //Firebase Method to send an verification to the user with the email they have registered.
+    private void sendVerificationEmail()
+    {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null)
+        {
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
+            {
+                @Override
+                public void onComplete(@NonNull Task<Void> task)
+                {
+                    if (task.isSuccessful())
+                    {
+                        Toast.makeText(RegisterActivity.this, "Sent Verification Email", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(RegisterActivity.this, "Couldn't send Verification Email", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
 
 
 

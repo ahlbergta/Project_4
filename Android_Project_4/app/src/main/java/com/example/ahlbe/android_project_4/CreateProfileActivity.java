@@ -4,44 +4,42 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import static com.example.ahlbe.android_project_4.DatabaseManager.addUser;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import static com.example.ahlbe.android_project_4.DatabaseManager.addUser;
-import static com.example.ahlbe.android_project_4.DatabaseManager.fetchUser;
-import static com.example.ahlbe.android_project_4.DatabaseManager.updateUser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditProfileActivity extends AppCompatActivity
+public class CreateProfileActivity extends AppCompatActivity
 {
-    private static final String TAG = "EditProfileActivity";
+    private static final String TAG = "CreateProfileActivity";
 
+    //Set up the data entries
+
+    //Set up Widgets
+    private FirebaseAuth mAuth;
     private EditText mEmail, mPAddress, mSAddress, mFirstName, mLastName, mPPhone, mSPhone, mNotes;
     private Button mSubmit;
-    private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private Context mContext = this;
-    private Toolbar mToolbar;
 
-    private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("users/" + mFirebaseUser.getUid());
+    //Firestore Reference
+    private CollectionReference mCollectionReference = FirebaseFirestore.getInstance().collection("users/");
 
-
+    //Setup data entries
+    //String email, first_name, last_name, notes, p_address, s_address, p_phone, s_phone;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
         //Set up all the widgets
@@ -54,11 +52,6 @@ public class EditProfileActivity extends AppCompatActivity
         mSPhone = findViewById(R.id.edit_s_phone);
         mSubmit = findViewById(R.id.button_submit);
         mNotes = findViewById(R.id.edit_notes);
-        mToolbar = findViewById(R.id.toolbar_register_edit);
-        setSupportActionBar(mToolbar);
-        //Fetch user information and set the fields
-        fetchUser(mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes);
-
 
 
         mSubmit.setOnClickListener(new View.OnClickListener()
@@ -66,41 +59,21 @@ public class EditProfileActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Map<String, Object> user = new HashMap<>();
+                Log.d(TAG, "Inside the onCLick");
 
-                updateUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
+                Map<String, String> updateUser = new HashMap<>();
+                addUser(updateUser, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
                         mNotes, mContext);
-                Intent homeIntent = new Intent(EditProfileActivity.this, HomeActivity.class);
+
+                Log.d(TAG, "Inside the onCLick");
+                Intent homeIntent = new Intent(CreateProfileActivity.this, HomeActivity.class);
                 startActivity(homeIntent);
                 finish();
+
+
             }
         });
-    }
-    @Override
-    //Creates the Option Menu at the top of the Home Activity
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.home_menu, menu);
-        return true;
-    }
 
-    /** This method is called when the user selects the Sign Out option from the options menu. This will sign the user out and
-     * destroy the activity stack to prevent assess to previous activities.
-     *
-     * @param item that the user has clicked on
-     * @return the user back to the login screen
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        FirebaseAuth.getInstance().signOut();
-        Intent loginIntent = new Intent(EditProfileActivity.this, LoginActivity.class);
-        loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(loginIntent);
-        finish();
-        Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();
-        return super.onOptionsItemSelected(item);
     }
     @Override
     protected void onResume()
@@ -118,9 +91,8 @@ public class EditProfileActivity extends AppCompatActivity
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser == null)
         {
-
             Log.d(TAG, "user is null. Navigating back to login screen");
-            Intent loginIntent = new Intent(EditProfileActivity.this, LoginActivity.class);
+            Intent loginIntent = new Intent(CreateProfileActivity.this, LoginActivity.class);
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginIntent);
             finish();
@@ -132,4 +104,6 @@ public class EditProfileActivity extends AppCompatActivity
 
 
     }
+
+
 }
