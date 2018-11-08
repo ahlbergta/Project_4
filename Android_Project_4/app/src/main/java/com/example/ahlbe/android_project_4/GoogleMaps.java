@@ -23,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -43,8 +44,8 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            //mMap.setMyLocationEnabled(true);
+            //mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         }
     }
@@ -69,7 +70,8 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         getLocationPermission();
     }
 
-    private void getDeviceLocation(){
+    private void getDeviceLocation()
+    {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -78,14 +80,17 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
             if(mLocationPermissionsGranted){
 
                 final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
+                location.addOnCompleteListener(new OnCompleteListener()
+                {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
+                            //LatLng ll = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                            LatLng ll = new LatLng(33.5845562,-101.874551);
 
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                            moveCamera(ll,
                                     DEFAULT_ZOOM);
 
                         }else{
@@ -100,7 +105,8 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom){
+    private void moveCamera(LatLng latLng, float zoom)
+    {
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
