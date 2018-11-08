@@ -6,6 +6,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity
     //Declaring the Widgets
     private Button mRegister;
     private EditText mEmail, mPassword, mPasswordConfirm;
+    private Toolbar mToolbar;
     //private ProgressBar mProgressBar;
 
     @Override
@@ -43,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity
         mEmail = findViewById(R.id.edit_email_register);
         mPassword = findViewById(R.id.edit_pass_register);
         mPasswordConfirm = findViewById(R.id.edit_confirm_pass);
+        mToolbar = findViewById(R.id.toolbar_register_edit);
+        setSupportActionBar(mToolbar);
         //mProgressBar = findViewById(R.id.progress_register);
         mRegister.setOnClickListener(new View.OnClickListener()
         {

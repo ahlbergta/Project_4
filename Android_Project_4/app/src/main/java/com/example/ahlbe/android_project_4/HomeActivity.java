@@ -19,8 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class HomeActivity extends AppCompatActivity
 {
     private static final String TAG = "HomeActivity";
-    private Button mButtonPets;
-    private Button mButtonEditProfile;
+    private Button mButtonPets, mButtonEditProfile, mButtonDeleteProfile;
     private android.support.v7.widget.Toolbar mToolbar;
 
 
@@ -31,6 +30,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         mButtonPets = findViewById(R.id.button_pets);
         mButtonEditProfile = findViewById(R.id.button_edit_profile);
+        mButtonDeleteProfile = findViewById(R.id.button_delete_profile);
         mToolbar = findViewById(R.id.toolbar_home);
         setSupportActionBar(mToolbar);
         mButtonPets.setOnClickListener(new View.OnClickListener()
@@ -53,6 +53,16 @@ public class HomeActivity extends AppCompatActivity
 
             }
         });
+        mButtonDeleteProfile.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                DeleteProfileConfirmationDialog deleteProfileConfirmationDialog = new DeleteProfileConfirmationDialog();
+                deleteProfileConfirmationDialog.show(getFragmentManager(), "delete_profile_dialog");
+            }
+        });
+
 
     }
 

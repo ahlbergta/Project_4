@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar_register_edit"/>
 
     <EditText
         android:id="@+id/edit_pass_register"

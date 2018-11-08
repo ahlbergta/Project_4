@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity
                 else
                 {
                     Log.e(TAG, "sign in failed", task.getException());
-                    Toast.makeText(LoginActivity.this, "Login Failure", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Failure: Please check credentials.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

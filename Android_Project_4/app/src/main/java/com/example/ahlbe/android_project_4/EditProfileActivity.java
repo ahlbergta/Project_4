@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,7 @@ public class EditProfileActivity extends AppCompatActivity
     private Button mSubmit;
     private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private Context mContext = this;
+    private Toolbar mToolbar;
 
     private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("users/" + mFirebaseUser.getUid());
 
@@ -52,6 +54,8 @@ public class EditProfileActivity extends AppCompatActivity
         mSPhone = findViewById(R.id.edit_s_phone);
         mSubmit = findViewById(R.id.button_submit);
         mNotes = findViewById(R.id.edit_notes);
+        mToolbar = findViewById(R.id.toolbar_register_edit);
+        setSupportActionBar(mToolbar);
         //Fetch user information and set the fields
         fetchUser(mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes);
 
