@@ -13,14 +13,20 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeActivity extends AppCompatActivity
 {
     private static final String TAG = "HomeActivity";
     private Button mButtonPets, mButtonEditProfile, mButtonDeleteProfile;
     private android.support.v7.widget.Toolbar mToolbar;
+    private boolean isNewUser = false;
 
 
     @Override
@@ -63,6 +69,28 @@ public class HomeActivity extends AppCompatActivity
                 deleteProfileConfirmationDialog.show(getFragmentManager(), "delete_profile_dialog");
             }
         });
+
+        DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        if(!isNewUser)
+        {
+            Log.d(TAG, "Inside isNewUser conditional");
+
+            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+            {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
+                {
+                    if (!documentSnapshot.exists())
+                    {
+                        Log.d(TAG, "inside documentSnapshot conditional");
+                        Intent createProfileIntent = new Intent(HomeActivity.this, CreateProfileActivity.class);
+                        startActivity(createProfileIntent);
+                        isNewUser = true;
+                    }
+                }
+            });
+        }
+
 
 
     }
