@@ -105,7 +105,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "inside onComplete: " + task.isSuccessful());
 
-                if (task.isSuccessful()) {
+                if (task.isSuccessful())
+                {
                     //mProgressBar.setIndeterminate(false);
                     Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
                     sendVerificationEmail();
@@ -113,7 +114,10 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent registerActivityIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(registerActivityIntent);
                     finish();
-                } else {
+
+                }
+                else
+                    {
                     // mProgressBar.setIndeterminate(false);
                     Toast.makeText(RegisterActivity.this, "Unable to create account", Toast.LENGTH_SHORT).show();
                 }
