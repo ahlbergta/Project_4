@@ -70,7 +70,6 @@ public class HomeActivity extends AppCompatActivity
                 deleteProfileConfirmationDialog.show(getFragmentManager(), "delete_profile_dialog");
             }
         });
-<<<<<<< HEAD
         mButtonViewMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +77,6 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(viewMapActivity);
             }
         });
-=======
 
         if(!isNewUser)
         {
@@ -104,9 +102,6 @@ public class HomeActivity extends AppCompatActivity
                 });
             }
         }
-
-
->>>>>>> Tho
 
     }
 
