@@ -22,7 +22,7 @@ public class DeleteProfileConfirmationDialog extends DialogFragment
 {
     private static final String TAG = "DeleteProfileConfirmationDialog";
 
-    private Button mButtonConfirm;
+    private Button mButtonConfirm, mButtonCancel;
     private Context mContext;
 
     @Nullable
@@ -34,6 +34,7 @@ public class DeleteProfileConfirmationDialog extends DialogFragment
         mContext = getActivity();
 
         mButtonConfirm = view.findViewById(R.id.dialog_deletion_confirm);
+        mButtonCancel = view.findViewById(R.id.cancel_deletion_profile);
 
         mButtonConfirm.setOnClickListener(new View.OnClickListener()
         {
@@ -51,13 +52,22 @@ public class DeleteProfileConfirmationDialog extends DialogFragment
                             if(task.isSuccessful())
                             {
                                 Toast.makeText(mContext, "Profile Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                getDialog().dismiss();
                             }
                         }
                     });
                 }
             }
         });
+        mButtonCancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                getDialog().dismiss();
+            }
+        });
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
 }
