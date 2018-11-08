@@ -27,6 +27,7 @@ import java.util.Map;
 
 public class EditProfileActivity extends AppCompatActivity
 {
+<<<<<<< HEAD
     private static final String TAG = "EditProfileActivity";
 
     private EditText mEmail, mPAddress, mSAddress, mFirstName, mLastName, mPPhone, mSPhone, mNotes;
@@ -38,6 +39,11 @@ public class EditProfileActivity extends AppCompatActivity
     private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("users/" + mFirebaseUser.getUid());
 
 
+=======
+    private FirebaseAuth mAuth;
+    //private EditText;
+//tt
+>>>>>>> origin/Pradip
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
