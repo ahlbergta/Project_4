@@ -13,19 +13,26 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeActivity extends AppCompatActivity
 {
     private static final String TAG = "HomeActivity";
     private Button mButtonPets, mButtonEditProfile, mButtonDeleteProfile, mButtonViewMap;
     private android.support.v7.widget.Toolbar mToolbar;
+    private boolean isNewUser = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mButtonPets = findViewById(R.id.button_pets);
@@ -63,6 +70,7 @@ public class HomeActivity extends AppCompatActivity
                 deleteProfileConfirmationDialog.show(getFragmentManager(), "delete_profile_dialog");
             }
         });
+<<<<<<< HEAD
         mButtonViewMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +78,35 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(viewMapActivity);
             }
         });
+=======
+
+        if(!isNewUser)
+        {
+            if(FirebaseAuth.getInstance().getCurrentUser() != null)
+            {
+                DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                Log.d(TAG, "Inside isNewUser conditional");
+
+                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot)
+                    {
+                        if (!documentSnapshot.exists())
+                        {
+                            Log.d(TAG, "inside documentSnapshot conditional");
+                            Intent createProfileIntent = new Intent(HomeActivity.this, CreateProfileActivity.class);
+                            startActivity(createProfileIntent);
+                            isNewUser = true;
+                        }
+                    }
+                });
+            }
+        }
+
+
+>>>>>>> Tho
 
     }
 

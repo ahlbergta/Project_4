@@ -35,7 +35,6 @@ public class EditProfileActivity extends AppCompatActivity
     private Context mContext = this;
     private Toolbar mToolbar;
 
-    private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("users/" + mFirebaseUser.getUid());
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,21 +58,27 @@ public class EditProfileActivity extends AppCompatActivity
         fetchUser(mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes);
 
 
-
-        mSubmit.setOnClickListener(new View.OnClickListener()
+        if(mFirebaseUser != null)
         {
-            @Override
-            public void onClick(View view)
+            mSubmit.setOnClickListener(new View.OnClickListener()
             {
-                Map<String, Object> user = new HashMap<>();
 
-                updateUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
-                        mNotes, mContext);
-                Intent homeIntent = new Intent(EditProfileActivity.this, HomeActivity.class);
-                startActivity(homeIntent);
-                finish();
-            }
-        });
+                //private DocumentReference mDocumentReference = FirebaseFirestore.getInstance().document("users/" + mFirebaseUser.getUid());
+
+                @Override
+                public void onClick(View view)
+                {
+                    Map<String, Object> user = new HashMap<>();
+
+                    updateUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
+                            mNotes, mContext);
+                    Intent homeIntent = new Intent(EditProfileActivity.this, HomeActivity.class);
+                    startActivity(homeIntent);
+                    finish();
+                }
+
+            });
+        }
     }
     @Override
     //Creates the Option Menu at the top of the Home Activity
