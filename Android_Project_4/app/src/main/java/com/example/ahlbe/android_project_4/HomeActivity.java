@@ -70,25 +70,29 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         if(!isNewUser)
         {
-            Log.d(TAG, "Inside isNewUser conditional");
-
-            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+            if(FirebaseAuth.getInstance().getCurrentUser() != null)
             {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot)
+                DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                Log.d(TAG, "Inside isNewUser conditional");
+
+                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
                 {
-                    if (!documentSnapshot.exists())
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot)
                     {
-                        Log.d(TAG, "inside documentSnapshot conditional");
-                        Intent createProfileIntent = new Intent(HomeActivity.this, CreateProfileActivity.class);
-                        startActivity(createProfileIntent);
-                        isNewUser = true;
+                        if (!documentSnapshot.exists())
+                        {
+                            Log.d(TAG, "inside documentSnapshot conditional");
+                            Intent createProfileIntent = new Intent(HomeActivity.this, CreateProfileActivity.class);
+                            startActivity(createProfileIntent);
+                            isNewUser = true;
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
 
