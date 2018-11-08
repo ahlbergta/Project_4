@@ -6,6 +6,7 @@ package com.example.ahlbe.android_project_4;
 import android.*;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,8 +24,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
 
 
 public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback {
@@ -36,7 +41,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         if (mLocationPermissionsGranted) {
-            getDeviceLocation();
+            getDeviceLocation(googleMap);
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -69,9 +74,9 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         getLocationPermission();
     }
 
-    private void getDeviceLocation(){
+    private void getDeviceLocation(GoogleMap googleMap){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
-
+        final GoogleMap gm = googleMap;
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         try{
@@ -83,10 +88,26 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
+                            //Location currentLocation = (Location) task.getResult();
 
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    DEFAULT_ZOOM);
+                            //moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                            //        DEFAULT_ZOOM);
+
+                            ArrayList<LatLng> points = new ArrayList<LatLng>();
+                            points.add(new LatLng(33.58745654, -101.87612528));
+                            points.add(new LatLng(33.56745654, -101.85));
+                            points.add(new LatLng(33.54745654, -101.83));
+                            points.add(new LatLng(33.5145654, -101.81));
+                            LatLng point;
+                            Polyline line;
+
+                            PolylineOptions options = new PolylineOptions().width(5).color(Color.BLUE).geodesic(true);
+                            for (int i = 0; i < points.size(); i++) {
+                                point = points.get(i);
+                                options.add(point);
+                            }
+                            //addMarker(); //add Marker in current position
+                            line = mMap.addPolyline(options); //add Polyline
 
                         }else{
                             Log.d(TAG, "onComplete: current location is null");
