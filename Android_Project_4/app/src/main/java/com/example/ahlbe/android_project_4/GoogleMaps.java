@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -109,6 +110,14 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                             //add Marker in current position
                             moveCamera(new LatLng(33.5145654, -101.81),DEFAULT_ZOOM);
                             line = mMap.addPolyline(options); //add Polyline
+
+                            int i = 1;
+                            for(LatLng cor : points){
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(cor)
+                                        .title(""+i));
+                                i++;
+                            }
 // test
                         }else{
                             Log.d(TAG, "onComplete: current location is null");
