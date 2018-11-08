@@ -24,7 +24,6 @@ import static com.example.ahlbe.android_project_4.InputValidator.doPasswordMatch
 import static com.example.ahlbe.android_project_4.InputValidator.isEmpty;
 import static com.example.ahlbe.android_project_4.InputValidator.isPasswordStrong;
 
-
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
