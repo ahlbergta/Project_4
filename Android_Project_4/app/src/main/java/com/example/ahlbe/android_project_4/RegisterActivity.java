@@ -25,8 +25,7 @@ import static com.example.ahlbe.android_project_4.InputValidator.isEmpty;
 import static com.example.ahlbe.android_project_4.InputValidator.isPasswordStrong;
 
 
-public class RegisterActivity extends AppCompatActivity
-{
+public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
     //Declaring the Widgets
@@ -36,8 +35,7 @@ public class RegisterActivity extends AppCompatActivity
     //private ProgressBar mProgressBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         //Get all the Widgets
@@ -48,45 +46,30 @@ public class RegisterActivity extends AppCompatActivity
         mToolbar = findViewById(R.id.toolbar_register_edit);
         setSupportActionBar(mToolbar);
         //mProgressBar = findViewById(R.id.progress_register);
-        mRegister.setOnClickListener(new View.OnClickListener()
-        {
+        mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 Log.d(TAG, "click the button: Attempting to register user");
 
                 //Checking if EditText fields have been filled
-<<<<<<< HEAD
-                if (!isEmpty(mEmail.getText().toString())
-=======
-                if(!isEmpty(mEmail.getText().toString())
->>>>>>> Tho
-                        && !isEmpty(mPassword.getText().toString())
-                        && !isEmpty(mPasswordConfirm.getText().toString()))
-                {
-                    if (doPasswordMatch(mPassword.getText().toString(),
-                            mPasswordConfirm.getText().toString()))
-                    {
-                        if (isPasswordStrong(mPassword.getText().toString()))
-                        {
-<<<<<<< HEAD
 
-=======
+                if (!isEmpty(mEmail.getText().toString())
+                        && !isEmpty(mPassword.getText().toString())
+                        && !isEmpty(mPasswordConfirm.getText().toString())) {
+                    if (doPasswordMatch(mPassword.getText().toString(),
+                            mPasswordConfirm.getText().toString())) {
+                        if (isPasswordStrong(mPassword.getText().toString())) {
                             //mProgressBar.setIndeterminate(true);
->>>>>>> Tho
                             createAccount(mEmail.getText().toString(), mPassword.getText().toString());
-                        } else
-                        {
+                        } else {
                             Toast.makeText(RegisterActivity.this, "Password not strong enough. Make sure the password is 8" +
                                     "characters long and contains 1 number, 1 lower case letter, 1 upper case letter, and 1 special character", Toast.LENGTH_LONG).show();
 
                         }
-                    } else
-                    {
+                    } else {
                         Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                     }
-                } else
-                {
+                } else {
                     Toast.makeText(RegisterActivity.this, "You must fill out all fields", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -94,90 +77,67 @@ public class RegisterActivity extends AppCompatActivity
 
     }
 
-    /** This method takes the text input by the user in the EditText fields and call the Firebase createUser method in order
+    /**
+     * This method takes the text input by the user in the EditText fields and call the Firebase createUser method in order
      * to create the user. This method automatically authenticates a user, so the the Firebase
      * method signOut must be called the end. If the method was successfully, clear the activity stack and redirect user to
      * Login
      *
-     * @param email The text from the EditText in LoginActivity inputed by user.
+     * @param email    The text from the EditText in LoginActivity inputed by user.
      * @param password Text from the EditText in LoginActivity inputed by user.
      */
-    private void createAccount(String email, String password)
-    {
+    private void createAccount(String email, String password) {
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>()
-        {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task)
-            {
+            public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "inside onComplete:" + task.isSuccessful());
 
-                if (task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     Log.d(TAG, "inside isSuccessful" + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                } else
-                {
+                } else {
                     Toast.makeText(RegisterActivity.this, "Unable to create account", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>()
-        {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task)
-            {
+            public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "inside onComplete: " + task.isSuccessful());
 
-                if (task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     //mProgressBar.setIndeterminate(false);
                     Log.d(TAG, "inside isSuccessful " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-<<<<<<< HEAD
-                } else
-=======
                     sendVerificationEmail();
                     FirebaseAuth.getInstance().signOut();
                     Intent registerActivityIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(registerActivityIntent);
                     finish();
-                }
-                else
->>>>>>> Tho
-                {
-                   // mProgressBar.setIndeterminate(false);
+                } else {
+                    // mProgressBar.setIndeterminate(false);
                     Toast.makeText(RegisterActivity.this, "Unable to create account", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-<<<<<<< HEAD
-}
-=======
+
     //Firebase Method to send an verification to the user with the email they have registered.
-    private void sendVerificationEmail()
-    {
+    private void sendVerificationEmail() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser != null)
-        {
-            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
-            {
+        if (firebaseUser != null) {
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task)
-                {
-                    if (task.isSuccessful())
-                    {
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
                         Toast.makeText(RegisterActivity.this, "Sent Verification Email", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(RegisterActivity.this, "Couldn't send Verification Email", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
->>>>>>> Tho
-
+}
 
 

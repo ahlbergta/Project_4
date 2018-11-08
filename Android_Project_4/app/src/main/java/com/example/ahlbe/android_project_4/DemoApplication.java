@@ -32,6 +32,15 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
         beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
 
+        // Set beacon manager scan timing
+        beaconManager.setRegionStatePersistenceEnabled(false);
+        beaconManager.setForegroundBetweenScanPeriod(10001);   // 10000 ms
+//        beaconManager.setForegroundScanPeriod(2001);            // 200 ms
+//        beaconManager.setBackgroundBetweenScanPeriod(50001);
+//        beaconManager.setBackgroundScanPeriod();
+
+        beaconManager.setRangeNotifier(this);
+
         // Create the conan region
         Identifier conanNamespaceId = Identifier.parse("0x436f6e616e446f796c65");
         Region region = new Region("conan-region", conanNamespaceId, null, null);
@@ -40,7 +49,6 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
         regionBootstrap = new RegionBootstrap(this, region);
 
         backgroundPowerSaver = new BackgroundPowerSaver(this);
-        beaconManager.bind(this);
         Log.d("BLE_Background_Scanner", "End of onCreate");
     }
 
@@ -67,24 +75,26 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
     @Override
     public void didDetermineStateForRegion(int i, Region region) {
         Log.d("BLE_Background_Scanner", "In didDetermineStateForRegion, current state: " + i);
-        if(i==1){
-            didEnterRegion(region);
-        }
-        if(i==0){
-            didExitRegion(region);
-        }
+//        if(i==1){
+//            didEnterRegion(region);
+//        }
+//        if(i==0){
+//            didExitRegion(region);
+//        }
     }
 
     @Override
     public void onBeaconServiceConnect() {
         Log.d("BLE_Background_Scanner", "Beacon service ready");
-        beaconManager.setRangeNotifier(this);
+//        beaconManager.setRangeNotifier(this);
     }
 
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
         // Code for when Conan device is ranged
         Log.d("BLE_Background_Scanner", "Start beacon range callback");
-        alertManager = new AlertManager(this.getApplicationContext(), collection);
+        if(collection.size() > 0){
+            alertManager = new AlertManager(this.getApplicationContext(), collection);
+        }
     }
 }
