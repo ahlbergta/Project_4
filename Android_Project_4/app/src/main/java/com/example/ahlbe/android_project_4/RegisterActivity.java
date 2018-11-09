@@ -85,20 +85,10 @@ public class RegisterActivity extends AppCompatActivity {
      * @param email    The text from the EditText in LoginActivity inputed by user.
      * @param password Text from the EditText in LoginActivity inputed by user.
      */
-    private void createAccount(String email, String password) {
+    private void createAccount(String email, String password)
+    {
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d(TAG, "inside onComplete:" + task.isSuccessful());
 
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "inside isSuccessful" + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Unable to create account", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

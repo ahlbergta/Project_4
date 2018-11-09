@@ -125,6 +125,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
             public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
                 Log.d("GoogleMaps", "In query callback");
                 points = new ArrayList<LatLng>();
+
                 for (QueryDocumentSnapshot i: queryDocumentSnapshots) {
                     GeoPoint location = (GeoPoint) i.get("location");
                     Log.d("GoogleMaps", "Location: " + location);
