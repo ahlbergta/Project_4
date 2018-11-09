@@ -93,10 +93,11 @@ public class HomeActivity extends AppCompatActivity
                     {
                         if (!documentSnapshot.exists())
                         {
+                            isNewUser = true;
                             Log.d(TAG, "inside documentSnapshot conditional");
                             Intent createProfileIntent = new Intent(HomeActivity.this, CreateProfileActivity.class);
                             startActivity(createProfileIntent);
-                            isNewUser = true;
+
                         }
                     }
                 });
