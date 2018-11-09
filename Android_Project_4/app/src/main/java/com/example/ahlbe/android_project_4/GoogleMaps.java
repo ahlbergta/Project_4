@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,17 +41,20 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback {
+public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
+{
     private ArrayList<LatLng> points;
     private FirebaseFirestore db;
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
 
-        if (mLocationPermissionsGranted) {
+        if (mLocationPermissionsGranted)
+        {
             getDeviceLocation(googleMap);
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -77,14 +81,40 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            // Permission is not granted
+        }
+        else
+        {
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+            mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>()
+            {
+                @Override
+                public void onSuccess(Location location)
+                {
 
+
+                    Log.d(TAG, "inThe onSuccess " + location.getLatitude() + location.getLongitude() + DEFAULT_ZOOM);
+                    if(mMap != null)
+                    {
+                        moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM);
+                    }
+                }
+            });
+
+        }
         Log.d("GoogleMaps", "In on create");
 
         points = new ArrayList<LatLng>();
 
         // Test Conan ID
         String conanID = "0x4a72b2b79943";
+
+
 
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
@@ -108,23 +138,29 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         getLocationPermission();
     }
 
-    private void getDeviceLocation(GoogleMap googleMap){
+    private void getDeviceLocation(GoogleMap googleMap)
+    {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
         final GoogleMap gm = googleMap;
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        try{
-            if(mLocationPermissionsGranted){
+        try
+        {
+            if(mLocationPermissionsGranted)
+            {
 
                 final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
+                location.addOnCompleteListener(new OnCompleteListener()
+                {
                     @Override
-                    public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()){
+                    public void onComplete(@NonNull Task task)
+                    {
+                        if(task.isSuccessful())
+                        {
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
 
-                            //moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                            //moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
                             //        DEFAULT_ZOOM);
                             LatLng point;
                             Polyline line;
@@ -135,21 +171,24 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                                 options.add(point);
                             }
                             //add Marker in current position
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),DEFAULT_ZOOM);
+                            //moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),DEFAULT_ZOOM);
                             line = mMap.addPolyline(options); //add Polyline
 
                             int i = 1;
-                            for(LatLng cor : points){
+                            for(LatLng cor : points)
+                            {
                                 mMap.addMarker(new MarkerOptions()
                                         .position(cor)
                                         .title(""+i));
                                 i++;
                             }
 // test
-                        }else{
+                        }
+                        else
+                            {
                             Log.d(TAG, "onComplete: current location is null");
                             Toast.makeText(GoogleMaps.this, "unable to get current location", Toast.LENGTH_SHORT).show();
-                        }
+                            }
                     }
                 });
             }
@@ -158,8 +197,11 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom){
+    private void moveCamera(LatLng latLng, float zoom)
+    {
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+        Log.d(TAG, "zoom " + zoom);
+        Log.d(TAG, "mMap object" + mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
@@ -170,27 +212,33 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         mapFragment.getMapAsync(GoogleMaps.this);
     }
 
-    private void getLocationPermission(){
+    private void getLocationPermission()
+    {
         Log.d(TAG, "getLocationPermission: getting location permissions");
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
 
         if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
             if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            {
                 mLocationPermissionsGranted = true;
                 initMap();
-            }else{
-                ActivityCompat.requestPermissions(this,
-                        permissions,
-                        LOCATION_PERMISSION_REQUEST_CODE);
             }
-        }else{
+            else
+                {
+                ActivityCompat.requestPermissions(this, permissions,
+                        LOCATION_PERMISSION_REQUEST_CODE);
+                }
+        }
+        else
+            {
             ActivityCompat.requestPermissions(this,
                     permissions,
                     LOCATION_PERMISSION_REQUEST_CODE);
-        }
+            }
     }
 
     @Override

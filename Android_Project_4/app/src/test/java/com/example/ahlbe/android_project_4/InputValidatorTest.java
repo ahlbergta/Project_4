@@ -24,7 +24,7 @@ public class InputValidatorTest
     @Test
     public void isPasswordStrong()
     {
-        Assert.assertTrue(InputValidator.isPasswordStrong("201823"));
-        Assert.assertFalse(InputValidator.isPasswordStrong("20390000"));
+        Assert.assertTrue(InputValidator.isPasswordStrong("20182300ppp"));
+        Assert.assertFalse(InputValidator.isPasswordStrong("200202"));
     }
 }

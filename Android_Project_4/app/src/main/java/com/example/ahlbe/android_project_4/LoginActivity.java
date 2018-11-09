@@ -112,6 +112,13 @@ public class LoginActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onResume()
+    {
+        PermissionManager.getLocationPermission(this);
+        super.onResume();
+    }
+
     /** This method takes the text input by the user in the EditText fields and call the Firebase signIn method in order
      * to authenticate the user.
      *

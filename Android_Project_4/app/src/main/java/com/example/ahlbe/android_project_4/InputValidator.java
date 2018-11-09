@@ -33,11 +33,9 @@ public class InputValidator
     protected static boolean isPasswordStrong(String password)
     {
         //Still needs updating
-        String pattern = "^(?=.*[0-9])" + //At least one digit
-                "(?=.*[a-z])" +           //At least one lower case letter
-                "(?=.*[A-Z])" +           //At least one upper case letter
-                "(?=.*[@#$%^&+=])" +      //At least one special character
-                ".{8,}$";
+        String pattern = //At least one digit
+//                "^[^;]" + //At least one lower case letter
+                "^.{8,}$";
         return password.matches(pattern);
 
     }
