@@ -49,7 +49,7 @@ public class AlertManager implements LocationListener {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         try {
             Log.d("AlertManager", "Requesting location update");
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 20, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 50, this);
         } catch(SecurityException e) {
             e.printStackTrace();
         }
