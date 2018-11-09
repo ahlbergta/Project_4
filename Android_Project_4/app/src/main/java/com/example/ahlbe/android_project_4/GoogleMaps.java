@@ -185,7 +185,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
                                         .icon(BitmapDescriptorFactory
                                         .defaultMarker(hue)));
                                 i++;
-                                hue += 1;
+                                hue += 10.5;
                             }
 // test
                         }
