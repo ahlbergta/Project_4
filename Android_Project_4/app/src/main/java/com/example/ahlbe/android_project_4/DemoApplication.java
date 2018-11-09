@@ -2,7 +2,12 @@ package com.example.ahlbe.android_project_4;
 
 import android.app.Application;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -49,7 +54,26 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
         regionBootstrap = new RegionBootstrap(this, region);
 
         backgroundPowerSaver = new BackgroundPowerSaver(this);
+
+        // TEST CODE
+        // Subscribe to conanID
+        subscribe();
+
         Log.d("BLE_Background_Scanner", "End of onCreate");
+    }
+
+    private void subscribe(){
+        FirebaseMessaging.getInstance().subscribeToTopic("0x4a72b2b79943")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+//                        String msg = getString(R.string.msg_subscribed);
+//                        if (!task.isSuccessful()) {
+//                            msg = getString(R.string.msg_subscribe_failed);
+//                        }
+                        Log.d("Subscribe", "In subscription callback listener");
+                    }
+                });
     }
 
     @Override
