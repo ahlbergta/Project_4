@@ -87,12 +87,6 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void createAccount(String email, String password)
     {
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> e32b4f897154fe24aab5d73302beb4749d645aa3
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
