@@ -23,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -43,8 +44,23 @@ import java.util.Date;
 
 public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
 {
-    private ArrayList<LatLng> points;
+    private ArrayList<LatLng> points = new ArrayList<LatLng>();
     private FirebaseFirestore db;
+    private static final String TAG = "GoogleMaps";
+
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final float DEFAULT_ZOOM = 15f;
+    // Test Conan ID
+    String conanID = "0x4a72b2b79943";
+
+
+    //vars
+    private Boolean mLocationPermissionsGranted = false;
+    private GoogleMap mMap;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+
 
     @Override
     public void onMapReady(GoogleMap googleMap)
@@ -55,7 +71,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
 
         if (mLocationPermissionsGranted)
         {
-            getDeviceLocation(googleMap);
+            getDeviceLocation();
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -68,17 +84,6 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private static final String TAG = "GoogleMaps";
-
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15f;
-
-    //vars
-    private Boolean mLocationPermissionsGranted = false;
-    private GoogleMap mMap;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -109,10 +114,6 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
         }
         Log.d("GoogleMaps", "In on create");
 
-        points = new ArrayList<LatLng>();
-
-        // Test Conan ID
-        String conanID = "0x4a72b2b79943";
 
 
 
@@ -124,13 +125,13 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
             public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
                 Log.d("GoogleMaps", "In query callback");
                 points = new ArrayList<LatLng>();
-                for (QueryDocumentSnapshot i:queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot i: queryDocumentSnapshots) {
                     GeoPoint location = (GeoPoint) i.get("location");
                     Log.d("GoogleMaps", "Location: " + location);
                     points.add(new LatLng(location.getLatitude(), location.getLongitude()));
                 }
                 // Update map after all points have been added
-                getDeviceLocation(mMap);
+                getDeviceLocation();
             }
         });
 
@@ -138,10 +139,10 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
         getLocationPermission();
     }
 
-    private void getDeviceLocation(GoogleMap googleMap)
+    private void getDeviceLocation()
     {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
-        final GoogleMap gm = googleMap;
+        //final GoogleMap gm = googleMap;
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         try
@@ -175,12 +176,16 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
                             line = mMap.addPolyline(options); //add Polyline
 
                             int i = 1;
+                            float hue = 120;
                             for(LatLng cor : points)
                             {
                                 mMap.addMarker(new MarkerOptions()
                                         .position(cor)
-                                        .title(""+i));
+                                        .title(""+i)
+                                        .icon(BitmapDescriptorFactory
+                                        .defaultMarker(hue)));
                                 i++;
+                                hue += 1;
                             }
 // test
                         }
