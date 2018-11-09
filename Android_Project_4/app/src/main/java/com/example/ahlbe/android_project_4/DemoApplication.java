@@ -23,6 +23,8 @@ import org.altbeacon.beacon.startup.RegionBootstrap;
 import java.util.Collection;
 
 public class DemoApplication extends Application implements BootstrapNotifier, BeaconConsumer, RangeNotifier {
+    private static final String ROCKET_ID = "0xd38dd9b09451";
+    private static final String GROOT_ID = "0x4a72b2b79943";
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
@@ -57,13 +59,14 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
 
         // TEST CODE
         // Subscribe to conanID
-        subscribe();
+//        subscribe(ROCKET_ID);
+//        subscribe(GROOT_ID);
 
         Log.d("BLE_Background_Scanner", "End of onCreate");
     }
 
-    private void subscribe(){
-        FirebaseMessaging.getInstance().subscribeToTopic("0x4a72b2b79943")
+    private void subscribe(String id){
+        FirebaseMessaging.getInstance().subscribeToTopic(id)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
