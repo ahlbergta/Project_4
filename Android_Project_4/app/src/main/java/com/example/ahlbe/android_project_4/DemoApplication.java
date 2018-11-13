@@ -43,7 +43,7 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
         beaconManager.setRegionStatePersistenceEnabled(false);
         beaconManager.setForegroundBetweenScanPeriod(30001);   // 3000 ms
         beaconManager.setForegroundScanPeriod(BeaconManager.DEFAULT_FOREGROUND_SCAN_PERIOD);
-//        beaconManager.setBackgroundBetweenScanPeriod(50001);
+        beaconManager.setBackgroundBetweenScanPeriod(30001);
         beaconManager.setBackgroundScanPeriod(BeaconManager.DEFAULT_FOREGROUND_SCAN_PERIOD);
 
         beaconManager.setRangeNotifier(this);
