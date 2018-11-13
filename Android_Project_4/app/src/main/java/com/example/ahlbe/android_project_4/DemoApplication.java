@@ -42,9 +42,9 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
         // Set beacon manager scan timing
         beaconManager.setRegionStatePersistenceEnabled(false);
         beaconManager.setForegroundBetweenScanPeriod(30001);   // 3000 ms
-//        beaconManager.setForegroundScanPeriod(2001);            // 200 ms
+        beaconManager.setForegroundScanPeriod(BeaconManager.DEFAULT_FOREGROUND_SCAN_PERIOD);
 //        beaconManager.setBackgroundBetweenScanPeriod(50001);
-//        beaconManager.setBackgroundScanPeriod();
+        beaconManager.setBackgroundScanPeriod(BeaconManager.DEFAULT_FOREGROUND_SCAN_PERIOD);
 
         beaconManager.setRangeNotifier(this);
 
@@ -81,7 +81,7 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
 
     @Override
     public void didEnterRegion(Region region) {
-        Log.d("BLE_Background_Scanner", "Conan beacon found, starting beacon ranging");
+        Log.d("BLE_Background_Scanner", "Conan beacon found: " + region.getId2());
         try{
             beaconManager.startRangingBeaconsInRegion(region);
         } catch(RemoteException e) {
