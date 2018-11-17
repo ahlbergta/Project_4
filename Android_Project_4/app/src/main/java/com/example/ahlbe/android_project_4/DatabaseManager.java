@@ -25,14 +25,16 @@ import java.util.Map;
 /**
  * Database Class to handle Adding and Fetching Data in Firestore.
  */
-class DatabaseManager
-{
+public class DatabaseManager {
     private static final String TAG = "DatabaseManagerClass";
     private static FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+//    --------------- Test Code
     private static int PET_STATUS = 0;
     private static final Timestamp PET_LAST_SAFE = new Timestamp(12, 12);
     private static final boolean NOTIFY_PING_USER = false;
     private static final ArrayList<String> OWNERS = new ArrayList<>();
+//    --------------- End Test Code
 
 
 
@@ -102,14 +104,14 @@ class DatabaseManager
                            EditText notes, final Context context)
     {
         DocumentReference mDocumentReference = FirebaseFirestore.getInstance().collection("Users").document(mFirebaseUser.getUid());
-        user.put(Resources.getSystem().getString(R.string.user_first_name), email.getText().toString());
-        user.put(Resources.getSystem().getString(R.string.user_last_name), first.getText().toString());
-        user.put(Resources.getSystem().getString(R.string.user_email), last.getText().toString());
-        user.put(Resources.getSystem().getString(R.string.user_primary_phone), pPhone.getText().toString());
-        user.put(Resources.getSystem().getString(R.string.user_secondary_address), sPhone.getText().toString());
-        user.put(Resources.getSystem().getString(R.string.user_primary_phone), pAddress.getText().toString());
-        user.put(Resources.getSystem().getString(R.string.user_secondary_address),s_address.getText().toString());
-        user.put(Resources.getSystem().getString(R.string.user_notes), notes.getText().toString());
+        user.put(context.getString(R.string.user_first_name), email.getText().toString());
+        user.put(context.getString(R.string.user_last_name), first.getText().toString());
+        user.put(context.getString(R.string.user_email), last.getText().toString());
+        user.put(context.getString(R.string.user_primary_phone), pPhone.getText().toString());
+        user.put(context.getString(R.string.user_secondary_address), sPhone.getText().toString());
+        user.put(context.getString(R.string.user_primary_phone), pAddress.getText().toString());
+        user.put(context.getString(R.string.user_secondary_address),s_address.getText().toString());
+        user.put(context.getString(R.string.user_notes), notes.getText().toString());
         mDocumentReference.update(user).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override
@@ -173,24 +175,23 @@ class DatabaseManager
                        boolean petSafe, final EditText conanID)
     {
         OWNERS.add(mFirebaseUser.getUid());
-        String test = Resources.getSystem().getString(R.string.pet_name);
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Pets");
-        pet.put(test, petName.getText().toString());
-        pet.put(Resources.getSystem().getString(R.string.pet_notes), petNotes.getText().toString());
-        pet.put(Resources.getSystem().getString(R.string.pet_conan_id), conanID.getText().toString());
+        pet.put(context.getString(R.string.pet_name), petName.getText().toString());
+        pet.put(context.getString(R.string.pet_notes), petNotes.getText().toString());
+        pet.put(context.getString(R.string.pet_conan_id), conanID.getText().toString());
         if(petSafe)
         {
-            pet.put(Resources.getSystem().getString(R.string.pet_status), PET_STATUS);
+            pet.put(context.getString(R.string.pet_status), PET_STATUS);
         }
         else
         {
             PET_STATUS = 1;
-            pet.put(Resources.getSystem().getString(R.string.pet_status), PET_STATUS);
+            pet.put(context.getString(R.string.pet_status), PET_STATUS);
         }
-        pet.put(Resources.getSystem().getString(R.string.pet_status), PET_STATUS);
-        pet.put(Resources.getSystem().getString(R.string.pet_last_safe), PET_LAST_SAFE);
-        pet.put(Resources.getSystem().getString(R.string.pet_last_safe), NOTIFY_PING_USER);
-        pet.put(Resources.getSystem().getString(R.string.pet_owners), OWNERS);
+        pet.put(context.getString(R.string.pet_status), PET_STATUS);
+        pet.put(context.getString(R.string.pet_last_safe), PET_LAST_SAFE);
+        pet.put(context.getString(R.string.pet_last_safe), NOTIFY_PING_USER);
+        pet.put(context.getString(R.string.pet_owners), OWNERS);
 
         collectionReference.add(pet).addOnCompleteListener(new OnCompleteListener<DocumentReference>()
         {
