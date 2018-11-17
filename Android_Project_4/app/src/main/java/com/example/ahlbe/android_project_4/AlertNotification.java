@@ -8,8 +8,6 @@ import android.support.v4.app.NotificationCompat;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 public class AlertNotification {
     private static final CharSequence CHANNEL_NAME = "PawPrints_Alert_Channel";
     private static final String CHANNEL_ID = "C12345";
