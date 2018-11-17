@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,11 +25,14 @@ import static com.example.ahlbe.android_project_4.DatabaseManager.addPet;
 
 public class CreatePetProfileActivity extends AppCompatActivity
 {
+    private static final String CONAN_ID = "0xd38dd9b09451";
+    private static boolean PET_SAFE = true;
     private static final String TAG = "CreatePetActivity";
     private Button mSubmit;
+    private ToggleButton mPetStatus;
     private LayoutInflater mLayoutInflater;
     private LinearLayout mLinearLayout;
-    private EditText mPetName, mPetNotes;
+    private EditText mPetName, mPetNotes, mConanID;
     private Context mContext = this;
 
 
@@ -45,6 +49,10 @@ public class CreatePetProfileActivity extends AppCompatActivity
         mSubmit = findViewById(R.id.button_submit_pet_profile);
         mPetName = findViewById(R.id.edit_pet_name);
         mPetNotes = findViewById(R.id.edit_pet_notes);
+        mPetStatus = findViewById(R.id.toggle_pet_status);
+        mConanID = findViewById(R.id.edit_conanID);
+        mConanID.setText(CONAN_ID);
+
 
         mSubmit.setOnClickListener(new View.OnClickListener()
         {
@@ -55,9 +63,12 @@ public class CreatePetProfileActivity extends AppCompatActivity
 //                mButton.setText(mPetName.getText().toString());
 //                mLinearLayout.addView(mButton);
 
-
+                if(mPetStatus.isChecked())
+                {
+                    PET_SAFE = false;
+                }
                 Map<String, Object> pet = new HashMap<>();
-                addPet(pet, mPetName, mPetNotes, mContext);
+                addPet(pet, mPetName, mPetNotes, mContext,PET_SAFE, mConanID);
                 Log.d(TAG, "This is the Linear Layout thingy " + mLinearLayout);
                 Intent petIntent = new Intent(CreatePetProfileActivity.this, HomeActivity.class);
                 startActivity(petIntent);

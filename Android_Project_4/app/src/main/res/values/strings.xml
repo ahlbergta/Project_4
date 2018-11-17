@@ -51,6 +51,8 @@
     <!--Create Pets Strings-->
     <string name="dialog_pet_name">Pets Name</string>
     <string name="dialog_pet_notes">Pet Notes</string>
+    <string name="dialog_pet_conanID">Conan ID</string>
+    <string name="dialog_pet_status">Pet Status</string>
 
     <!--Confirm Profile Deletion-->
     <string name="dialog_delete_confirmation">Profile Deletion</string>

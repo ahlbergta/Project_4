@@ -64,6 +64,7 @@ public class PawPrints_Application extends Application implements BootstrapNotif
 
         // Create the conan region
         Identifier conanNamespaceId = Identifier.parse(getString(R.string.conan_namespace));
+        Log.d(TAG, conanNamespaceId.toString());
         Region region = new Region("conan-region", conanNamespaceId, null, null);
 
         // Create the region bootstrap using the region
