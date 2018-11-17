@@ -23,9 +23,14 @@ import org.altbeacon.beacon.startup.RegionBootstrap;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DemoApplication extends Application implements BootstrapNotifier, BeaconConsumer, RangeNotifier {
+public class PawPrints_Application extends Application implements BootstrapNotifier, BeaconConsumer, RangeNotifier {
+    private static final String TAG = "PawPrints_Application";
+
+//    --------------------- Test Code
     private static final String ROCKET_ID = "0xd38dd9b09451";
     private static final String GROOT_ID = "0x4a72b2b79943";
+//    --------------------- End Test Code
+
     private static final int CONAN_RANGING_NOTIFICATION_ID = 101;
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
@@ -35,7 +40,7 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
 
     @Override
     public void onCreate() {
-        Log.d("BLE_Background_Scanner", "Start of onCreate");
+        Log.d(TAG, "Start of onCreate");
         super.onCreate();
 
         conanCache = new ArrayList<>();
@@ -58,7 +63,7 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
         beaconManager.addRangeNotifier(this);
 
         // Create the conan region
-        Identifier conanNamespaceId = Identifier.parse("0x436f6e616e446f796c65");
+        Identifier conanNamespaceId = Identifier.parse(getString(R.string.conan_namespace));
         Region region = new Region("conan-region", conanNamespaceId, null, null);
 
         // Create the region bootstrap using the region
@@ -72,11 +77,11 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
         SubscriptionManager.subscribe(ROCKET_ID);
         // ------------------ END TEST CODE
 
-        Log.d("BLE_Background_Scanner", "End of onCreate");
+        Log.d(TAG, "End of onCreate");
     }
 
     private void ForegroundRangingSetup(){
-        Log.d("BLE_Background_Scanner", "In ForegroundRangingSetup");
+        Log.d(TAG, "In ForegroundRangingSetup");
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground);
         builder.setContentTitle("Scanning for Conan beacons");
@@ -95,7 +100,7 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
 
     @Override
     public void didEnterRegion(Region region) {
-        Log.d("BLE_Background_Scanner", "Conan beacon found");
+        Log.d(TAG, "Conan beacon found");
         try{
             //Start background scanning service
             beaconManager.startRangingBeaconsInRegion(region);
@@ -106,7 +111,7 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
 
     @Override
     public void didExitRegion(Region region) {
-        Log.d("BLE_Background_Scanner", "No Conan beacons found, ending beacon ranging");
+        Log.d(TAG, "No Conan beacons found, ending beacon ranging");
         try{
             beaconManager.stopRangingBeaconsInRegion(region);
         } catch(RemoteException e) {
@@ -116,18 +121,18 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
 
     @Override
     public void didDetermineStateForRegion(int i, Region region) {
-        Log.d("BLE_Background_Scanner", "In didDetermineStateForRegion, current state: " + i);
+        Log.d(TAG, "In didDetermineStateForRegion, current state: " + i);
     }
 
     @Override
     public void onBeaconServiceConnect() {
-        Log.d("BLE_Background_Scanner", "Beacon service ready");
+        Log.d(TAG, "Beacon service ready");
     }
 
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
         // Code for when Conan device is ranged
-        Log.d("BLE_Background_Scanner", "Start beacon range callback");
+        Log.d(TAG, "Start beacon range callback");
 
         // Remove beacon from collection if it is in the cache, otherwise add it to the cache
         ArrayList<String> newCache = new ArrayList<>();
@@ -137,13 +142,13 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
             // Only keep cached ids that are in the collection
             if(conanCache.contains(id)) {
                 // Remove beacons from the collection that are in the cache, add the id to the updated cache
-                Log.d("BLE_Background_Scanner", "Cached beacon found: " + id);
+                Log.d(TAG, "Cached beacon found: " + id);
                 newCache.add(id);
                 collection.remove(beacon);
             }
             else {
                 // Add a new beacon to the cache
-                Log.d("BLE_Background_Scanner", "New beacon found: " + id);
+                Log.d(TAG, "New beacon found: " + id);
                 newCache.add(id);
             }
         }
@@ -154,7 +159,7 @@ public class DemoApplication extends Application implements BootstrapNotifier, B
             alertManager = new AlertManager(this.getApplicationContext(), collection);
         }
         else {
-
+            // Decrease scan rate if there are no beacons in the collection
         }
     }
 }
