@@ -1,7 +1,5 @@
 package com.example.ahlbe.android_project_4;
 
-import android.Manifest;
-import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Location;
@@ -17,7 +15,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.model.Document;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -72,15 +69,15 @@ public class AlertManager implements LocationListener {
             // Create and add alert to database
             Map<String, Object> alert = new HashMap<>();
             GeoPoint pointLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-            alert.put("location", pointLocation);
-            alert.put("time", time);
-            alert.put("conanID", conanID);
+            alert.put(Resources.getSystem().getString(R.string.alert_location), pointLocation);
+            alert.put(Resources.getSystem().getString(R.string.alert_time), time);
+            alert.put(Resources.getSystem().getString(R.string.alert_conan_id), conanID);
 
             Log.d(TAG, "Adding alert: " + alert.toString());
-            db.collection("Alerts").add(alert);
+            db.collection(Resources.getSystem().getString(R.string.alert_collection)).add(alert);
 
             // Generate notification if pet is lost
-            db.collection("Pets").whereEqualTo("conanID", conanID).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            db.collection(Resources.getSystem().getString(R.string.pet_collection)).whereEqualTo(Resources.getSystem().getString(R.string.pet_conan_id), conanID).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     Log.d(TAG, "Query complete");
@@ -91,12 +88,12 @@ public class AlertManager implements LocationListener {
                         Object notify = pet.get(Resources.getSystem().getString(R.string.pet_notify));
                         if(status != null && notify != null){
                             if((int) status == 1 && (boolean) notify == true){
-                                String pet_name = (String) pet.get("pName");
-                                String pet_notes = (String) pet.get("pNotes");
-                                Log.d("ProximalNotification", pet_name + " is lost! Creating alert notification");
+                                String pet_name = (String) pet.get(Resources.getSystem().getString(R.string.pet_name));
+                                String pet_notes = (String) pet.get(Resources.getSystem().getString(R.string.pet_notes));
+                                Log.d(TAG, pet_name + " is lost! Creating alert notification");
                                 AlertNotification notification = new AlertNotification(context);
                                 notification.Notify(pet_name, pet_notes);
-                                Log.d("ProximalNotification", "Notification has been created");
+                                Log.d(TAG, "Notification has been created");
                             }
                         }
                     }

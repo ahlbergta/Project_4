@@ -32,6 +32,8 @@ public class PawPrints_Application extends Application implements BootstrapNotif
 //    --------------------- End Test Code
 
     private static final int CONAN_RANGING_NOTIFICATION_ID = 101;
+    private static final long SCAN_RATE_MAX = 0;
+    private static final long SCAN_RATE_MIN = 30000;
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
@@ -52,12 +54,12 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         // Enable foreground BLE scanning by setting a notification
         ForegroundRangingSetup();
 
-        // Set beacon manager scan timing
+        // Set beacon manager initial scan timing
         beaconManager.setEnableScheduledScanJobs(false);
         beaconManager.setRegionStatePersistenceEnabled(false);
-        beaconManager.setForegroundBetweenScanPeriod(0);
+        beaconManager.setForegroundBetweenScanPeriod(SCAN_RATE_MAX);
         beaconManager.setForegroundScanPeriod(BeaconManager.DEFAULT_FOREGROUND_SCAN_PERIOD);
-        beaconManager.setBackgroundBetweenScanPeriod(0);
+        beaconManager.setBackgroundBetweenScanPeriod(SCAN_RATE_MAX);
         beaconManager.setBackgroundScanPeriod(BeaconManager.DEFAULT_FOREGROUND_SCAN_PERIOD);
 
         beaconManager.addRangeNotifier(this);
@@ -88,8 +90,7 @@ public class PawPrints_Application extends Application implements BootstrapNotif
 
         // Create notification channel if version is Oreo or higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("Conan Ranging Channel",
-                    "Conan ranging notification channel", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel("Conan Ranging Channel", "Conan ranging notification channel", NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription("Channel for notifying users of background BLE Conan scanning");
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
@@ -152,14 +153,33 @@ public class PawPrints_Application extends Application implements BootstrapNotif
                 newCache.add(id);
             }
         }
+        // Update the Conan ID cache
         conanCache = newCache;
 
         // If there are any beacons in the collection create alerts for them
         if(collection.size() > 0){
+            Log.d(TAG, "New beacons detected, creating alerts and setting max scan rate");
+
+            // Set max scan rate
+            beaconManager.setForegroundBetweenScanPeriod(SCAN_RATE_MIN);
+            beaconManager.setBackgroundBetweenScanPeriod(SCAN_RATE_MIN);
+            try{
+                beaconManager.updateScanPeriods();
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
             alertManager = new AlertManager(this.getApplicationContext(), collection);
         }
         else {
-            // Decrease scan rate if there are no beacons in the collection
+            Log.d(TAG, "No new beacons detected, decreasing scan rate to " + SCAN_RATE_MIN + "ms");
+            // Set min scan rate and update the beacon manager
+            beaconManager.setForegroundBetweenScanPeriod(SCAN_RATE_MIN);
+            beaconManager.setBackgroundBetweenScanPeriod(SCAN_RATE_MIN);
+            try{
+                beaconManager.updateScanPeriods();
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
         }
     }
 }
