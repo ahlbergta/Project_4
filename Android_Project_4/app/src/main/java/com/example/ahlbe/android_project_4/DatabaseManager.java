@@ -56,7 +56,7 @@ public class DatabaseManager {
      * @param notes
      * @param context Context passed from the Activity to create a Toast
      */
-    public void addUser(Map<String, String> user, EditText email, EditText first, EditText last,
+    static void addUser(Map<String, String> user, EditText email, EditText first, EditText last,
                         EditText pPhone, EditText sPhone, EditText pAddress, EditText s_address,
                         EditText notes, final Context context)
     {
@@ -148,7 +148,7 @@ public class DatabaseManager {
      * @param s_address
      * @param notes
      */
-    public void fetchUser(final EditText email, final EditText first, final EditText last,
+    static void fetchUser(final EditText email, final EditText first, final EditText last,
                           final EditText pPhone, final EditText sPhone, final EditText pAddress, final EditText s_address,
                           final EditText notes)
     {
