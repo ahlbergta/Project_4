@@ -154,6 +154,7 @@ public class LoginActivity extends AppCompatActivity
      */
     private void settingFirebaseAuthListener()
     {
+        Log.d(TAG, "setupAuthListen");
         mAuthStateListener = new FirebaseAuth.AuthStateListener()
         {
             @Override

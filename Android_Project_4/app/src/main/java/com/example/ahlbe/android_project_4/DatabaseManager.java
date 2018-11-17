@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -25,7 +27,13 @@ import java.util.Map;
 class DatabaseManager
 {
     private static final String TAG = "DatabaseManagerClass";
-    static FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private static FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private static final int PET_STATUS = 0;
+    private static final String CONAN_ID = "0xd38dd9b09451";
+    private static final Timestamp PET_LAST_SAFE = new Timestamp(12, 12);
+    private static final boolean NOTIFY_PING_USER = false;
+    private static final ArrayList<String> OWNERS = new ArrayList<>();
+
 
 
     /**
@@ -126,7 +134,6 @@ class DatabaseManager
      * fetchUser Method takes the data from the profile in Firestore and sets the text in the EditText view in
      * the EditProfileActivity. This is to indicate what the user's data has stored in the database.
      *
-     * @param user  HashMap to add the key-value pairs to add to Firebase
      * @param email text input from user in the EditText View. Same for the rest below.
      * @param first
      * @param last
@@ -135,7 +142,6 @@ class DatabaseManager
      * @param pAddress
      * @param s_address
      * @param notes
-     * @param context Context passed from the Activity to create a Toast
      */
     static void fetchUser(final EditText email, final EditText first, final EditText last,
                           final EditText pPhone, final EditText sPhone, final EditText pAddress, final EditText s_address,
@@ -161,6 +167,39 @@ class DatabaseManager
                 }
             }
         });
+
+    }
+    static void addPet(Map<String, Object> pet, final EditText petName, final EditText petNotes, final Context context)
+    {
+        OWNERS.add(mFirebaseUser.getUid());
+        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Pets");
+        pet.put("pName", petName.getText().toString());
+        pet.put("pNotes", petNotes.getText().toString());
+        pet.put("status", PET_STATUS);
+        pet.put("pLastSafe", PET_LAST_SAFE);
+        pet.put("notifyPingedUser", NOTIFY_PING_USER);
+        pet.put("conanID", CONAN_ID);
+        pet.put("owners", OWNERS);
+
+        collectionReference.add(pet).addOnCompleteListener(new OnCompleteListener<DocumentReference>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task)
+            {
+                Log.d(TAG, "Inside on complete");
+                Toast.makeText(context, "Pet added Successfully", Toast.LENGTH_SHORT).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                Log.d(TAG, "Inside onFailure: Failed to add pet");
+            }
+        });
+
+
 
     }
 
