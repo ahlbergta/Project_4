@@ -87,14 +87,14 @@ public class AlertManager implements LocationListener {
                         DocumentSnapshot pet = query.getDocuments().get(0);
                         Log.d("ProximalNotification", "Pet Name: " + pet.get("pName"));
                         Log.d("ProximalNotification", "Pet Name: " + pet.get("pNotes"));
-                        //if((int) pet.get("status") == 1){
+                        if(pet.get("status") == 1 && pet.get("notifyPingedUser") == true){
                             String pet_name = (String) pet.get("pName");
                             String pet_notes = (String) pet.get("pNotes");
                             Log.d("ProximalNotification", pet_name + " is lost! Creating alert notification");
                             AlertNotification notification = new AlertNotification(context);
                             notification.Notify(pet_name, pet_notes);
                             Log.d("ProximalNotification", "Notification has been created");
-                        //}
+                        }
                     }
                     else if(query.size() == 0){
                         Log.d("ProximalNotification", "Error: pet profile with conan ID: " + conanID + " not found");
