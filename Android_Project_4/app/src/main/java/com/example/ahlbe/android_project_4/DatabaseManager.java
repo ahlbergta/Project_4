@@ -27,12 +27,12 @@ import java.util.Map;
  */
 class DatabaseManager
 {
-    private static final String TAG = "DatabaseManagerClass";
-    private static FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    private static int PET_STATUS = 0;
-    private static final Timestamp PET_LAST_SAFE = new Timestamp(12, 12);
-    private static final boolean NOTIFY_PING_USER = false;
-    private static final ArrayList<String> OWNERS = new ArrayList<>();
+    private String TAG = "DatabaseManagerClass";
+    private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private int PET_STATUS = 0;
+    private Timestamp PET_LAST_SAFE = new Timestamp(12, 12);
+    private boolean NOTIFY_PING_USER = false;
+    private ArrayList<String> OWNERS = new ArrayList<>();
 
 
 
@@ -51,7 +51,7 @@ class DatabaseManager
      * @param notes
      * @param context Context passed from the Activity to create a Toast
      */
-    static void addUser(Map<String, String> user, EditText email, EditText first, EditText last,
+    public void addUser(Map<String, String> user, EditText email, EditText first, EditText last,
                         EditText pPhone, EditText sPhone, EditText pAddress, EditText s_address,
                         EditText notes, final Context context)
     {
@@ -97,7 +97,7 @@ class DatabaseManager
      * @param notes
      * @param context Context passed from the Activity to create a Toast
      */
-    static void updateUser(Map<String, Object> user, EditText email, EditText first, EditText last,
+    public void updateUser(Map<String, Object> user, EditText email, EditText first, EditText last,
                            EditText pPhone, EditText sPhone, EditText pAddress, EditText s_address,
                            EditText notes, final Context context)
     {
@@ -143,7 +143,7 @@ class DatabaseManager
      * @param s_address
      * @param notes
      */
-    static void fetchUser(final EditText email, final EditText first, final EditText last,
+    public void fetchUser(final EditText email, final EditText first, final EditText last,
                           final EditText pPhone, final EditText sPhone, final EditText pAddress, final EditText s_address,
                           final EditText notes)
     {
@@ -169,11 +169,13 @@ class DatabaseManager
         });
 
     }
-    static void addPet(Map<String, Object> pet, final EditText petName, final EditText petNotes, final Context context,
+    public void addPet(Map<String, Object> pet, final EditText petName, final EditText petNotes, final Context context,
                        boolean petSafe, final EditText conanID)
     {
         OWNERS.add(mFirebaseUser.getUid());
         String test = Resources.getSystem().getString(R.string.pet_name);
+
+
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Pets");
         pet.put(test, petName.getText().toString());
         pet.put(Resources.getSystem().getString(R.string.pet_notes), petNotes.getText().toString());
