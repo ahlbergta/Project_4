@@ -77,32 +77,33 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(viewMapActivity);
             }
         });
+//
+//        if(!isNewUser)
+//        {
+//            if(FirebaseAuth.getInstance().getCurrentUser() != null)
+//            {
+//                DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//
+//                Log.d(TAG, "Inside isNewUser conditional");
+//
+//                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+//                {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot)
+//                    {
+//                        if (!documentSnapshot.exists())
+//                        {
+//                            Log.d(TAG, "inside documentSnapshot conditional");
+//                            Intent createProfileIntent = new Intent(HomeActivity.this, CreateProfileActivity.class);
+//                            startActivity(createProfileIntent);
+//                            isNewUser = true;
+//
+//                        }
 
-        if(!isNewUser)
-        {
-            if(FirebaseAuth.getInstance().getCurrentUser() != null)
-            {
-                DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-                Log.d(TAG, "Inside isNewUser conditional");
-
-                documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
-                {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot)
-                    {
-                        if (!documentSnapshot.exists())
-                        {
-                            isNewUser = true;
-                            Log.d(TAG, "inside documentSnapshot conditional");
-                            Intent createProfileIntent = new Intent(HomeActivity.this, CreateProfileActivity.class);
-                            startActivity(createProfileIntent);
-
-                        }
-                    }
-                });
-            }
-        }
+//                    }
+//                });
+//            }
+//        }
 
     }
 

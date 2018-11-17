@@ -68,9 +68,9 @@ public class EditProfileActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view)
                 {
-                    Map<String, Object> user = new HashMap<>();
+                    Map<String, String> user = new HashMap<>();
 
-                    updateUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
+                    addUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
                             mNotes, mContext);
                     Intent homeIntent = new Intent(EditProfileActivity.this, HomeActivity.class);
                     startActivity(homeIntent);
