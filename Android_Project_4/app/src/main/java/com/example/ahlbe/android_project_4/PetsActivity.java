@@ -10,35 +10,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 public class PetsActivity extends AppCompatActivity
 {
     private static final String TAG = "PetsActivity";
-    private Button mButtonAddPet;
+    Button mButtonAddPet;
     private android.support.v7.widget.Toolbar mToolbar;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    private ArrayList<Pet> pets = new ArrayList<>();
-    private ListView mListView;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,7 +39,27 @@ public class PetsActivity extends AppCompatActivity
         mToolbar = findViewById(R.id.toolbar_pet);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mListView = findViewById(R.id.list_pet_name);
+
         setSupportActionBar(mToolbar);
+        db.collection("Pets").whereArrayContains("owners", "0xd38dd9b09451").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if(task.isSuccessful())
+                {
+                    for(QueryDocumentSnapshot documentSnapshot: task.getResult())
+                    {
+                        Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
+                    }
+                }
+                else
+                {
+                    Log.d(TAG, "Something fragging happened");
+                }
+            }
+        });
         mButtonAddPet.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -134,6 +144,7 @@ public class PetsActivity extends AppCompatActivity
         }
         ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
         mListView.setAdapter(mPetArrayAdapter);
+
     }
     private void authenticationStateCheck()
     {
