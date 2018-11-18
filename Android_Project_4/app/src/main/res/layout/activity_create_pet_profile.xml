@@ -11,12 +11,13 @@
         android:id="@+id/button_submit_pet_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="136dp"
+        android:layout_marginBottom="184dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:fontFamily="@font/bungee_shade"
         android:text="@string/button_submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_pet_name"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/edit_pet_name"
@@ -66,14 +67,15 @@
         android:id="@+id/toggle_pet_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
         android:layout_marginBottom="272dp"
+        android:layout_marginEnd="84dp"
         android:checked="false"
+        android:fontFamily="@font/bungee_shade"
         android:text="ToggleButton"
         android:textOff="Safe"
         android:textOn="Lost"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/text_pet_status"
