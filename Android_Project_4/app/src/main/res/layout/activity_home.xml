@@ -17,10 +17,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="44dp"
         android:text="@string/text_home"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,8 +36,9 @@
         android:fontFamily="@font/bungee_shade"
         android:text="@string/button_pets"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="116dp" />
+        tools:layout_editor_absoluteY="115dp" />
 
     <Button
         android:id="@+id/button_map"
@@ -49,8 +51,9 @@
         android:fontFamily="@font/bungee_shade"
         android:text="@string/button_maps"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="188dp" />
+        tools:layout_editor_absoluteY="181dp" />
 
     <Button
         android:id="@+id/button_help"
@@ -64,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="387dp" />
+        tools:layout_editor_absoluteY="412dp" />
 
     <Button
         android:id="@+id/button_edit_profile"
@@ -77,8 +80,9 @@
         android:fontFamily="@font/bungee_shade"
         android:text="@string/button_edit"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="312dp" />
+        tools:layout_editor_absoluteY="314dp" />
 
     <Button
         android:id="@+id/button_delete_profile"
@@ -91,6 +95,7 @@
         android:fontFamily="@font/bungee_shade"
         android:text="@string/button_delete_profile"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="476dp" />
+        tools:layout_editor_absoluteY="513dp" />
 </android.support.constraint.ConstraintLayout>
