@@ -56,11 +56,7 @@
 
     <!--Confirm Profile Deletion-->
     <string name="dialog_delete_confirmation">Profile Deletion</string>
-<<<<<<< HEAD
     <string name="dialog_deletion_text">You are about to delete your profile! Are you sure?</string>
-=======
-    <string name="dialog_deletion_text">\tYou sure, though?\n\t\t\t\t\t\t\t\tDon't want this pet?</string>
->>>>>>> parent of db1a869... Merge branch 'master' of https://github.com/ahlbergta/Project_4
 
     <string name="google_maps_API_key">AIzaSyD7cGeKVWGJ_CtIAs77E9FlHAX0JLDdtkk</string>
 
