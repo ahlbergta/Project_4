@@ -188,6 +188,8 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback
                                 i++;
                                 hue += 10.5;
                             }
+
+
 // test
                         }
                         else
