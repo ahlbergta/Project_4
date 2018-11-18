@@ -28,15 +28,18 @@ import java.util.Map;
 public class EditProfileActivity extends AppCompatActivity
 {
     private static final String TAG = "EditProfileActivity";
+
     private EditText mEmail, mPAddress, mSAddress, mFirstName, mLastName, mPPhone, mSPhone, mNotes;
     private Button mSubmit;
     private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private Context mContext = this;
     private Toolbar mToolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
         //Set up all the widgets
@@ -53,6 +56,8 @@ public class EditProfileActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
         //Fetch user information and set the fields
         fetchUser(mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes);
+
+
         if(mFirebaseUser != null)
         {
             mSubmit.setOnClickListener(new View.OnClickListener()
@@ -83,6 +88,7 @@ public class EditProfileActivity extends AppCompatActivity
         inflater.inflate(R.menu.home_menu, menu);
         return true;
     }
+
     /** This method is called when the user selects the Sign Out option from the options menu. This will sign the user out and
      * destroy the activity stack to prevent assess to previous activities.
      *
@@ -116,6 +122,7 @@ public class EditProfileActivity extends AppCompatActivity
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser == null)
         {
+
             Log.d(TAG, "user is null. Navigating back to login screen");
             Intent loginIntent = new Intent(EditProfileActivity.this, LoginActivity.class);
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -126,5 +133,7 @@ public class EditProfileActivity extends AppCompatActivity
         {
             Log.d(TAG, "checked Authentication state: user is authenticated");
         }
+
+
     }
 }
