@@ -2,20 +2,20 @@ package com.example.ahlbe.android_project_4;
 
 import com.google.firebase.Timestamp;
 
-import java.sql.Time;
+
 import java.util.ArrayList;
 
 public class Pet
 {
     private String pName;
     private String pNotes;
-    private int pStatus;
+    private Long pStatus;
     private Timestamp mTimestamp;
     private String conanID;
-    private boolean notifyPingedUser;
+    private Boolean notifyPingedUser;
     private ArrayList<String> owners;
 
-    Pet(String pName, String pNotes, int pStatus, Timestamp timestamp, String conanID, boolean notifyPingedUser, ArrayList<String> owners)
+    Pet(String pName, String pNotes, Long pStatus, Timestamp timestamp, String conanID, Boolean notifyPingedUser, ArrayList<String> owners)
     {
         this.pName = pName;
         this.pNotes = pNotes;
@@ -31,7 +31,7 @@ public class Pet
         this.conanID = conanID;
     }
 
-    public void setNotifyPingedUser(boolean notifyPingedUser)
+    public void setNotifyPingedUser(Boolean notifyPingedUser)
     {
         this.notifyPingedUser = notifyPingedUser;
     }
@@ -51,7 +51,7 @@ public class Pet
         this.pNotes = pNotes;
     }
 
-    public void setpStatus(int pStatus)
+    public void setpStatus(Long pStatus)
     {
         this.pStatus = pStatus;
     }
@@ -61,7 +61,7 @@ public class Pet
         mTimestamp = timestamp;
     }
 
-    public boolean isNotifyPingedUser()
+    public Boolean isNotifyPingedUser()
     {
         return notifyPingedUser;
     }
@@ -71,7 +71,7 @@ public class Pet
         return owners;
     }
 
-    public int getpStatus()
+    public Long getpStatus()
     {
         return pStatus;
     }
