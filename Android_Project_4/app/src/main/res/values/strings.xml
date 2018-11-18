@@ -51,6 +51,8 @@
     <!--Create Pets Strings-->
     <string name="dialog_pet_name">Pets Name</string>
     <string name="dialog_pet_notes">Pet Notes</string>
+    <string name="dialog_pet_conanID">Conan ID</string>
+    <string name="dialog_pet_status">Pet Status</string>
 
     <!--Confirm Profile Deletion-->
     <string name="dialog_delete_confirmation">Profile Deletion</string>
@@ -59,6 +61,7 @@
     <string name="google_maps_API_key">AIzaSyD7cGeKVWGJ_CtIAs77E9FlHAX0JLDdtkk</string>
 
     <!--Pets collection document fields-->
+    <string name="pet_collection">Pets</string>
     <string name="pet_conan_id">conanID</string>
     <string name="pet_owners">owners</string>
     <string name="pet_name">pName</string>
@@ -67,7 +70,8 @@
     <string name="pet_notify">notify</string>
     <string name="pet_last_safe">lastSafe</string>
 
-    <!--Users collection document fields-->
+    <!--Users collection document fields-->\
+    <string name="user_collection">Users</string>
     <string name="user_email">email</string>
     <string name="user_first_name">first_name</string>
     <string name="user_last_name">last_name</string>
@@ -80,6 +84,7 @@
     <string name="user_secondary_phone">s_phone</string>
 
     <!--Alerts collection document fields-->
+    <string name="alert_collection">Alerts</string>
     <string name="alert_conan_id">conanID</string>
     <string name="alert_location">location</string>
     <string name="alert_time">time</string>
