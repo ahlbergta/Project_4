@@ -22,7 +22,7 @@ public class AlertNotification {
         createNotificationChannel();
     }
 
-    public void Notify(String title, String text){
+    public int Notify(String title, String text){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(SMALL_ICON)
                 .setContentTitle(title)
@@ -30,6 +30,7 @@ public class AlertNotification {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         id = new Random().nextInt(1000);
         notificationManager.notify(id, builder.build());
+        return id;
     }
 
     private void createNotificationChannel() {
