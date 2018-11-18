@@ -56,7 +56,7 @@
 
     <!--Confirm Profile Deletion-->
     <string name="dialog_delete_confirmation">Profile Deletion</string>
-    <string name="dialog_deletion_text">You are about to delete your profile! Are you sure?</string>
+    <string name="dialog_deletion_text">\tYou sure, though?\n\t\t\t\t\t\t\t\tDon\'t want this pet?</string>
 
     <string name="google_maps_API_key">AIzaSyD7cGeKVWGJ_CtIAs77E9FlHAX0JLDdtkk</string>
 
