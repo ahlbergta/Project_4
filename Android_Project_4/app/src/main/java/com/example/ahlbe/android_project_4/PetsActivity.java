@@ -48,6 +48,7 @@ public class PetsActivity extends AppCompatActivity
         mButtonAddPet = findViewById(R.id.button_add_pet);
         mToolbar = findViewById(R.id.toolbar_pet);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        mListView = findViewById(R.id.list_pet_name);
         setSupportActionBar(mToolbar);
         mButtonAddPet.setOnClickListener(new View.OnClickListener()
         {
@@ -132,6 +133,7 @@ public class PetsActivity extends AppCompatActivity
 
         }
         ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
+        mListView.setAdapter(mPetArrayAdapter);
     }
     private void authenticationStateCheck()
     {
