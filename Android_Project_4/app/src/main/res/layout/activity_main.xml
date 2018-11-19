@@ -10,8 +10,6 @@
         android:id="@+id/notification_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/screen_background_light_transparent"
-        android:fontFamily="@font/bungee_shade"
         android:text="Notification"
         app:layout_constraintBottom_toTopOf="@+id/ble_beacon_button"
         app:layout_constraintEnd_toEndOf="parent"
