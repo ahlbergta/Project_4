@@ -10,7 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,12 +25,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+
 public class PetsActivity extends AppCompatActivity
 {
     private static final String TAG = "PetsActivity";
-    Button mButtonAddPet;
+    private Button mButtonAddPet;
     private android.support.v7.widget.Toolbar mToolbar;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ListView mListView;
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private ArrayList<Pet> pets = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
