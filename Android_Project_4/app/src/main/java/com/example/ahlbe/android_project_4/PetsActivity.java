@@ -153,7 +153,7 @@ public class PetsActivity extends AppCompatActivity
         ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
         mListView.setAdapter(mPetArrayAdapter);
         mPetArrayAdapter.notifyDataSetChanged();
-
+//
     }
     private void authenticationStateCheck()
     {
