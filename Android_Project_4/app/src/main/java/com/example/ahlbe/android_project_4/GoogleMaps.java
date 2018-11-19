@@ -41,8 +41,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
-
 
 public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback {
     //private ArrayList<LatLng> points = new ArrayList<LatLng>();
