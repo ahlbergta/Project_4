@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android_Project_4</string>
+    <string name="app_name">PawPrints Pet Tracker</string>
     <string name="fetch_button">Fetch</string>
     <string name="name_view">Hello</string>
     <string name="hint_first">Please Enter Your First Name</string>
@@ -14,9 +14,10 @@
     <!--   Login Activity String      -->
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
+    <string name="text_resend">Resend Verification Email</string>
 
     <!--Register Activity XML Strings   -->
-    <string name="hint_confirm_pass">Confirm Password</string>x`
+    <string name="hint_confirm_pass">Confirm Password</string>
 
     <!--Edit Activity XML String -->
     <string name="hint_first_name">First Name</string>
@@ -26,6 +27,68 @@
     <string name="hint_p_address">Primary Address</string>
     <string name="hint_s_address">Secondary Address</string>
     <string name="hint_notes">Notes</string>
+    <string name="button_submit">Submit</string>
+
+    <!--HomeActivity XML Strings -->
+
+    <string name="text_home">Home</string>
+    <string name="button_pets">Pets</string>
+    <string name="button_maps">Maps</string>
+    <string name="button_help">Help</string>
+    <string name="button_edit">Edit Profile</string>
+    <string name="button_delete_profile">Delete Profile</string>
+
+    <!--PetsActivity XML String -->
+    <string name="button_add_pet">Add Pet</string>
+
+    <!--ResendVerification XML String -->
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_cancel">Cancel</string>
+
+    <!--Menu Options String -->
+    <string name="menu_sign_out">Sign Out</string>
+
+    <!--Create Pets Strings-->
+    <string name="dialog_pet_name">Pets Name</string>
+    <string name="dialog_pet_notes">Pet Notes</string>
+    <string name="dialog_pet_conanID">Conan ID</string>
+    <string name="dialog_pet_status">Pet Status</string>
+
+    <!--Confirm Profile Deletion-->
+    <string name="dialog_delete_confirmation">Profile Deletion</string>
+    <string name="dialog_deletion_text">You are about to delete your profile! Are you sure?</string>
 
     <string name="google_maps_API_key">AIzaSyD7cGeKVWGJ_CtIAs77E9FlHAX0JLDdtkk</string>
+
+    <!--Pets collection document fields-->
+    <string name="pet_collection">Pets</string>
+    <string name="pet_conan_id">conanID</string>
+    <string name="pet_owners">owners</string>
+    <string name="pet_name">pName</string>
+    <string name="pet_notes">pNotes</string>
+    <string name="pet_status">status</string>
+    <string name="pet_notify">notify</string>
+    <string name="pet_last_safe">lastSafe</string>
+
+    <!--Users collection document fields-->\
+    <string name="user_collection">Users</string>
+    <string name="user_email">email</string>
+    <string name="user_first_name">first_name</string>
+    <string name="user_last_name">last_name</string>
+    <string name="user_notes">notes</string>
+    <string name="user_primary_address">p_address</string>
+    <string name="user_primary_address_geopoint">p_address_geo</string>
+    <string name="user_secondary_address">s_address</string>
+    <string name="user_secondary_address_geopoint">s_address_geo</string>
+    <string name="user_primary_phone">p_phone</string>
+    <string name="user_secondary_phone">s_phone</string>
+
+    <!--Alerts collection document fields-->
+    <string name="alert_collection">Alerts</string>
+    <string name="alert_conan_id">conanID</string>
+    <string name="alert_location">location</string>
+    <string name="alert_time">time</string>
+
+    <!--Conan Eddystone beacon namespace-->
+    <string name="conan_namespace">0x436f6e616e446f796c65</string>
 </resources>

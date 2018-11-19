@@ -52,7 +52,6 @@ public class Notification_Activity extends AppCompatActivity
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
