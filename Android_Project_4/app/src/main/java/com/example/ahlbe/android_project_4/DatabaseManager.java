@@ -25,8 +25,6 @@ import java.util.Map;
 /**
  * Database Class to handle Adding and Fetching Data in Firestore.
  */
-
-
 public class DatabaseManager {
     private static final String TAG = "DatabaseManagerClass";
     private static FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -37,7 +35,6 @@ public class DatabaseManager {
     private static final boolean NOTIFY_PING_USER = false;
     private static final ArrayList<String> OWNERS = new ArrayList<>();
 //    --------------- End Test Code
-
 
 
 
@@ -178,7 +175,6 @@ public class DatabaseManager {
                        boolean petSafe, final EditText conanID)
     {
         OWNERS.add(mFirebaseUser.getUid());
-
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Pets");
         pet.put(context.getString(R.string.pet_name), petName.getText().toString());
         pet.put(context.getString(R.string.pet_notes), petNotes.getText().toString());

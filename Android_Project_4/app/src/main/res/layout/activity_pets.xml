@@ -25,13 +25,6 @@
         android:text="@string/button_add_pet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_pet_name"/>
-
-
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </LinearLayout>
