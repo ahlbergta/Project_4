@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--<item name="colorPrimary">@color/colorPrimaryDarkPawPrints</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryPawPrints</item>-->
+        <!--<item name="colorAccent">@color/colorAccentPawPrints</item>-->
+        <!--<item name="android:navigationBarColor">@color/colorPrimaryPawPrints</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@android:color/primary_text_material_dark</item>-->
+        <!--<item name="android:textColorPrimary">@color/colorPrimaryDarkPawPrints</item>-->
+    </style>
+</resources>
