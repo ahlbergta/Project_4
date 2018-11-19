@@ -1,9 +1,9 @@
 package com.example.ahlbe.android_project_4;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,35 +12,62 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class PetsActivity extends AppCompatActivity
 {
     private static final String TAG = "PetsActivity";
-    Button mButton;
+    Button mButtonAddPet;
     private android.support.v7.widget.Toolbar mToolbar;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pets);
-        mButton = findViewById(R.id.button_add_pet);
+        mButtonAddPet = findViewById(R.id.button_add_pet);
         mToolbar = findViewById(R.id.toolbar_pet);
         setSupportActionBar(mToolbar);
-        mButton.setOnClickListener(new View.OnClickListener()
+        db.collection("Pets").whereArrayContains("owners", "0xd38dd9b09451").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if(task.isSuccessful())
+                {
+                    for(QueryDocumentSnapshot documentSnapshot: task.getResult())
+                    {
+                        Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
+                    }
+                }
+                else
+                {
+                    Log.d(TAG, "Something fragging happened");
+                }
+            }
+        });
+        mButtonAddPet.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                CreatePetsDialog createPetsDialog = new CreatePetsDialog();
-                createPetsDialog.show(getFragmentManager(), "dialog_create_pet_profile");
-//                Context context = PetsActivity.this;
-//                Intent createPetIntent = new Intent(PetsActivity.this, CreatePetProfileActivity.class);
-//                startActivity(createPetIntent);
+//                CreatePetsDialog createPetsDialog = new CreatePetsDialog();
+//                createPetsDialog.show(getFragmentManager(), "dialog_create_pet_profile");
+
+                Context context = PetsActivity.this;
+                Intent createPetIntent = new Intent(PetsActivity.this, CreatePetProfileActivity.class);
+                startActivity(createPetIntent);
             }
         });
     }

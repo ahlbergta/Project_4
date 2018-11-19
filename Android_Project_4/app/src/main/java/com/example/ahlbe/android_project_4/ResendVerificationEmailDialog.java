@@ -53,6 +53,7 @@ public class ResendVerificationEmailDialog extends DialogFragment
             public void onClick(View view)
             {
                 Log.d(TAG, "inside onClick: attemtping to resend verification");
+                Log.d(TAG, mEmail.getText().toString() + " " + mPassword.getText().toString());
                 if(!isEmpty(mEmail.getText().toString())
                         && !isEmpty(mPassword.getText().toString()))
                 {
@@ -92,6 +93,7 @@ public class ResendVerificationEmailDialog extends DialogFragment
             @Override
             public void onComplete(@NonNull Task<AuthResult> task)
             {
+                Log.d(TAG, "Before Task is sucessful");
                 if(task.isSuccessful())
                 {
                     Log.d(TAG, "inside onComplete: authentication complete");
@@ -108,15 +110,18 @@ public class ResendVerificationEmailDialog extends DialogFragment
             {
                 Log.d(TAG, "inside on failure");
                 Toast.makeText(mContext, "Check your credentials", Toast.LENGTH_SHORT).show();
+                getDialog().dismiss();
             }
         });
     }
     //Method to send verification email to the user.
     public void sendVerificationEmail()
     {
+        Log.d(TAG, "inside sendVerificationemail");
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser != null)
         {
+            Log.d(TAG, "inside FirebaseUser conditional");
             firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
             {
                 @Override

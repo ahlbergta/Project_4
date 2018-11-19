@@ -1,6 +1,7 @@
 package com.example.ahlbe.android_project_4;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -17,15 +19,23 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * Database Class to handle Adding and Fetching Data in Firestore.
  */
-class DatabaseManager
-{
+public class DatabaseManager {
     private static final String TAG = "DatabaseManagerClass";
-    static FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private static FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+//    --------------- Test Code
+    private static int PET_STATUS = 0;
+    private static final Timestamp PET_LAST_SAFE = new Timestamp(12, 12);
+    private static final boolean NOTIFY_PING_USER = false;
+    private static final ArrayList<String> OWNERS = new ArrayList<>();
+//    --------------- End Test Code
+
 
 
     /**
@@ -94,14 +104,14 @@ class DatabaseManager
                            EditText notes, final Context context)
     {
         DocumentReference mDocumentReference = FirebaseFirestore.getInstance().collection("Users").document(mFirebaseUser.getUid());
-        user.put("email", email.getText().toString());
-        user.put("first_name", first.getText().toString());
-        user.put("last_name", last.getText().toString());
-        user.put("p_phone", pPhone.getText().toString());
-        user.put("s_phone", sPhone.getText().toString());
-        user.put("p_address", pAddress.getText().toString());
-        user.put("s_address",s_address.getText().toString());
-        user.put("notes", notes.getText().toString());
+        user.put(context.getString(R.string.user_first_name), email.getText().toString());
+        user.put(context.getString(R.string.user_last_name), first.getText().toString());
+        user.put(context.getString(R.string.user_email), last.getText().toString());
+        user.put(context.getString(R.string.user_primary_phone), pPhone.getText().toString());
+        user.put(context.getString(R.string.user_secondary_address), sPhone.getText().toString());
+        user.put(context.getString(R.string.user_primary_phone), pAddress.getText().toString());
+        user.put(context.getString(R.string.user_secondary_address),s_address.getText().toString());
+        user.put(context.getString(R.string.user_notes), notes.getText().toString());
         mDocumentReference.update(user).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override
@@ -126,7 +136,6 @@ class DatabaseManager
      * fetchUser Method takes the data from the profile in Firestore and sets the text in the EditText view in
      * the EditProfileActivity. This is to indicate what the user's data has stored in the database.
      *
-     * @param user  HashMap to add the key-value pairs to add to Firebase
      * @param email text input from user in the EditText View. Same for the rest below.
      * @param first
      * @param last
@@ -135,7 +144,6 @@ class DatabaseManager
      * @param pAddress
      * @param s_address
      * @param notes
-     * @param context Context passed from the Activity to create a Toast
      */
     static void fetchUser(final EditText email, final EditText first, final EditText last,
                           final EditText pPhone, final EditText sPhone, final EditText pAddress, final EditText s_address,
@@ -161,6 +169,49 @@ class DatabaseManager
                 }
             }
         });
+
+    }
+    static void addPet(Map<String, Object> pet, final EditText petName, final EditText petNotes, final Context context,
+                       boolean petSafe, final EditText conanID)
+    {
+        OWNERS.add(mFirebaseUser.getUid());
+        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Pets");
+        pet.put(context.getString(R.string.pet_name), petName.getText().toString());
+        pet.put(context.getString(R.string.pet_notes), petNotes.getText().toString());
+        pet.put(context.getString(R.string.pet_conan_id), conanID.getText().toString());
+        if(petSafe)
+        {
+            pet.put(context.getString(R.string.pet_status), PET_STATUS);
+        }
+        else
+        {
+            PET_STATUS = 1;
+            pet.put(context.getString(R.string.pet_status), PET_STATUS);
+        }
+        pet.put(context.getString(R.string.pet_status), PET_STATUS);
+        pet.put(context.getString(R.string.pet_last_safe), PET_LAST_SAFE);
+        pet.put(context.getString(R.string.pet_last_safe), NOTIFY_PING_USER);
+        pet.put(context.getString(R.string.pet_owners), OWNERS);
+
+        collectionReference.add(pet).addOnCompleteListener(new OnCompleteListener<DocumentReference>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task)
+            {
+                Log.d(TAG, "Inside on complete");
+                Toast.makeText(context, "Pet added Successfully", Toast.LENGTH_SHORT).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                Log.d(TAG, "Inside onFailure: Failed to add pet");
+            }
+        });
+
+
 
     }
 
