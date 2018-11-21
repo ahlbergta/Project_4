@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.google.firebase.messaging.FirebaseMessagingService;
+
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
@@ -80,6 +82,11 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         // ------------------ END TEST CODE
 
         Log.d(TAG, "End of onCreate");
+    }
+
+    public void ClearCache() {
+        Log.d(TAG, "Clearing Conan cache");
+        conanCache = new ArrayList<>();
     }
 
     private void ForegroundRangingSetup(){
