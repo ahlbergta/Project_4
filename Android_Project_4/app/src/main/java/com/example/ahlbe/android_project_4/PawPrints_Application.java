@@ -24,6 +24,7 @@ import org.altbeacon.beacon.startup.RegionBootstrap;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class PawPrints_Application extends Application implements BootstrapNotifier, BeaconConsumer, RangeNotifier {
     private static final String TAG = "PawPrints_Application";
@@ -36,11 +37,12 @@ public class PawPrints_Application extends Application implements BootstrapNotif
     private static final int CONAN_RANGING_NOTIFICATION_ID = 101;
     private static final long SCAN_RATE_MAX = 0;
     private static final long SCAN_RATE_MIN = 30000;
+    private static final long CACHE_REFRESH = 1000 * 60 * 15; // 15 minutes
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
     private AlertManager alertManager;
-    private ArrayList<String> conanCache;
+    private ArrayList<ConanCache> conanCache;
 
     @Override
     public void onCreate() {
@@ -137,31 +139,53 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         Log.d(TAG, "Beacon service ready");
     }
 
+    private ConanCache cached(String id){
+        for(ConanCache c : conanCache) {
+            if(c.getID().equals(id)){
+                return c;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
         // Code for when Conan device is ranged
-        Log.d(TAG, "Start beacon range callback");
+        Log.d(TAG, "Beacons found: " + collection.toString());
 
+        Date now = new Date();
         // Remove beacon from collection if it is in the cache, otherwise add it to the cache
-        ArrayList<String> newCache = new ArrayList<>();
+        ArrayList<ConanCache> newCache = new ArrayList<>();
         for(Beacon beacon : collection) {
             String id = beacon.getId2().toHexString();
+            ConanCache cachedConan = cached(id);
 
             // Only keep cached ids that are in the collection
-            if(conanCache.contains(id)) {
+            if(cachedConan != null) {
                 // Remove beacons from the collection that are in the cache, add the id to the updated cache
-                Log.d(TAG, "Cached beacon found: " + id);
-                newCache.add(id);
+                Log.d(TAG, "Cached beacon found: " + id + ", removing from the collection");
                 collection.remove(beacon);
             }
             else {
                 // Add a new beacon to the cache
-                Log.d(TAG, "New beacon found: " + id);
-                newCache.add(id);
+            }
+
+            // Add the beacon to the updated cache if there is not an expired cache object in the old cache
+            if(cachedConan == null || now.getTime() - cachedConan.getTime() < CACHE_REFRESH){
+                if(cachedConan != null) {
+                    Log.d(TAG, "Time cached: " + (now.getTime() - cachedConan.getTime()) + " less than" + CACHE_REFRESH);
+                    newCache.add(cachedConan);
+                } else {
+                    Log.d(TAG, "Adding new ID: " + id + " to the cache");
+                    newCache.add(new ConanCache(id));
+                }
             }
         }
         // Update the Conan ID cache
+        Log.d(TAG, "Updating Conan cache");
         conanCache = newCache;
+
+        Log.d(TAG, "Updated collection: " + collection.toString());
 
         // If there are any beacons in the collection create alerts for them
         if(collection.size() > 0){
