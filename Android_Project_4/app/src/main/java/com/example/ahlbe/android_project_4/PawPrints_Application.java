@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.google.firebase.messaging.FirebaseMessagingService;
-
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
@@ -22,6 +20,7 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -43,6 +42,7 @@ public class PawPrints_Application extends Application implements BootstrapNotif
     private BeaconManager beaconManager;
     private AlertManager alertManager;
     private ArrayList<ConanCache> conanCache;
+    private ArrayList<String> ownedPets;
 
     @Override
     public void onCreate() {
@@ -50,6 +50,15 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         super.onCreate();
 
         conanCache = new ArrayList<>();
+
+        // TODO: If the user is logged in get the list of their pets
+        /*
+        if(currentUser != null){
+            ownedPets = ...
+        } else {
+            ownedPets = null;
+        }
+        */
 
         // Create the beacon manager and add Eddystone format to beacon parser
         beaconManager = BeaconManager.getInstanceForApplication(this);
@@ -89,6 +98,11 @@ public class PawPrints_Application extends Application implements BootstrapNotif
     public void ClearCache() {
         Log.d(TAG, "Clearing Conan cache");
         conanCache = new ArrayList<>();
+    }
+
+    public void AddPet(String id) {
+        ownedPets.add(id);
+        SubscriptionManager.subscribe(id);
     }
 
     private void ForegroundRangingSetup(){

@@ -25,8 +25,7 @@ import static com.example.ahlbe.android_project_4.DatabaseManager.updateUser;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditProfileActivity extends AppCompatActivity
-{
+public class EditProfileActivity extends SecureActivity {
     private static final String TAG = "EditProfileActivity";
 
     private EditText mEmail, mPAddress, mSAddress, mFirstName, mLastName, mPPhone, mSPhone, mNotes;
@@ -37,10 +36,9 @@ public class EditProfileActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_create_profile);
         //Set up all the widgets
         mEmail = findViewById(R.id.edit_email);
@@ -58,8 +56,7 @@ public class EditProfileActivity extends AppCompatActivity
         fetchUser(mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes);
 
 
-        if(mFirebaseUser != null)
-        {
+        if(mFirebaseUser != null) {
             mSubmit.setOnClickListener(new View.OnClickListener()
             {
 
@@ -70,8 +67,7 @@ public class EditProfileActivity extends AppCompatActivity
                 {
                     Map<String, String> user = new HashMap<>();
 
-                    addUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
-                            mNotes, mContext);
+                    addUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes, mContext);
                     Intent homeIntent = new Intent(EditProfileActivity.this, HomeActivity.class);
                     startActivity(homeIntent);
                     finish();
@@ -82,8 +78,7 @@ public class EditProfileActivity extends AppCompatActivity
     }
     @Override
     //Creates the Option Menu at the top of the Home Activity
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_menu, menu);
         return true;
@@ -96,8 +91,7 @@ public class EditProfileActivity extends AppCompatActivity
      * @return the user back to the login screen
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         FirebaseAuth.getInstance().signOut();
         Intent loginIntent = new Intent(EditProfileActivity.this, LoginActivity.class);
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -105,35 +99,5 @@ public class EditProfileActivity extends AppCompatActivity
         finish();
         Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
-    }
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        authenticationStateCheck();
-    }
-    //This Method is called onResume of the all the activities except Login and Register. This method checks whether or not the user is authenticated.
-    //This is basically a security check if a user somehow assesses the app without properly authenticating. If the user is not
-    //authenticated, it will clear the activity stack to prevent the user from pressing the "back" button to an activity in the
-    //app and then redirects them to the Login Activity.
-    private void authenticationStateCheck()
-    {
-        Log.d(TAG, "Inside checkauthenticationState method");
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser == null)
-        {
-
-            Log.d(TAG, "user is null. Navigating back to login screen");
-            Intent loginIntent = new Intent(EditProfileActivity.this, LoginActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(loginIntent);
-            finish();
-        }
-        else
-        {
-            Log.d(TAG, "checked Authentication state: user is authenticated");
-        }
-
-
     }
 }

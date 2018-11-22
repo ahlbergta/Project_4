@@ -27,8 +27,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class PetsActivity extends AppCompatActivity
-{
+public class PetsActivity extends SecureActivity {
     private static final String TAG = "PetsActivity";
     private Button mButtonAddPet;
     private android.support.v7.widget.Toolbar mToolbar;
@@ -39,8 +38,7 @@ public class PetsActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pets);
         mButtonAddPet = findViewById(R.id.button_add_pet);
@@ -49,21 +47,16 @@ public class PetsActivity extends AppCompatActivity
         mListView = findViewById(R.id.list_pet_name);
 
         setSupportActionBar(mToolbar);
-        db.collection("Pets").whereArrayContains("owners", "0xd38dd9b09451").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        db.collection("Pets").whereArrayContains("owners", "0xd38dd9b09451").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
         {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task)
             {
-                if(task.isSuccessful())
-                {
-                    for(QueryDocumentSnapshot documentSnapshot: task.getResult())
-                    {
+                if(task.isSuccessful()) {
+                    for(QueryDocumentSnapshot documentSnapshot: task.getResult()) {
                         Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
                     }
-                }
-                else
-                {
+                } else {
                     Log.d(TAG, "Something fragging happened");
                 }
             }
@@ -82,10 +75,10 @@ public class PetsActivity extends AppCompatActivity
             }
         });
     }
+
     @Override
     //Creates the Option Menu at the top of the Home Activity
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_menu, menu);
         return true;
@@ -98,8 +91,7 @@ public class PetsActivity extends AppCompatActivity
      * @return the user back to the login screen
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         FirebaseAuth.getInstance().signOut();
         Intent loginIntent = new Intent(PetsActivity.this, LoginActivity.class);
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -108,24 +100,19 @@ public class PetsActivity extends AppCompatActivity
         Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
+
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
-        authenticationStateCheck();
-        if(firebaseUser != null)
-        {
+        if(firebaseUser != null) {
             Log.d(TAG, "Inside the onResume, firebase is null");
-            db.collection("Pets").whereArrayContains("owners", firebaseUser.getUid()).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            db.collection("Pets").whereArrayContains("owners", firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
                     {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task)
                         {
-                            if (task.isSuccessful())
-                            {
-                                for (QueryDocumentSnapshot documentSnapshot : task.getResult())
-                                {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                     Pet pet = new Pet(
                                             documentSnapshot.getString(getString(R.string.pet_name)),
                                             documentSnapshot.getString(getString(R.string.pet_notes)),
@@ -138,40 +125,16 @@ public class PetsActivity extends AppCompatActivity
                                     Log.d(TAG, pet.getOwners().toString());
                                     Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 Log.d(TAG, "Something fragging happened");
                             }
-
                         }
 
 
                     });
-
         }
         ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
         mListView.setAdapter(mPetArrayAdapter);
         mPetArrayAdapter.notifyDataSetChanged();
-
-    }
-    private void authenticationStateCheck()
-    {
-        Log.d(TAG, "Inside checkauthenticationState method");
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser == null)
-        {
-            Log.d(TAG, "user is null. Navigating back to login screen");
-            Intent loginIntent = new Intent(PetsActivity.this, LoginActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(loginIntent);
-            finish();
-        }
-        else
-        {
-            Log.d(TAG, "checked Authentication state: user is authenticated");
-        }
-
-
     }
 }

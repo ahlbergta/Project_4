@@ -21,8 +21,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class HomeActivity extends AppCompatActivity
-{
+public class HomeActivity extends SecureActivity {
     private static final String TAG = "HomeActivity";
     private Button mButtonPets, mButtonEditProfile, mButtonDeleteProfile, mButtonViewMap;
     private android.support.v7.widget.Toolbar mToolbar;
@@ -30,8 +29,7 @@ public class HomeActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
@@ -57,8 +55,6 @@ public class HomeActivity extends AppCompatActivity
             {
                 Intent editProfileActivity = new Intent(HomeActivity.this, EditProfileActivity.class);
                 startActivity(editProfileActivity);
-
-
             }
         });
         mButtonDeleteProfile.setOnClickListener(new View.OnClickListener()
@@ -109,8 +105,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     //Creates the Option Menu at the top of the Home Activity
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_menu, menu);
         return true;
@@ -123,8 +118,7 @@ public class HomeActivity extends AppCompatActivity
      * @return the user back to the login screen
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         FirebaseAuth.getInstance().signOut();
         Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -132,35 +126,5 @@ public class HomeActivity extends AppCompatActivity
         finish();
         Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        authenticationStateCheck();
-    }
-    private void authenticationStateCheck()
-    {
-        //This Method is called onResume of the all the activities except Login and Register. This method checks whether or not the user is authenticated.
-        //This is basically a security check if a user somehow assesses the app without properly authenticating. If the user is not
-        //authenticated, it will clear the activity stack to prevent the user from pressing the "back" button to an activity in the
-        //app and then redirects them to the Login Activity.
-        Log.d(TAG, "Inside checkauthenticationState method");
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser == null)
-        {
-            Log.d(TAG, "user is null. Navigating back to login screen");
-            Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(loginIntent);
-            finish();
-        }
-        else
-        {
-            Log.d(TAG, "checked Authentication state: user is authenticated");
-        }
-
-
     }
 }
