@@ -7,7 +7,19 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -37,6 +49,7 @@ public class PawPrints_Application extends Application implements BootstrapNotif
     private static final long SCAN_RATE_MAX = 0;
     private static final long SCAN_RATE_MIN = 30000;
     private static final long CACHE_REFRESH = 1000 * 60 * 15; // 15 minutes
+    private FirebaseFirestore db;
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
@@ -50,6 +63,36 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         super.onCreate();
 
         conanCache = new ArrayList<>();
+
+        db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings.Builder builder = new FirebaseFirestoreSettings.Builder();
+        builder.setPersistenceEnabled(false);
+        db.setFirestoreSettings(builder.build());
+
+        ownedPets = new ArrayList<>();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            CollectionReference ref = db.collection("Pets");
+            Query query = ref.whereArrayContains(getString(R.string.pet_owners), user.getUid());
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    Log.d(TAG, "Query complete, task successful: " + task.isSuccessful());
+                    if (task.isSuccessful()) {
+                        QuerySnapshot result = task.getResult();
+                        if (result != null) {
+                            for (QueryDocumentSnapshot doc : result) {
+                                String id = (String) doc.get(getString(R.string.pet_conan_id));
+                                ownedPets.add(id);
+                            }
+                        } else {
+                            Log.d(TAG, "Result is empty");
+                        }
+                    }
+                }
+            });
+        }
 
         // TODO: If the user is logged in get the list of their pets
         /*
