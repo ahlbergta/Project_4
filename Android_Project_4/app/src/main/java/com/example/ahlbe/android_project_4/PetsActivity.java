@@ -140,29 +140,7 @@ public class PetsActivity extends SecureActivity {
         Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        authenticationStateCheck();
-    }
-    private void authenticationStateCheck()
-    {
-        Log.d(TAG, "Inside checkauthenticationState method");
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser == null)
-        {
-            Log.d(TAG, "user is null. Navigating back to login screen");
-            Intent loginIntent = new Intent(PetsActivity.this, LoginActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(loginIntent);
-            finish();
-        }
-        else
-        {
-            Log.d(TAG, "checked Authentication state: user is authenticated");
-        }
-    }
+    
     private void setAdapter()
     {
         ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pets);
