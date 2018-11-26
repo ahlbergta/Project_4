@@ -20,8 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateProfileActivity extends AppCompatActivity
-{
+public class CreateProfileActivity extends SecureActivity {
     private static final String TAG = "CreateProfileActivity";
 
     //Set up the data entries
@@ -38,8 +37,7 @@ public class CreateProfileActivity extends AppCompatActivity
     //Setup data entries
     //String email, first_name, last_name, notes, p_address, s_address, p_phone, s_phone;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
         //Set up all the widgets
@@ -69,41 +67,7 @@ public class CreateProfileActivity extends AppCompatActivity
                 Intent homeIntent = new Intent(CreateProfileActivity.this, HomeActivity.class);
                 startActivity(homeIntent);
                 finish();
-
-
             }
         });
-
     }
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        authenticationStateCheck();
-    }
-    //This Method is called onResume of the all the activities except Login and Register. This method checks whether or not the user is authenticated.
-    //This is basically a security check if a user somehow assesses the app without properly authenticating. If the user is not
-    //authenticated, it will clear the activity stack to prevent the user from pressing the "back" button to an activity in the
-    //app and then redirects them to the Login Activity.
-    private void authenticationStateCheck()
-    {
-        Log.d(TAG, "Inside checkauthenticationState method");
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser == null)
-        {
-            Log.d(TAG, "user is null. Navigating back to login screen");
-            Intent loginIntent = new Intent(CreateProfileActivity.this, LoginActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(loginIntent);
-            finish();
-        }
-        else
-        {
-            Log.d(TAG, "checked Authentication state: user is authenticated");
-        }
-
-
-    }
-
-
 }

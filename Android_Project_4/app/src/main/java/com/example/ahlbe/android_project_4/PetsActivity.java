@@ -30,8 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class PetsActivity extends AppCompatActivity
-{
+public class PetsActivity extends SecureActivity {
     private static final String TAG = "PetsActivity";
     private Button mButtonAddPet;
     private android.support.v7.widget.Toolbar mToolbar;
@@ -44,8 +43,7 @@ public class PetsActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pets);
         mButtonAddPet = findViewById(R.id.button_add_pet);
@@ -117,10 +115,10 @@ public class PetsActivity extends AppCompatActivity
             }
         });
     }
+
     @Override
     //Creates the Option Menu at the top of the Home Activity
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_menu, menu);
         return true;
@@ -133,8 +131,7 @@ public class PetsActivity extends AppCompatActivity
      * @return the user back to the login screen
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         FirebaseAuth.getInstance().signOut();
         Intent loginIntent = new Intent(PetsActivity.this, LoginActivity.class);
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -143,9 +140,9 @@ public class PetsActivity extends AppCompatActivity
         Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
+
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         authenticationStateCheck();
     }

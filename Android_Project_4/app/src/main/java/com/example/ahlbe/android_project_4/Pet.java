@@ -1,6 +1,9 @@
 package com.example.ahlbe.android_project_4;
 
+import android.content.res.Resources;
+
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -26,6 +29,16 @@ public class Pet
         this.notifyPingedUser = notifyPingedUser;
         this.owners = owners;
         this.documentID = ID;
+    }
+
+    Pet(QueryDocumentSnapshot doc){
+        this.pName = (String) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.pNotes = (String) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.pStatus = (Long) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.mTimestamp = (Timestamp) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.conanID = (String) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.notifyPingedUser = (boolean) doc.get(Resources.getSystem().getString(R.string.pet_name));
+//        this.owners = (Array) doc.get(Resources.getSystem().getString(R.string.pet_name));
     }
 
     public void setConanID(String conanID)
