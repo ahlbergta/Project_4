@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -38,6 +39,7 @@ public class PetsActivity extends AppCompatActivity
     private ArrayList<Pet> pets = new ArrayList<>();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -47,27 +49,75 @@ public class PetsActivity extends AppCompatActivity
         mToolbar = findViewById(R.id.toolbar_pet);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mListView = findViewById(R.id.list_pet_name);
-
         setSupportActionBar(mToolbar);
-        db.collection("Pets").whereArrayContains("owners", "0xd38dd9b09451").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        if(firebaseUser != null)
         {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task)
-            {
-                if(task.isSuccessful())
-                {
-                    for(QueryDocumentSnapshot documentSnapshot: task.getResult())
+            Log.d(TAG, "Inside the onResume, firebase is null");
+            db.collection("Pets").whereArrayContains("owners", firebaseUser.getUid()).get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
                     {
-                        Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
-                    }
-                }
-                else
-                {
-                    Log.d(TAG, "Something fragging happened");
-                }
-            }
-        });
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+                        {
+                            if(task.isSuccessful())
+                            {
+                                pets.clear();
+                                for(QueryDocumentSnapshot documentSnapshot : task.getResult())
+                                {
+
+                                    Pet pet = new Pet(
+                                            documentSnapshot.getString(getString(R.string.pet_name)),
+                                            documentSnapshot.getString(getString(R.string.pet_notes)),
+                                            documentSnapshot.getLong(getString(R.string.pet_status)),
+                                            documentSnapshot.getTimestamp(getString(R.string.pet_last_safe)),
+                                            documentSnapshot.getString(getString(R.string.pet_conan_id)),
+                                            documentSnapshot.getBoolean(getString(R.string.pet_notify)),
+                                            (ArrayList)documentSnapshot.get(getString(R.string.pet_owners)));
+                                    pets.add(pet);
+                                    Log.d(TAG, pet.getOwners().toString());
+                                    Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
+                                }
+                            }
+                            else
+                            {
+                                Log.d(TAG, "Something fragging happened");
+                            }
+
+                        }
+
+
+                    });
+
+        }
+        ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pets);
+        if(!pets.isEmpty())
+        {
+            Log.d(TAG, "arrayadapter" + pets.get(0).getpName());
+        }
+        else{Log.d(TAG, "pets is empty");}
+        mListView.setAdapter(mPetArrayAdapter);
+
+
+
+//        db.collection("Pets").whereArrayContains("owners", "0xd38dd9b09451").get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+//        {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task)
+//            {
+//                if(task.isSuccessful())
+//                {
+//                    for(QueryDocumentSnapshot documentSnapshot: task.getResult())
+//                    {
+//                        Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
+//                    }
+//                }
+//                else
+//                {
+//                    Log.d(TAG, "Something fragging happened");
+//                }
+//            }
+//        });
         mButtonAddPet.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -79,6 +129,15 @@ public class PetsActivity extends AppCompatActivity
                 Context context = PetsActivity.this;
                 Intent createPetIntent = new Intent(PetsActivity.this, CreatePetProfileActivity.class);
                 startActivity(createPetIntent);
+            }
+        });
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Log.d(TAG, "I am clicked");
+                Log.d(TAG, "postion" + i);
             }
         });
     }
@@ -113,46 +172,54 @@ public class PetsActivity extends AppCompatActivity
     {
         super.onResume();
         authenticationStateCheck();
-        if(firebaseUser != null)
-        {
-            Log.d(TAG, "Inside the onResume, firebase is null");
-            db.collection("Pets").whereArrayContains("owners", firebaseUser.getUid()).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-                    {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task)
-                        {
-                            if (task.isSuccessful())
-                            {
-                                for (QueryDocumentSnapshot documentSnapshot : task.getResult())
-                                {
-                                    Pet pet = new Pet(
-                                            documentSnapshot.getString(getString(R.string.pet_name)),
-                                            documentSnapshot.getString(getString(R.string.pet_notes)),
-                                            documentSnapshot.getLong(getString(R.string.pet_status)),
-                                            documentSnapshot.getTimestamp(getString(R.string.pet_last_safe)),
-                                            documentSnapshot.getString(getString(R.string.pet_conan_id)),
-                                            documentSnapshot.getBoolean(getString(R.string.pet_notify)),
-                                            (ArrayList)documentSnapshot.get(getString(R.string.pet_owners)));
-                                    pets.add(pet);
-                                    Log.d(TAG, pet.getOwners().toString());
-                                    Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
-                                }
-                            }
-                            else
-                            {
-                                Log.d(TAG, "Something fragging happened");
-                            }
-
-                        }
-
-
-                    });
-
-        }
-        ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
-        mListView.setAdapter(mPetArrayAdapter);
-        mPetArrayAdapter.notifyDataSetChanged();
+//        if(firebaseUser != null)
+//        {
+//            Log.d(TAG, "Inside the onResume, firebase is null");
+//            db.collection("Pets").whereArrayContains("owners", firebaseUser.getUid()).get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+//                    {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+//                        {
+//                            if (task.isSuccessful())
+//                            {
+//                                pets.clear();
+//                                for (QueryDocumentSnapshot documentSnapshot : task.getResult())
+//                                {
+//
+//                                    Pet pet = new Pet(
+//                                            documentSnapshot.getString(getString(R.string.pet_name)),
+//                                            documentSnapshot.getString(getString(R.string.pet_notes)),
+//                                            documentSnapshot.getLong(getString(R.string.pet_status)),
+//                                            documentSnapshot.getTimestamp(getString(R.string.pet_last_safe)),
+//                                            documentSnapshot.getString(getString(R.string.pet_conan_id)),
+//                                            documentSnapshot.getBoolean(getString(R.string.pet_notify)),
+//                                            (ArrayList)documentSnapshot.get(getString(R.string.pet_owners)));
+//                                    pets.add(pet);
+//                                    Log.d(TAG, pet.getOwners().toString());
+//                                    Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
+//                                }
+//                            }
+//                            else
+//                            {
+//                                Log.d(TAG, "Something fragging happened");
+//                            }
+//
+//                        }
+//
+//
+//                    });
+//
+//        }
+//        ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pets);
+//        if(!pets.isEmpty())
+//        {
+//            Log.d(TAG, "arrayadapter" + pets.get(0).getpName());
+//        }
+//        else{Log.d(TAG, "pets is empty");}
+//        mListView.setAdapter(mPetArrayAdapter);
+//        mListView.invalidateViews();
+        //mPetArrayAdapter.notifyDataSetChanged();
 
     }
     private void authenticationStateCheck()

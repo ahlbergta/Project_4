@@ -194,7 +194,7 @@ public class DatabaseManager {
         }
         pet.put(context.getString(R.string.pet_status), PET_STATUS);
         pet.put(context.getString(R.string.pet_last_safe), PET_LAST_SAFE);
-        pet.put(context.getString(R.string.pet_last_safe), NOTIFY_PING_USER);
+        pet.put(context.getString(R.string.pet_notify), NOTIFY_PING_USER);
         pet.put(context.getString(R.string.pet_owners), OWNERS);
 
         collectionReference.add(pet).addOnCompleteListener(new OnCompleteListener<DocumentReference>()
