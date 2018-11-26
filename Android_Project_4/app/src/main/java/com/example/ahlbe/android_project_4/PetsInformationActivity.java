@@ -3,6 +3,7 @@ package com.example.ahlbe.android_project_4;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 
 public class PetsInformationActivity extends AppCompatActivity
 {
+    private static final String TAG = "PetsInformationActivity";
     private Button mButtonEdit, mButtonLost;
     private TextView mTextViewPName, mTextViewPNotes, mTextViewLastSafe, mTextViewStatus, mTextViewPConanID;
     private int petPostion;
@@ -40,6 +42,7 @@ public class PetsInformationActivity extends AppCompatActivity
             mTextViewStatus.setText("Lost");
         }
         mTextViewPConanID.setText(mPets.get(petPostion).getConanID());
+        Log.d(TAG, "this is the document id " + mPets.get(petPostion).getDocumentID());
 
     }
 }

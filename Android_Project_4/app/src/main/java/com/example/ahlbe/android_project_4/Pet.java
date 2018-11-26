@@ -13,9 +13,10 @@ public class Pet
     private Timestamp mTimestamp;
     private String conanID;
     private Boolean notifyPingedUser;
+    private String documentID;
     private ArrayList<String> owners;
 
-    Pet(String pName, String pNotes, Long pStatus, Timestamp timestamp, String conanID, Boolean notifyPingedUser, ArrayList<String> owners)
+    Pet(String pName, String pNotes, Long pStatus, Timestamp timestamp, String conanID, Boolean notifyPingedUser, ArrayList<String> owners, String ID)
     {
         this.pName = pName;
         this.pNotes = pNotes;
@@ -24,6 +25,7 @@ public class Pet
         this.conanID = conanID;
         this.notifyPingedUser = notifyPingedUser;
         this.owners = owners;
+        this.documentID = ID;
     }
 
     public void setConanID(String conanID)
@@ -61,6 +63,11 @@ public class Pet
         mTimestamp = timestamp;
     }
 
+    public void setDocumentID(String documentID)
+    {
+        this.documentID = documentID;
+    }
+
     public Boolean isNotifyPingedUser()
     {
         return notifyPingedUser;
@@ -94,6 +101,11 @@ public class Pet
     public Timestamp getTimestamp()
     {
         return mTimestamp;
+    }
+
+    public String getDocumentID()
+    {
+        return documentID;
     }
 
     @Override

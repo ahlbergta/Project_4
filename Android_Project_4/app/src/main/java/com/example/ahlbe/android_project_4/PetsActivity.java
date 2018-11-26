@@ -77,7 +77,8 @@ public class PetsActivity extends AppCompatActivity
                                             documentSnapshot.getTimestamp(getString(R.string.pet_last_safe)),
                                             documentSnapshot.getString(getString(R.string.pet_conan_id)),
                                             documentSnapshot.getBoolean(getString(R.string.pet_notify)),
-                                            (ArrayList) documentSnapshot.get(getString(R.string.pet_owners)));
+                                            (ArrayList) documentSnapshot.get(getString(R.string.pet_owners)),
+                                            documentSnapshot.getId());
                                     pets.add(pet);
                                     Log.d(TAG, pet.getOwners().toString());
                                     Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
@@ -147,55 +148,6 @@ public class PetsActivity extends AppCompatActivity
     {
         super.onResume();
         authenticationStateCheck();
-//        if(firebaseUser != null)
-//        {
-//            Log.d(TAG, "Inside the onResume, firebase is null");
-//            db.collection("Pets").whereArrayContains("owners", firebaseUser.getUid()).get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-//                    {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task)
-//                        {
-//                            if (task.isSuccessful())
-//                            {
-//                                pets.clear();
-//                                for (QueryDocumentSnapshot documentSnapshot : task.getResult())
-//                                {
-//
-//                                    Pet pet = new Pet(
-//                                            documentSnapshot.getString(getString(R.string.pet_name)),
-//                                            documentSnapshot.getString(getString(R.string.pet_notes)),
-//                                            documentSnapshot.getLong(getString(R.string.pet_status)),
-//                                            documentSnapshot.getTimestamp(getString(R.string.pet_last_safe)),
-//                                            documentSnapshot.getString(getString(R.string.pet_conan_id)),
-//                                            documentSnapshot.getBoolean(getString(R.string.pet_notify)),
-//                                            (ArrayList)documentSnapshot.get(getString(R.string.pet_owners)));
-//                                    pets.add(pet);
-//                                    Log.d(TAG, pet.getOwners().toString());
-//                                    Log.d(TAG, "This is the pets name " + documentSnapshot.get("pName"));
-//                                }
-//                            }
-//                            else
-//                            {
-//                                Log.d(TAG, "Something fragging happened");
-//                            }
-//
-//                        }
-//
-//
-//                    });
-//
-//        }
-//        ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pets);
-//        if(!pets.isEmpty())
-//        {
-//            Log.d(TAG, "arrayadapter" + pets.get(0).getpName());
-//        }
-//        else{Log.d(TAG, "pets is empty");}
-//        mListView.setAdapter(mPetArrayAdapter);
-//        mListView.invalidateViews();
-        //mPetArrayAdapter.notifyDataSetChanged();
-
     }
     private void authenticationStateCheck()
     {
@@ -213,8 +165,6 @@ public class PetsActivity extends AppCompatActivity
         {
             Log.d(TAG, "checked Authentication state: user is authenticated");
         }
-
-
     }
     private void setAdapter()
     {
