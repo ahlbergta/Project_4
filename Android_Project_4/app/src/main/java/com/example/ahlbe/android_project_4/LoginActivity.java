@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity
                         && !InputValidator.isEmpty(mEmail.getText().toString()))
                 {
 
-                    mProgressBar.setVisibility(View.VISIBLE);
+                    showProgress();
                     signIn(mEmail.getText().toString(),mPassword.getText().toString());
 
 
@@ -146,12 +146,13 @@ public class LoginActivity extends AppCompatActivity
                     Log.d(TAG, "sign in was successful");
                     //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     mProgressBar.setVisibility(View.INVISIBLE);
+                    hideProgress();
                 }
                 else
                 {
                     Log.e(TAG, "sign in failed", task.getException());
                     Toast.makeText(LoginActivity.this, "Login Failure: Please check credentials or Register a Profile.", Toast.LENGTH_SHORT).show();
-                    mProgressBar.setVisibility(View.INVISIBLE);
+                    hideProgress();
                 }
             }
         });
@@ -202,8 +203,14 @@ public class LoginActivity extends AppCompatActivity
             }
         };
     }
-
-
+    private void showProgress()
+    {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+    private void hideProgress()
+    {
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
 
 
 }
