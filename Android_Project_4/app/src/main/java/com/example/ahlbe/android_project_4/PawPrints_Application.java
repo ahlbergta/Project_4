@@ -105,6 +105,10 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         SubscriptionManager.subscribe(id);
     }
 
+    public ArrayList<String> getPets() {
+        return ownedPets;
+    }
+
     private void ForegroundRangingSetup(){
         Log.d(TAG, "In ForegroundRangingSetup");
         Notification.Builder builder = new Notification.Builder(this);

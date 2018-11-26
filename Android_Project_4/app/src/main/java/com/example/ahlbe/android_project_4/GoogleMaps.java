@@ -5,6 +5,7 @@ package com.example.ahlbe.android_project_4;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -31,22 +32,25 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback {
-    //private ArrayList<LatLng> points = new ArrayList<LatLng>();
+public class GoogleMaps extends SecureActivity implements OnMapReadyCallback {
     private static final long MAX_ALERT_TIME = 1000 * 60 * 60 * 24 * 7; // 7 days
     private static final long MAX_HUE = 360;
 
+    private ArrayList<QueryDocumentSnapshot> pets;
     private ArrayList<Pair<LatLng,Date>> alerts;
     private FirebaseFirestore db;
     private static final String TAG = "GoogleMaps";
@@ -91,11 +95,34 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         Log.d(TAG, "In on create");
 
         alerts = new ArrayList<>();
+        pets = new ArrayList<>();
 
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings.Builder builder = new FirebaseFirestoreSettings.Builder();
         builder.setPersistenceEnabled(false);
         db.setFirestoreSettings(builder.build());
+
+        Log.d(TAG, "Generating query");
+        // Get pet profile from conanID and add it to the array list of pets
+        CollectionReference ref = db.collection("Pets");
+        Query query = ref.whereArrayContains(getString(R.string.pet_owners), FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                Log.d(TAG, "Query complete, task successful: " + task.isSuccessful());
+                if(task.isSuccessful()){
+                    QuerySnapshot result = task.getResult();
+                    if(result != null) {
+                        for (QueryDocumentSnapshot doc : result) {
+                            Log.d(TAG, doc.getString(getString(R.string.pet_name)));
+                            pets.add(doc);
+                        }
+                    } else {
+                        Log.d(TAG, "Result is empty");
+                    }
+                }
+            }
+        });
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Permission not granted");
