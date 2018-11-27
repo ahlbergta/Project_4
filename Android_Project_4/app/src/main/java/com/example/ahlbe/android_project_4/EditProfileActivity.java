@@ -29,6 +29,7 @@ import static com.example.ahlbe.android_project_4.DatabaseManager.fetchUser;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class EditProfileActivity extends SecureActivity {
@@ -76,9 +77,9 @@ public class EditProfileActivity extends SecureActivity {
                     // Get a geopoint from the user's address
                     GeoPoint primary_geopoint = null;
                     GeoPoint secondary_geopoint = null;
-                    Geocoder geocoder = new Geocoder(mContext);
-                    if(geocoder.isPresent()){
-                        if(mPAddress.getText().toString().equals("")) {
+                    Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+                    if(Geocoder.isPresent()){
+                        if(!mPAddress.getText().toString().equals("")) {
                             try {
                                 List<Address> primary_address_list = geocoder.getFromLocationName(mPAddress.getText().toString(), 1);
                                 Log.d(TAG, primary_address_list.toString());
@@ -89,7 +90,7 @@ public class EditProfileActivity extends SecureActivity {
                                 primary_geopoint = null;
                             }
                         }
-                        if(mSAddress.getText().toString().equals("")){
+                        if(!mSAddress.getText().toString().equals("")){
                             try {
                                 List<Address> secondary_address_list = geocoder.getFromLocationName(mSAddress.getText().toString(), 1);
                                 Log.d(TAG, secondary_address_list.toString());
