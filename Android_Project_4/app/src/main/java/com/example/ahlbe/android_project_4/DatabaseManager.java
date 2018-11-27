@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class DatabaseManager {
     private static final String TAG = "DatabaseManagerClass";
-    private static FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private static FirebaseUser mFirebaseUser;
 
 //    --------------- Test Code
     private static int PET_STATUS = 0;
@@ -62,6 +62,7 @@ public class DatabaseManager {
                         EditText pPhone, EditText sPhone, EditText pAddress, EditText s_address,
                         EditText notes, final Context context, GeoPoint geoPAddress, GeoPoint geoSAddress)
     {
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         CollectionReference mCollectionReference = FirebaseFirestore.getInstance().collection("Users");
         user.put("email", email.getText().toString());
         user.put("first_name", first.getText().toString());
@@ -110,6 +111,7 @@ public class DatabaseManager {
                            EditText pPhone, EditText sPhone, EditText pAddress, EditText s_address,
                            EditText notes, final Context context)
     {
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DocumentReference mDocumentReference = FirebaseFirestore.getInstance().collection("Users").document(mFirebaseUser.getUid());
         user.put(context.getString(R.string.user_first_name), email.getText().toString());
         user.put(context.getString(R.string.user_last_name), first.getText().toString());
@@ -156,6 +158,7 @@ public class DatabaseManager {
                           final EditText pPhone, final EditText sPhone, final EditText pAddress, final EditText s_address,
                           final EditText notes)
     {
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users").document(mFirebaseUser.getUid());
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
         {
@@ -181,6 +184,7 @@ public class DatabaseManager {
     static void addPet(Map<String, Object> pet, final EditText petName, final EditText petNotes, final Context context,
                        boolean petSafe, final EditText conanID)
     {
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         OWNERS.add(mFirebaseUser.getUid());
 
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Pets");
@@ -224,6 +228,7 @@ public class DatabaseManager {
     }
     static void updatePet(final Map<String, Object> pet, EditText pName, EditText pNotes, EditText conanID, String documentID, Boolean notify, Context context)
     {
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         pet.put(context.getString(R.string.pet_name), pName.getText().toString());
         pet.put(context.getString(R.string.pet_notes), pNotes.getText().toString());
         pet.put(context.getString(R.string.pet_conan_id),conanID.getText().toString());

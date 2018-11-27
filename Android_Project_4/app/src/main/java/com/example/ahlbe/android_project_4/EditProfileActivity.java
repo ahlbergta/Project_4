@@ -37,7 +37,7 @@ public class EditProfileActivity extends SecureActivity {
 
     private EditText mEmail, mPAddress, mSAddress, mFirstName, mLastName, mPPhone, mSPhone, mNotes;
     private Button mSubmit;
-    private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser mFirebaseUser;
     private Context mContext = this;
     private Toolbar mToolbar;
 
@@ -45,6 +45,8 @@ public class EditProfileActivity extends SecureActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         setContentView(R.layout.activity_create_profile);
         //Set up all the widgets
