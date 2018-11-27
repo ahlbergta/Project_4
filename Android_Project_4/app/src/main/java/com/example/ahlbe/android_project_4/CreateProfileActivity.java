@@ -58,8 +58,8 @@ public class CreateProfileActivity extends SecureActivity {
                 Log.d(TAG, "Inside the onCLick");
 
                 Map<String, String> updateUser = new HashMap<>();
-                addUser(updateUser, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
-                        mNotes, mContext);
+//                addUser(updateUser, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress,
+//                        mNotes, mContext);
 
                 Log.d(TAG, "Inside the onCLick");
                 Intent homeIntent = new Intent(CreateProfileActivity.this, HomeActivity.class);

@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -70,7 +71,7 @@ public class EditProfileActivity extends SecureActivity {
                 @Override
                 public void onClick(View view)
                 {
-                    Map<String, String> user = new HashMap<>();
+                    Map<String, Object> user = new HashMap<>();
 
                     // Get a geopoint from the user's address
                     GeoPoint primary_geopoint = null;
@@ -80,6 +81,7 @@ public class EditProfileActivity extends SecureActivity {
                         if(mPAddress.getText().toString().equals("")) {
                             try {
                                 List<Address> primary_address_list = geocoder.getFromLocationName(mPAddress.getText().toString(), 1);
+                                Log.d(TAG, primary_address_list.toString());
                                 Address primary_address = primary_address_list.get(0);
                                 primary_geopoint = new GeoPoint(primary_address.getLatitude(), primary_address.getLongitude());
                             } catch (IOException e) {
@@ -90,6 +92,7 @@ public class EditProfileActivity extends SecureActivity {
                         if(mSAddress.getText().toString().equals("")){
                             try {
                                 List<Address> secondary_address_list = geocoder.getFromLocationName(mSAddress.getText().toString(), 1);
+                                Log.d(TAG, secondary_address_list.toString());
                                 Address secondary_address = secondary_address_list.get(0);
                                 secondary_geopoint = new GeoPoint(secondary_address.getLatitude(), secondary_address.getLongitude());
                             } catch (IOException e) {
@@ -99,7 +102,7 @@ public class EditProfileActivity extends SecureActivity {
                         }
                     }
 
-                    addUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes, mContext);
+                    addUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes, mContext, primary_geopoint, secondary_geopoint);
                     Intent homeIntent = new Intent(EditProfileActivity.this, HomeActivity.class);
                     startActivity(homeIntent);
                     finish();
