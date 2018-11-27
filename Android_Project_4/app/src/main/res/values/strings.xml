@@ -65,6 +65,9 @@
     <string name="edit_pet_last_safe">Last Safe</string>
     <string name="edit_pet_status">Status</string>
 
+    <!--Pet Information XML String-->
+    <string name="button_mark_as_lost">Mark as Lost</string>
+
     <!--Pets collection document fields-->
     <string name="pet_collection">Pets</string>
     <string name="pet_conan_id">conanID</string>

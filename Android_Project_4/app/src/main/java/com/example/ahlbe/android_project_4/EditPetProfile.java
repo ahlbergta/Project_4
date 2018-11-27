@@ -32,7 +32,7 @@ public class EditPetProfile extends AppCompatActivity
     private EditText mEditTextPName, mEditTextConan, mEditTextPNotes;
     private int petPosition;
     private ArrayList<Pet> mPets = PetsActivity.getPets();
-    private String documentID = mPets.get(petPosition).getDocumentID();
+    private String documentID;
 
 
     @Override
@@ -86,10 +86,12 @@ public class EditPetProfile extends AppCompatActivity
                     NOTIFY_USER = false;
                 }
                 Map<String, Object> pet = new HashMap<>();
+                documentID = mPets.get(petPosition).getDocumentID();
                 Log.d(TAG, "this is document id " + documentID);
-                updatePet(pet, mEditTextPName, mEditTextPNotes, mTextViewConan, documentID, NOTIFY_USER, mContext);
+                updatePet(pet, mEditTextPName, mEditTextPNotes, mEditTextConan, documentID, NOTIFY_USER, mContext);
             }
         });
+
 
 
 
