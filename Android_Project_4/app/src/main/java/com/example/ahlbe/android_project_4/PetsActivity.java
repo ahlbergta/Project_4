@@ -156,7 +156,7 @@ public class PetsActivity extends SecureActivity
         Toast.makeText(this, "Logged Out Successfully", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
-    
+
     private void setAdapter()
     {
         ArrayAdapter<Pet> mPetArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pets);
