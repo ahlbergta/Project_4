@@ -1,6 +1,9 @@
 package com.example.ahlbe.android_project_4;
 
+import android.content.res.Resources;
+
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -13,9 +16,10 @@ public class Pet
     private Timestamp mTimestamp;
     private String conanID;
     private Boolean notifyPingedUser;
+    private String documentID;
     private ArrayList<String> owners;
 
-    Pet(String pName, String pNotes, Long pStatus, Timestamp timestamp, String conanID, Boolean notifyPingedUser, ArrayList<String> owners)
+    Pet(String pName, String pNotes, Long pStatus, Timestamp timestamp, String conanID, Boolean notifyPingedUser, ArrayList<String> owners, String ID)
     {
         this.pName = pName;
         this.pNotes = pNotes;
@@ -24,6 +28,17 @@ public class Pet
         this.conanID = conanID;
         this.notifyPingedUser = notifyPingedUser;
         this.owners = owners;
+        this.documentID = ID;
+    }
+
+    Pet(QueryDocumentSnapshot doc){
+        this.pName = (String) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.pNotes = (String) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.pStatus = (Long) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.mTimestamp = (Timestamp) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.conanID = (String) doc.get(Resources.getSystem().getString(R.string.pet_name));
+        this.notifyPingedUser = (boolean) doc.get(Resources.getSystem().getString(R.string.pet_name));
+//        this.owners = (Array) doc.get(Resources.getSystem().getString(R.string.pet_name));
     }
 
     public void setConanID(String conanID)
@@ -61,6 +76,11 @@ public class Pet
         mTimestamp = timestamp;
     }
 
+    public void setDocumentID(String documentID)
+    {
+        this.documentID = documentID;
+    }
+
     public Boolean isNotifyPingedUser()
     {
         return notifyPingedUser;
@@ -94,6 +114,11 @@ public class Pet
     public Timestamp getTimestamp()
     {
         return mTimestamp;
+    }
+
+    public String getDocumentID()
+    {
+        return documentID;
     }
 
     @Override

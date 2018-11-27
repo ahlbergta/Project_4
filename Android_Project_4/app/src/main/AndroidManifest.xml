@@ -15,25 +15,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD7cGeKVWGJ_CtIAs77E9FlHAX0JLDdtkk"/>
-
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
 
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
@@ -55,7 +54,12 @@
         </activity>
         <activity android:name=".GoogleMapsMain">
         </activity>
-        <activity android:name=".GoogleMaps" >
+        <activity android:name=".GoogleMaps">
+        </activity>
+        <activity android:name=".PetsInformationActivity">
+        </activity>
+        <activity android:name=".EditPetProfile">
         </activity>
     </application>
+
 </manifest>

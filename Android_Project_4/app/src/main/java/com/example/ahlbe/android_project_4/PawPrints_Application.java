@@ -7,7 +7,19 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -20,8 +32,10 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class PawPrints_Application extends Application implements BootstrapNotifier, BeaconConsumer, RangeNotifier {
     private static final String TAG = "PawPrints_Application";
@@ -34,11 +48,14 @@ public class PawPrints_Application extends Application implements BootstrapNotif
     private static final int CONAN_RANGING_NOTIFICATION_ID = 101;
     private static final long SCAN_RATE_MAX = 0;
     private static final long SCAN_RATE_MIN = 30000;
+    private static final long CACHE_REFRESH = 1000 * 60 * 15; // 15 minutes
+    private FirebaseFirestore db;
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
     private AlertManager alertManager;
-    private ArrayList<String> conanCache;
+    private ArrayList<ConanCache> conanCache;
+    private ArrayList<String> ownedPets;
 
     @Override
     public void onCreate() {
@@ -46,6 +63,45 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         super.onCreate();
 
         conanCache = new ArrayList<>();
+
+        db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings.Builder builder = new FirebaseFirestoreSettings.Builder();
+        builder.setPersistenceEnabled(false);
+        db.setFirestoreSettings(builder.build());
+
+        ownedPets = new ArrayList<>();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            CollectionReference ref = db.collection("Pets");
+            Query query = ref.whereArrayContains(getString(R.string.pet_owners), user.getUid());
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    Log.d(TAG, "Query complete, task successful: " + task.isSuccessful());
+                    if (task.isSuccessful()) {
+                        QuerySnapshot result = task.getResult();
+                        if (result != null) {
+                            for (QueryDocumentSnapshot doc : result) {
+                                String id = (String) doc.get(getString(R.string.pet_conan_id));
+                                ownedPets.add(id);
+                            }
+                        } else {
+                            Log.d(TAG, "Result is empty");
+                        }
+                    }
+                }
+            });
+        }
+
+        // TODO: If the user is logged in get the list of their pets
+        /*
+        if(currentUser != null){
+            ownedPets = ...
+        } else {
+            ownedPets = null;
+        }
+        */
 
         // Create the beacon manager and add Eddystone format to beacon parser
         beaconManager = BeaconManager.getInstanceForApplication(this);
@@ -80,6 +136,20 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         // ------------------ END TEST CODE
 
         Log.d(TAG, "End of onCreate");
+    }
+
+    public void ClearCache() {
+        Log.d(TAG, "Clearing Conan cache");
+        conanCache = new ArrayList<>();
+    }
+
+    public void AddPet(String id) {
+        ownedPets.add(id);
+        SubscriptionManager.subscribe(id);
+    }
+
+    public ArrayList<String> getPets() {
+        return ownedPets;
     }
 
     private void ForegroundRangingSetup(){
@@ -130,31 +200,53 @@ public class PawPrints_Application extends Application implements BootstrapNotif
         Log.d(TAG, "Beacon service ready");
     }
 
+    private ConanCache cached(String id){
+        for(ConanCache c : conanCache) {
+            if(c.getID().equals(id)){
+                return c;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
         // Code for when Conan device is ranged
-        Log.d(TAG, "Start beacon range callback");
+        Log.d(TAG, "Beacons found: " + collection.toString());
 
+        Date now = new Date();
         // Remove beacon from collection if it is in the cache, otherwise add it to the cache
-        ArrayList<String> newCache = new ArrayList<>();
+        ArrayList<ConanCache> newCache = new ArrayList<>();
         for(Beacon beacon : collection) {
             String id = beacon.getId2().toHexString();
+            ConanCache cachedConan = cached(id);
 
             // Only keep cached ids that are in the collection
-            if(conanCache.contains(id)) {
+            if(cachedConan != null) {
                 // Remove beacons from the collection that are in the cache, add the id to the updated cache
-                Log.d(TAG, "Cached beacon found: " + id);
-                newCache.add(id);
+                Log.d(TAG, "Cached beacon found: " + id + ", removing from the collection");
                 collection.remove(beacon);
             }
             else {
                 // Add a new beacon to the cache
-                Log.d(TAG, "New beacon found: " + id);
-                newCache.add(id);
+            }
+
+            // Add the beacon to the updated cache if there is not an expired cache object in the old cache
+            if(cachedConan == null || now.getTime() - cachedConan.getTime() < CACHE_REFRESH){
+                if(cachedConan != null) {
+                    Log.d(TAG, "Time cached: " + (now.getTime() - cachedConan.getTime()) + " less than" + CACHE_REFRESH);
+                    newCache.add(cachedConan);
+                } else {
+                    Log.d(TAG, "Adding new ID: " + id + " to the cache");
+                    newCache.add(new ConanCache(id));
+                }
             }
         }
         // Update the Conan ID cache
+        Log.d(TAG, "Updating Conan cache");
         conanCache = newCache;
+
+        Log.d(TAG, "Updated collection: " + collection.toString());
 
         // If there are any beacons in the collection create alerts for them
         if(collection.size() > 0){

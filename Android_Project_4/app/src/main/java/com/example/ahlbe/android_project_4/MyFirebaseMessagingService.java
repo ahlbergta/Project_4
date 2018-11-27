@@ -68,8 +68,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Map<String, String> data = remoteMessage.getData();
             Log.d(TAG, "Message data payload: " + data);
-            AlertNotification notification = new AlertNotification(this);
-            notification.Notify(data.get("pName"), "Your pet, " + data.get("pName") + ", has been spotted!");
+
+            String command = data.get("command");
+            if(command.equals("scan")){
+                PawPrints_Application app = (PawPrints_Application) getApplication();
+                app.ClearCache();
+            } else if(command.equals("notify")) {
+                AlertNotification notification = new AlertNotification(this);
+                notification.Notify(data.get("pName"), "Your pet, " + data.get("pName") + ", has been spotted!");
+            } else {
+                Log.d(TAG, "Invalid command");
+            }
 
 //            if (/* Check if data needs to be processed by long running job */ true) {
 //                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
