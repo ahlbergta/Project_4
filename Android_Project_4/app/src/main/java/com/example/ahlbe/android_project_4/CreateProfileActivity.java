@@ -2,7 +2,6 @@ package com.example.ahlbe.android_project_4;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,6 @@ import static com.example.ahlbe.android_project_4.DatabaseManager.addUser;
 
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -48,7 +46,7 @@ public class CreateProfileActivity extends SecureActivity {
         mLastName = findViewById(R.id.edit_last_name);
         mPPhone = findViewById(R.id.edit_p_phone);
         mSPhone = findViewById(R.id.edit_s_phone);
-        mSubmit = findViewById(R.id.button_submit);
+        mSubmit = findViewById(R.id.button_submit_edit);
         mNotes = findViewById(R.id.edit_notes);
 
 

@@ -1,22 +1,15 @@
 package com.example.ahlbe.android_project_4;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +39,7 @@ public class CreatePetProfileActivity extends SecureActivity
 //        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
 //        final Button mButton = new Button(this);
         mSubmit = findViewById(R.id.button_submit_pet_profile);
-        mPetName = findViewById(R.id.edit_pet_name);
+        mPetName = findViewById(R.id.edit_pet_name_edit);
         mPetNotes = findViewById(R.id.edit_pet_notes);
         mPetStatus = findViewById(R.id.toggle_pet_status);
         mConanID = findViewById(R.id.edit_conanID);

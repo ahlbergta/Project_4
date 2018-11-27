@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +19,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -56,9 +58,9 @@ public class DatabaseManager {
      * @param notes
      * @param context Context passed from the Activity to create a Toast
      */
-    static void addUser(Map<String, String> user, EditText email, EditText first, EditText last,
+    static void addUser(Map<String, Object> user, EditText email, EditText first, EditText last,
                         EditText pPhone, EditText sPhone, EditText pAddress, EditText s_address,
-                        EditText notes, final Context context)
+                        EditText notes, final Context context, GeoPoint geoPAddress, GeoPoint geoSAddress)
     {
         CollectionReference mCollectionReference = FirebaseFirestore.getInstance().collection("Users");
         user.put("email", email.getText().toString());
@@ -69,6 +71,8 @@ public class DatabaseManager {
         user.put("p_address", pAddress.getText().toString());
         user.put("s_address",s_address.getText().toString());
         user.put("notes", notes.getText().toString());
+        user.put(context.getString(R.string.user_primary_address_geopoint),geoPAddress);
+        user.put(context.getString(R.string.user_secondary_address_geopoint), geoSAddress);
         mCollectionReference.document(mFirebaseUser.getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override
@@ -214,6 +218,33 @@ public class DatabaseManager {
                 Log.d(TAG, "Inside onFailure: Failed to add pet");
             }
         });
+
+
+
+    }
+    static void updatePet(final Map<String, Object> pet, EditText pName, EditText pNotes, TextView conanID, String documentID, Boolean notify, Context context)
+    {
+        pet.put(context.getString(R.string.pet_name), pName.getText().toString());
+        pet.put(context.getString(R.string.pet_notes), pNotes.getText().toString());
+        pet.put(context.getString(R.string.pet_conan_id),conanID.getText().toString());
+        pet.put(context.getString(R.string.pet_notify),notify);
+        final DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Pets").document(documentID);
+        documentReference.update(pet).addOnSuccessListener(new OnSuccessListener<Void>()
+        {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+               Log.d(TAG, "updated pet successfully");
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                Log.d(TAG, "Something happened" + e.getMessage());
+            }
+        });
+
 
 
 

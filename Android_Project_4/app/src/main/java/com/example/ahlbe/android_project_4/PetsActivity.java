@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,7 +31,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class PetsActivity extends SecureActivity {
+public class PetsActivity extends SecureActivity
+{
     private static final String TAG = "PetsActivity";
     private Button mButtonAddPet;
     private android.support.v7.widget.Toolbar mToolbar;
@@ -86,6 +88,19 @@ public class PetsActivity extends SecureActivity {
                                 Log.d(TAG, "Something fragging happened");
                             }
                             setAdapter();
+                            for(int i = 0; i < pets.size(); i++)
+                            {
+                                if(pets.get(i).getpStatus() == 0)
+                                {
+                                    Log.d(TAG, "Hello" + mListView.getChildAt(0));
+                                    Log.d(TAG, "Hello" + mListView.getAdapter().getView(i, null, mListView));
+                                    mListView.getAdapter().getView(i, null, mListView).setBackgroundColor(getResources().getColor(R.color.colorBackgroundPetSafe));
+                                }
+                                else
+                                {
+                                    mListView.getAdapter().getView(i, null, mListView).setBackgroundColor(getResources().getColor(R.color.colorBackgroundPetsLost));
+                                }
+                            }
                             hideProgress();
                         }
                     });
@@ -131,7 +146,8 @@ public class PetsActivity extends SecureActivity {
      * @return the user back to the login screen
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         FirebaseAuth.getInstance().signOut();
         Intent loginIntent = new Intent(PetsActivity.this, LoginActivity.class);
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -149,6 +165,7 @@ public class PetsActivity extends SecureActivity {
             Log.d(TAG, "arrayadapter" + pets.get(0).getpName());
         }
         else{Log.d(TAG, "pets is empty");}
+
         mListView.setAdapter(mPetArrayAdapter);
     }
     private void showProgress()
@@ -169,4 +186,5 @@ public class PetsActivity extends SecureActivity {
     {
         return pets;
     }
+
 }

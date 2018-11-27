@@ -58,6 +58,8 @@
         </activity>
         <activity android:name=".PetsInformationActivity">
         </activity>
+        <activity android:name=".EditPetProfile">
+        </activity>
     </application>
 
 </manifest>
