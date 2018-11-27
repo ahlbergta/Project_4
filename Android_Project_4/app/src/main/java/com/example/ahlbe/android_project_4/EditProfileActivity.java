@@ -2,6 +2,8 @@ package com.example.ahlbe.android_project_4;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,11 +20,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+
 import static com.example.ahlbe.android_project_4.DatabaseManager.addUser;
 import static com.example.ahlbe.android_project_4.DatabaseManager.fetchUser;
 import static com.example.ahlbe.android_project_4.DatabaseManager.updateUser;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EditProfileActivity extends SecureActivity {
@@ -66,6 +72,33 @@ public class EditProfileActivity extends SecureActivity {
                 public void onClick(View view)
                 {
                     Map<String, String> user = new HashMap<>();
+
+                    // Get a geopoint from the user's address
+                    GeoPoint primary_geopoint = null;
+                    GeoPoint secondary_geopoint = null;
+                    Geocoder geocoder = new Geocoder(mContext);
+                    if(geocoder.isPresent()){
+                        if(mPAddress.getText().toString().equals("")) {
+                            try {
+                                List<Address> primary_address_list = geocoder.getFromLocationName(mPAddress.getText().toString(), 1);
+                                Address primary_address = primary_address_list.get(0);
+                                primary_geopoint = new GeoPoint(primary_address.getLatitude(), primary_address.getLongitude());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                primary_geopoint = null;
+                            }
+                        }
+                        if(mSAddress.getText().toString().equals("")){
+                            try {
+                                List<Address> secondary_address_list = geocoder.getFromLocationName(mSAddress.getText().toString(), 1);
+                                Address secondary_address = secondary_address_list.get(0);
+                                secondary_geopoint = new GeoPoint(secondary_address.getLatitude(), secondary_address.getLongitude());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                secondary_geopoint = null;
+                            }
+                        }
+                    }
 
                     addUser(user, mEmail, mFirstName, mLastName, mPPhone, mSPhone, mPAddress, mSAddress, mNotes, mContext);
                     Intent homeIntent = new Intent(EditProfileActivity.this, HomeActivity.class);
