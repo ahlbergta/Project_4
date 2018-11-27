@@ -222,7 +222,7 @@ public class DatabaseManager {
 
 
     }
-    static void updatePet(final Map<String, Object> pet, EditText pName, EditText pNotes, TextView conanID, String documentID, Boolean notify, Context context)
+    static void updatePet(final Map<String, Object> pet, EditText pName, EditText pNotes, EditText conanID, String documentID, Boolean notify, Context context)
     {
         pet.put(context.getString(R.string.pet_name), pName.getText().toString());
         pet.put(context.getString(R.string.pet_notes), pNotes.getText().toString());
