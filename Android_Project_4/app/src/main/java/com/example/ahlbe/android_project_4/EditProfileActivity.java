@@ -51,6 +51,7 @@ public class EditProfileActivity extends SecureActivity {
         setContentView(R.layout.activity_create_profile);
         //Set up all the widgets
         mEmail = findViewById(R.id.edit_email);
+        mEmail.setText(mFirebaseUser.getEmail());
         mPAddress = findViewById(R.id.edit_p_address);
         mSAddress = findViewById(R.id.edit_s_address);
         mFirstName = findViewById(R.id.edit_first_name);
