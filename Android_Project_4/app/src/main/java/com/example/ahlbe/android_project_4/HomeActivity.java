@@ -69,7 +69,7 @@ public class HomeActivity extends SecureActivity {
         mButtonViewMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewMapActivity = new Intent(HomeActivity.this, GoogleMapsMain.class);
+                Intent viewMapActivity = new Intent(HomeActivity.this, GoogleMaps.class);
                 startActivity(viewMapActivity);
             }
         });
