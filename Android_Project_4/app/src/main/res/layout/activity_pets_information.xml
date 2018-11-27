@@ -86,13 +86,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <Button
-        android:id="@+id/button_information_lost"
+    <ToggleButton
+        android:id="@+id/toggle_mark_lost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="384dp"
-        android:text="@string/button_mark_as_lost"
-        app:layout_constraintStart_toEndOf="@+id/button_edit_information"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="472dp"
+        android:layout_marginEnd="8dp"
+        android:textOff="@string/toggle_mark_as_safe"
+        android:textOn="@string/toggle_mark_as_lost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 </android.support.constraint.ConstraintLayout>
