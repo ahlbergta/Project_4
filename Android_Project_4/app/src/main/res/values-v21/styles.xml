@@ -6,8 +6,10 @@
         <item name="colorPrimary">@color/colorPrimaryDarkPawPrints</item>
         <item name="colorPrimaryDark">@color/colorPrimaryPawPrints</item>
         <item name="colorAccent">@color/colorAccentPawPrints</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryPawPrints</item>
-        <item name="android:textColorPrimaryInverse">@android:color/primary_text_material_dark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDarkPawPrints</item>
+        <item name="android:textColorPrimaryInverse">@color/colorPrimaryDarkPawPrints</item>
         <item name="android:textColorPrimary">@color/colorPrimaryDarkPawPrints</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDarkPawPrints</item>
+
     </style>
 </resources>

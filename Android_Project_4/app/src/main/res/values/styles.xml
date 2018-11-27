@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryPawPrints</item>
         <item name="colorAccent">@color/colorAccentPawPrints</item>
         <item name="android:textColorPrimary">@color/colorPrimaryDarkPawPrints</item>
+
     </style>
 
 </resources>
