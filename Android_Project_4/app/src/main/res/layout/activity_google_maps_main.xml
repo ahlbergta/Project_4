@@ -10,10 +10,16 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="com.example.ahlbe.android_project_4.GoogleMapsMain">
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Map"
-    android:id="@+id/btnMap"/>
+
+    <Button
+        android:id="@+id/btnMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/bungee_shade"
+        android:text="Map"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </android.support.constraint.ConstraintLayout>

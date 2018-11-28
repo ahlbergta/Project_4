@@ -7,4 +7,11 @@
     <color name="colorAccountDeletion">#d8192a</color>
     <color name="colorBackgroundPetsLost">#cc3333</color>
     <color name="colorBackgroundPetSafe">#66cc66</color>
+
+    <color name="colorPrimaryPawPrints">#00aeff</color>
+    <!--<color name="colorPrimaryPawPrints">#FFFF66</color>-->
+    <color name="colorPrimaryDarkPawPrints">#01afd1</color>
+    <color name="colorPrimaryTextMaterialDarkPawPrints">#ffffff</color>
+    <color name="colorAccentPawPrints">#000000</color>
 </resources>
+

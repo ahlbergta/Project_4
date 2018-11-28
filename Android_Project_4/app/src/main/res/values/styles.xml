@@ -3,9 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+<<<<<<< HEAD
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+=======
+        <item name="colorPrimary">@color/colorPrimaryDarkPawPrints</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryPawPrints</item>
+        <item name="colorAccent">@color/colorAccentPawPrints</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDarkPawPrints</item>
+
+>>>>>>> 2aefb7df4712b8928d9b8ba3c81e74972f8b8e9d
     </style>
 
 </resources>
