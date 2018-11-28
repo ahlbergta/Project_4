@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:text="@string/dialog_delete_confirmation"
+        android:text="@string/dialog_text_pet_profile"
         android:textSize="30sp"
         android:gravity="center_horizontal"
         android:textColor="@color/colorAccountDeletion"/>
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="40dp"
-        android:text="@string/dialog_deletion_text"
+        android:text="@string/dialog_text_delete"
         android:textColor="@color/colorAccountDeletion"
         android:textSize="30sp"/>
 
