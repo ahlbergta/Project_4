@@ -3,7 +3,9 @@ package com.example.ahlbe.android_project_4;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import static com.example.ahlbe.android_project_4.InputValidator.isEmpty;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -63,14 +66,46 @@ public class AddOwnerDialog extends DialogFragment
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots)
                         {
+                            if(queryDocumentSnapshots.isEmpty())
+                            {
+                                Toast.makeText(mContext, "Owner does not exist. Make sure email is correct", Toast.LENGTH_SHORT).show();
+                            }
                             Log.d(TAG, "got the user document");
                             for(QueryDocumentSnapshot i: queryDocumentSnapshots)
                             {
                                 Log.d(TAG, i.getId());
                                 db.collection(mContext.getResources().getString(R.string.pet_collection))
                                         .document(mPetArrayList.get(petPosition).getDocumentID())
-                                        .update("owners", FieldValue.arrayUnion(i.getId()));
+                                        .update("owners", FieldValue.arrayUnion(i.getId())).addOnSuccessListener(new OnSuccessListener<Void>()
+                                {
+                                    @Override
+                                    public void onSuccess(Void aVoid)
+                                    {
+                                        Toast.makeText(mContext, "Successfully added owner", Toast.LENGTH_SHORT).show();
+                                        getDialog().dismiss();
+                                        Intent intentHome = new Intent(mContext.getApplicationContext(), HomeActivity.class);
+                                        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intentHome);
+                                    }
+
+                                }).addOnFailureListener(new OnFailureListener()
+                                {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e)
+                                    {
+                                        Toast.makeText(mContext, "Error occurred. Try again later", Toast.LENGTH_SHORT).show();
+                                        getDialog().dismiss();
+                                    }
+                                });
                             }
+                        }
+                    }).addOnFailureListener(new OnFailureListener()
+                    {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            Toast.makeText(mContext, "Error occurred. Please try again later.", Toast.LENGTH_SHORT).show();
+                            getDialog().dismiss();
                         }
                     });
                 }

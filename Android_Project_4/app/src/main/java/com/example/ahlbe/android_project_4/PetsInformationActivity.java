@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class PetsInformationActivity extends AppCompatActivity
 {
     private static final String TAG = "PetsInformationActivity";
-    private Button mButtonEdit, mButtonAddOwner;
+    private Button mButtonEdit, mButtonAddOwner, mButtonDeletePet;
     private ToggleButton mToggleButtonMarkAsLost;
     private TextView mTextViewPName, mTextViewPNotes, mTextViewLastSafe, mTextViewStatus, mTextViewPConanID;
     private static int petPosition;
@@ -38,11 +38,16 @@ public class PetsInformationActivity extends AppCompatActivity
         mTextViewLastSafe = findViewById(R.id.text_information_last_safe);
         mTextViewStatus = findViewById(R.id.text_information_status);
         mTextViewPConanID = findViewById(R.id.text_information_conanID);
+
         mButtonEdit = findViewById(R.id.button_edit_information);
         mButtonAddOwner = findViewById(R.id.button_add_owners);
+        mButtonDeletePet = findViewById(R.id.button_delete_pet);
+
         mToggleButtonMarkAsLost = findViewById(R.id.toggle_mark_lost);
+
         petPosition = getIntent().getExtras().getInt("petPosition");
         mPets = PetsActivity.getPets();
+
         mTextViewPName.setText("Pet Name: " + mPets.get(petPosition).getpName());
         mTextViewPNotes.setText("Pet Notes: " + mPets.get(petPosition).getpNotes());
         mTextViewLastSafe.setText(mPets.get(petPosition).getTimestamp().toDate().toString());
@@ -110,13 +115,16 @@ public class PetsInformationActivity extends AppCompatActivity
                 addOwnerDialog.show(getFragmentManager(), "addOwnerDialog");
             }
         });
-
-
-
-
-
+        mButtonDeletePet.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                DeletePetDialog deletePetDialog = new DeletePetDialog();
+                deletePetDialog.show(getFragmentManager(), "deletePetDialog");
+            }
+        });
     }
-
     public static int getPetPosition()
     {
         return petPosition;

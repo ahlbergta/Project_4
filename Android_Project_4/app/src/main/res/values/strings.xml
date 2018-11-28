@@ -70,6 +70,7 @@
     <string name="toggle_mark_as_lost">Mark as Lost</string>
     <string name="toggle_mark_as_safe">Mark as Safe</string>
     <string name="button_add_user">Add Owner</string>
+    <string name="button_delete_pet">Delete Pet</string>
 
     <!--Add Owner Dialog XML Strings-->
     <string name="edit_hint_add_onwer_email">Owners Email</string>
