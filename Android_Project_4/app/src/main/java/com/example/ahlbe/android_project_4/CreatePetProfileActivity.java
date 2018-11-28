@@ -40,7 +40,9 @@ import static com.example.ahlbe.android_project_4.DatabaseManager.addPet;
 public class CreatePetProfileActivity extends SecureActivity
 {
     private static final int RESULT_LOAD_IMG = 7264;
-    private static final String CONAN_ID = "0xd38dd9b09451";
+
+    private static final String CONAN_ID = "0xd38dd9b09451";    // Autofill ConanID for testing\
+
     private static boolean PET_SAFE = true;
     private static final String TAG = "CreatePetActivity";
     private ImageButton mImageButton;
