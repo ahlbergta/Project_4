@@ -40,7 +40,9 @@ import static com.example.ahlbe.android_project_4.DatabaseManager.addPet;
 public class CreatePetProfileActivity extends SecureActivity
 {
     private static final int RESULT_LOAD_IMG = 7264;
-    private static final String CONAN_ID = "0xd38dd9b09451";
+
+    private static final String CONAN_ID = "0xd38dd9b09451";    // Autofill ConanID for testing\
+
     private static boolean PET_SAFE = true;
     private static final String TAG = "CreatePetActivity";
     private ImageButton mImageButton;
@@ -93,7 +95,7 @@ public class CreatePetProfileActivity extends SecureActivity
                 app.AddPet(mConanID.getText().toString());
 
                 // Upload the image
-                StorageReference petImageRef = UploadPetPicture();
+                UploadPetPicture();
 
                 if(mPetStatus.isChecked()) {
                     PET_SAFE = false;
@@ -107,13 +109,13 @@ public class CreatePetProfileActivity extends SecureActivity
         });
     }
 
-    private StorageReference UploadPetPicture(){
+    private void UploadPetPicture(){
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
-        // Create a reference to 'images/mountains.jpg'
+        // Create a reference to 'images/pets/<conanID>.jpg'
         StorageReference petImageRef = storageRef.child("images/pets/" + mConanID.getText().toString() + ".jpg");
 
         Bitmap petPic = ((BitmapDrawable) mImageButton.getDrawable()).getBitmap();
@@ -136,7 +138,6 @@ public class CreatePetProfileActivity extends SecureActivity
                 Log.d(TAG, "Image upload successful");
             }
         });
-        return petImageRef;
     }
 
     @Override

@@ -183,7 +183,7 @@ public class DatabaseManager {
 
     }
     static void addPet(Map<String, Object> pet, final EditText petName, final EditText petNotes, final Context context,
-                       boolean petSafe, final EditText conanID, StorageReference storageReference)
+                       boolean petSafe, final EditText conanID)
     {
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         OWNERS.add(mFirebaseUser.getUid());
@@ -192,7 +192,6 @@ public class DatabaseManager {
         pet.put(context.getString(R.string.pet_name), petName.getText().toString());
         pet.put(context.getString(R.string.pet_notes), petNotes.getText().toString());
         pet.put(context.getString(R.string.pet_conan_id), conanID.getText().toString());
-        pet.put(context.getString(R.string.pet_image), storageReference);
         if(petSafe)
         {
             pet.put(context.getString(R.string.pet_status), PET_STATUS);
