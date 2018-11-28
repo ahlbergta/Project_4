@@ -69,6 +69,10 @@
     <string name="button_mark_as_lost">Mark as Lost</string>
     <string name="toggle_mark_as_lost">Mark as Lost</string>
     <string name="toggle_mark_as_safe">Mark as Safe</string>
+    <string name="button_add_user">Add Owner</string>
+
+    <!--Add Owner Dialog XML Strings-->
+    <string name="edit_hint_add_onwer_email">Owners Email</string>
 
     <!--Pets collection document fields-->
     <string name="pet_collection">Pets</string>
@@ -79,6 +83,7 @@
     <string name="pet_status">status</string>
     <string name="pet_notify">notify</string>
     <string name="pet_last_safe">lastSafe</string>
+    <string name="pet_image">pImage</string>
 
     <!--Users collection document fields-->\
     <string name="user_collection">Users</string>
