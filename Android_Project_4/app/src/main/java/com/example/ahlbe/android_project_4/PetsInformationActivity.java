@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class PetsInformationActivity extends AppCompatActivity
 {
     private static final String TAG = "PetsInformationActivity";
-    private Button mButtonEdit, mButtonLost;
+    private Button mButtonEdit, mButtonAddOwner;
     private ToggleButton mToggleButtonMarkAsLost;
     private TextView mTextViewPName, mTextViewPNotes, mTextViewLastSafe, mTextViewStatus, mTextViewPConanID;
     private int petPosition;
@@ -39,6 +39,7 @@ public class PetsInformationActivity extends AppCompatActivity
         mTextViewStatus = findViewById(R.id.text_information_status);
         mTextViewPConanID = findViewById(R.id.text_information_conanID);
         mButtonEdit = findViewById(R.id.button_edit_information);
+        mButtonAddOwner = findViewById(R.id.button_add_owners);
         mToggleButtonMarkAsLost = findViewById(R.id.toggle_mark_lost);
         petPosition = getIntent().getExtras().getInt("petPosition");
         mPets = PetsActivity.getPets();
@@ -100,6 +101,17 @@ public class PetsInformationActivity extends AppCompatActivity
 
             }
         });
+        mButtonAddOwner.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                AddOwnerDialog addOwnerDialog = new AddOwnerDialog();
+                addOwnerDialog.show(getFragmentManager(), "addOwnerDialog");
+            }
+        });
+
+
 
 
     }

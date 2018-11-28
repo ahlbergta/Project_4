@@ -27,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class DeleteProfileConfirmationDialog extends DialogFragment
 {
     private static final String TAG = "DeleteProfileDialog";
-
     private Button mButtonConfirm, mButtonCancel;
     private Context mContext;
 
