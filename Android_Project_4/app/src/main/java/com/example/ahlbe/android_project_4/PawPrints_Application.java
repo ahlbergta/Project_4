@@ -131,8 +131,8 @@ public class PawPrints_Application extends Application implements BootstrapNotif
 
         // ------------------ TEST CODE
         // Subscribe to conanID
-        SubscriptionManager.subscribe(GROOT_ID);
-        SubscriptionManager.subscribe(ROCKET_ID);
+//        SubscriptionManager.subscribe(GROOT_ID);
+//        SubscriptionManager.subscribe(ROCKET_ID);
         // ------------------ END TEST CODE
 
         Log.d(TAG, "End of onCreate");
