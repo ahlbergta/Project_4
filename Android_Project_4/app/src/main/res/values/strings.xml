@@ -73,6 +73,7 @@
 
     <!--Add Owner Dialog XML Strings-->
     <string name="edit_hint_add_onwer_email">Owners Email</string>
+    <string name="button_cancel">Cancel</string>
 
     <!--Pets collection document fields-->
     <string name="pet_collection">Pets</string>
