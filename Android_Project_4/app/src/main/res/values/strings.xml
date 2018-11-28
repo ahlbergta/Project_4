@@ -83,6 +83,7 @@
     <string name="pet_status">status</string>
     <string name="pet_notify">notify</string>
     <string name="pet_last_safe">lastSafe</string>
+    <string name="pet_image">pImage</string>
 
     <!--Users collection document fields-->\
     <string name="user_collection">Users</string>
