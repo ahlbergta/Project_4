@@ -101,7 +101,7 @@ public class CreatePetProfileActivity extends SecureActivity
                     PET_SAFE = false;
                 }
                 Map<String, Object> pet = new HashMap<>();
-                addPet(pet, mPetName, mPetNotes, mContext,PET_SAFE, mConanID, petImageRef);
+                addPet(pet, mPetName, mPetNotes, mContext,PET_SAFE, mConanID);
                 Log.d(TAG, "This is the Linear Layout thingy " + mLinearLayout);
                 Intent petIntent = new Intent(CreatePetProfileActivity.this, HomeActivity.class);
                 startActivity(petIntent);
