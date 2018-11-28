@@ -133,13 +133,15 @@ exports.NotifyUsers = functions.firestore
                         var ownerList =[];
                         console.log('OwnerList right after creation: '+ownerList);
                         for (i=0; i<owners.length;i++){
-                            var ownerRef = db.collection('Users').doc(owners[0]);
+                            var ownerRef = db.collection('Users').doc(owners[i]);
                             console.log('Inside for loop!');
                             console.log('OwnerRef: ',ownerRef);
+                            console.log(`OwnerRef Stringified? ${JSON.stringify(ownerRef)}`);
                             ownerList.push(ownerRef);
                             //functions should not be created in loops, so promises should be handled properly, possibly with firestore.getAll(<array of docreferences>)
                         }
                         console.log('ownerList array first element: '+ownerList[0]);
+                        console.log(`Owner List array Stringified? ${JSON.stringify(ownerList[0])}`);
                         return ownerList;
                     }
         return console.log("Unknown issue, pet status not received by callback");
@@ -147,7 +149,10 @@ exports.NotifyUsers = functions.firestore
     .then(ownerList =>{
                         return db.getAll(...ownerList)})//spread syntax to provide 'individual' arguments to method
                         .then(docs => {
+                            console.log("Docs?: "+docs);
                             for (i=0; i<docs.length;i++){
+                                console.log("The i value is: "+i);
+                                
                                 if(!docs[i].exists){
                                     console.log('No such document!');
                                 }
@@ -158,25 +163,37 @@ exports.NotifyUsers = functions.firestore
                                     //test value, Grant's home: Latitude: 33.602766 | Longitude: -101.932066  
                                     //May not want const because value could change if there are multiple owners
                                     ownerDat = docs[i].data();
-                                    var location = ownerDat.geoLocation;
-                                    console.log("Owner Location at: "+location.latitude +", "+location.longitude);
+                                    //may be able to send these locations straight to library, test this
+                                    var pLocation = ownerDat.p_address_geo;
+                                    var sLocation = ownerDat.s_address_geo;
+                                    //console.log("Owner Location at: "+location.latitude +", "+location.longitude);
                                     /*
                                     //if within range, pet gets marked in safe location.*/
                                     //distance is returned as a float in METERS
                                     //`{latitude: 52.518611, longitude: 13.408056}` object example
-                                    var locLat = location.latitude;
-                                    var locLong = location.longitude;
-                                    var start = {latitude: locLat, longitude: locLong};
+                                    var pLocLat = pLocation.latitude;
+                                    var pLocLong = pLocation.longitude;
+                                    var pStart = {latitude: pLocLat, longitude: pLocLong};
                                     var alertLat = alertLocation.latitude;
                                     var alertLong = alertLocation.longitude;
                                     var end = {latitude: alertLat, longitude: alertLong}
                                     //var dist = geolib.getDistance({'latitude:' locLat, 'longitude:' locLong},
                                                          //{'latitude:' alertLat, 'longitude:' alertLong});
-                                    var dist = geolib.getDistance(start, end, 1, 1);
-                                    console.log("Distance calculated is: "+dist);
-                                    if (dist<=MAX_DIST){
-                                        console.log('Distance between coordinates is less than maximum safe distance from approved location, pet likely at safe location');
+                                    var pDist = geolib.getDistance(pStart, end, 1, 1);
+                                    console.log("Distance calculated is: "+pDist);
+                                    if (pDist<=MAX_DIST){
+                                        console.log('Distance between coordinates is less than maximum safe distance from approved primary location, pet likely at safe location');
                                         safeLoc =true;
+                                    }
+                                    else if (sLocation !== null){
+                                        var sLocLat = sLocation.latitude;
+                                        var sLocLong = sLocation.longitude;
+                                        var sStart = {latitude: sLocLat, longitude: sLocLong};
+                                        var sDist = geolib.getDistance(sStart, end, 1, 1);
+                                        if (sDist<=MAX_DIST){
+                                            console.log('Distance between coordinates is less than maximum safe distance from approved secondary location, pet likely at safe location');
+                                            safeLoc=true;
+                                        }
                                     }
                                 }
                             }
@@ -237,7 +254,7 @@ exports.NotifyUsers = functions.firestore
                                 data: {
                                     command: 'scan'
                                 },
-                                topic: pet.conanID
+                                topic: petID //const petID as determined as above
                             };
                             return admin.messaging().send(message);
                         }
