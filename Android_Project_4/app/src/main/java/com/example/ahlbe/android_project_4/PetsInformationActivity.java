@@ -24,7 +24,7 @@ public class PetsInformationActivity extends AppCompatActivity
     private Button mButtonEdit, mButtonAddOwner;
     private ToggleButton mToggleButtonMarkAsLost;
     private TextView mTextViewPName, mTextViewPNotes, mTextViewLastSafe, mTextViewStatus, mTextViewPConanID;
-    private int petPosition;
+    private static int petPosition;
     private ArrayList<Pet> mPets;
     private int PET_STATUS;
 
@@ -114,5 +114,11 @@ public class PetsInformationActivity extends AppCompatActivity
 
 
 
+
+    }
+
+    public static int getPetPosition()
+    {
+        return petPosition;
     }
 }
