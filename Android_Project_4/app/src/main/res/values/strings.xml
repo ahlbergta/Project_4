@@ -76,6 +76,11 @@
     <string name="edit_hint_add_onwer_email">Owners Email</string>
     <string name="button_cancel">Cancel</string>
 
+    <!--Pet Delete Dialog-->
+    <string name="dialog_text_delete">You are about to delete your pet profile! Are you sure?</string>
+    <string name="dialog_text_pet_profile">Pet Profile Deletion</string>
+
+
     <!--Pets collection document fields-->
     <string name="pet_collection">Pets</string>
     <string name="pet_conan_id">conanID</string>

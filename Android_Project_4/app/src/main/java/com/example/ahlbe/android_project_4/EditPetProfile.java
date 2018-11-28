@@ -124,7 +124,6 @@ public class EditPetProfile extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                UploadPetPicture();
                 if(mToggleButtonNotify.isChecked())
                 {
                     NOTIFY_USER = true;
@@ -137,6 +136,9 @@ public class EditPetProfile extends AppCompatActivity
                 documentID = mPets.get(petPosition).getDocumentID();
                 Log.d(TAG, "this is document id " + documentID);
                 updatePet(pet, mEditTextPName, mEditTextPNotes, mEditTextConan, documentID, NOTIFY_USER, mContext);
+                UploadPetPicture();
+                Intent petIntent = new Intent(EditPetProfile.this, HomeActivity.class);
+                startActivity(petIntent);
             }
         });
     }
