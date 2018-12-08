@@ -26,19 +26,23 @@
         android:textSize="30sp"
         android:textColor="@color/colorAccountDeletion"
         />
+
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:id="@+id/cancel_deletion_profile"
-        android:text="@string/dialog_cancel"
-        android:layout_marginTop="20dp"/>
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/dialog_confirm"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/bungee_shade"
+        android:text="@string/dialog_cancel" />
+
+    <Button
         android:id="@+id/dialog_deletion_confirm"
-        android:layout_marginTop="20dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/bungee_shade"
+        android:text="@string/dialog_confirm" />
 
 </LinearLayout>

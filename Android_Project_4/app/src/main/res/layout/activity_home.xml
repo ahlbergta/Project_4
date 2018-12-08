@@ -27,26 +27,28 @@
         android:id="@+id/button_pets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/bungee_shade"
         android:text="@string/button_pets"
         app:layout_constraintBottom_toTopOf="@+id/button_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_home"/>
+        app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
     <Button
         android:id="@+id/button_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/bungee_shade"
         android:text="@string/button_maps"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_pets"/>
+        app:layout_constraintTop_toBottomOf="@+id/button_pets" />
 
     <Button
         android:id="@+id/button_help"
@@ -54,34 +56,39 @@
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
+        android:fontFamily="@font/bungee_shade"
         android:text="@string/button_help"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_edit_profile"/>
+        app:layout_constraintTop_toBottomOf="@+id/button_edit_profile" />
 
     <Button
         android:id="@+id/button_edit_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/bungee_shade"
         android:text="@string/button_edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_map"/>
+        app:layout_constraintTop_toBottomOf="@+id/button_map" />
 
     <Button
         android:id="@+id/button_delete_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/bungee_shade"
         android:text="@string/button_delete_profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_help"/>
+        app:layout_constraintTop_toBottomOf="@+id/button_help"
+        app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>

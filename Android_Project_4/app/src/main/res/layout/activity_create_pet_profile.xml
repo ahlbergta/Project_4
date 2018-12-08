@@ -12,6 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="136dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/bungee_shade"
         android:text="@string/button_submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,14 +70,15 @@
         android:id="@+id/toggle_pet_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
         android:layout_marginBottom="272dp"
+        android:layout_marginEnd="84dp"
         android:checked="false"
         android:text="ToggleButton"
         android:textOff="Safe"
         android:textOn="Lost"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:fontFamily="@font/bungee_shade" />
 
     <TextView
         android:id="@+id/text_pet_last_safe"

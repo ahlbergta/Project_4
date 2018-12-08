@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="@string/dialog_cancel"/>
+        android:fontFamily="@font/bungee_shade"
+        android:text="@string/dialog_cancel" />
 
     <Button
         android:id="@+id/dialog_deletion_confirm_pet"
@@ -43,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="@string/dialog_confirm"/>
+        android:fontFamily="@font/bungee_shade"
+        android:text="@string/dialog_confirm" />
 
 
 </LinearLayout>

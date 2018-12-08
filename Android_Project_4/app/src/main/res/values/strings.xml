@@ -115,4 +115,6 @@
 
     <!--Conan Eddystone beacon namespace-->
     <string name="conan_namespace">0x436f6e616e446f796c65</string>
+
+    <string name="font_family">sans-serif</string>
 </resources>
